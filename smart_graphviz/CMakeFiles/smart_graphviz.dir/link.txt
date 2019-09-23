@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsmart_graphviz.a  CMakeFiles/smart_graphviz.dir/graph.cpp.o
-/usr/bin/ranlib libsmart_graphviz.a

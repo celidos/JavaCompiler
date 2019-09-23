@@ -9,7 +9,6 @@
 !*.svg
 !.gitignore
 
-!smart_graphviz/*
 smart_graphviz/*
 
 !smart_graphviz/*.cpp
