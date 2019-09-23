@@ -15,3 +15,10 @@ smart_graphviz/*
 !smart_graphviz/*.cpp
 !smart_graphviz/*.h
 !smart_graphviz/CMakeLists.txt
+
+!Google_tests/
+Google_tests/*
+
+!Google_tests/*.cpp
+!Google_tests/CMakeLists.txt
+!Google_tests/lib
