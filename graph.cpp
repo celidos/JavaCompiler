@@ -1,4 +1,5 @@
 #include "graph.h"
+#include <fstream>
 #include <sstream>
 #include <cassert>
 #include <iostream>
@@ -70,6 +71,11 @@ namespace Graphs
         }
         ss << "}\n";
         return ss.str();
+    }
+    
+    void UndirectedGraphSerializer::serialize(const UndirectedGraph& graph, std::ofstream &out)
+    {
+        out << UndirectedGraphSerializer::serialize(graph);
     }
     
 }

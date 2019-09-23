@@ -1,0 +1,6 @@
+graph mygraph1 {
+	Frauline;
+	kek;
+	lol;
+	lol -- kek;
+}

@@ -58,6 +58,7 @@ namespace Graphs
     class UndirectedGraphSerializer {
     public:
         static string serialize(const UndirectedGraph &graph);
+        static void serialize(const UndirectedGraph& graph, std::ofstream &out);
     };
     
 }
