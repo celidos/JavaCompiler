@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/CMakeFiles /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(CMAKE_COMMAND) -E cmake_progress_start /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/CMakeFiles /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/CMakeFiles/progress.marks
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(MAKE) -f CMakeFiles/Makefile2 smart_graphviz/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(MAKE) -f CMakeFiles/Makefile2 smart_graphviz/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,71 +97,60 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(MAKE) -f CMakeFiles/Makefile2 smart_graphviz/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(MAKE) -f CMakeFiles/Makefile2 smart_graphviz/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named GraphvizWarmup
+# Convenience name for target.
+smart_graphviz/CMakeFiles/smart_graphviz.dir/rule:
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(MAKE) -f CMakeFiles/Makefile2 smart_graphviz/CMakeFiles/smart_graphviz.dir/rule
+.PHONY : smart_graphviz/CMakeFiles/smart_graphviz.dir/rule
 
-# Build rule for target.
-GraphvizWarmup: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 GraphvizWarmup
-.PHONY : GraphvizWarmup
+# Convenience name for target.
+smart_graphviz: smart_graphviz/CMakeFiles/smart_graphviz.dir/rule
 
-# fast build rule for target.
-GraphvizWarmup/fast:
-	$(MAKE) -f CMakeFiles/GraphvizWarmup.dir/build.make CMakeFiles/GraphvizWarmup.dir/build
-.PHONY : GraphvizWarmup/fast
-
-#=============================================================================
-# Target rules for targets named smart_graphviz
-
-# Build rule for target.
-smart_graphviz: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 smart_graphviz
 .PHONY : smart_graphviz
 
 # fast build rule for target.
 smart_graphviz/fast:
-	$(MAKE) -f smart_graphviz/CMakeFiles/smart_graphviz.dir/build.make smart_graphviz/CMakeFiles/smart_graphviz.dir/build
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(MAKE) -f smart_graphviz/CMakeFiles/smart_graphviz.dir/build.make smart_graphviz/CMakeFiles/smart_graphviz.dir/build
 .PHONY : smart_graphviz/fast
 
-main.o: main.cpp.o
+graph.o: graph.cpp.o
 
-.PHONY : main.o
+.PHONY : graph.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/GraphvizWarmup.dir/build.make CMakeFiles/GraphvizWarmup.dir/main.cpp.o
-.PHONY : main.cpp.o
+graph.cpp.o:
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(MAKE) -f smart_graphviz/CMakeFiles/smart_graphviz.dir/build.make smart_graphviz/CMakeFiles/smart_graphviz.dir/graph.cpp.o
+.PHONY : graph.cpp.o
 
-main.i: main.cpp.i
+graph.i: graph.cpp.i
 
-.PHONY : main.i
+.PHONY : graph.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/GraphvizWarmup.dir/build.make CMakeFiles/GraphvizWarmup.dir/main.cpp.i
-.PHONY : main.cpp.i
+graph.cpp.i:
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(MAKE) -f smart_graphviz/CMakeFiles/smart_graphviz.dir/build.make smart_graphviz/CMakeFiles/smart_graphviz.dir/graph.cpp.i
+.PHONY : graph.cpp.i
 
-main.s: main.cpp.s
+graph.s: graph.cpp.s
 
-.PHONY : main.s
+.PHONY : graph.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/GraphvizWarmup.dir/build.make CMakeFiles/GraphvizWarmup.dir/main.cpp.s
-.PHONY : main.cpp.s
+graph.cpp.s:
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(MAKE) -f smart_graphviz/CMakeFiles/smart_graphviz.dir/build.make smart_graphviz/CMakeFiles/smart_graphviz.dir/graph.cpp.s
+.PHONY : graph.cpp.s
 
 # Help Target
 help:
@@ -170,12 +159,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... GraphvizWarmup"
-	@echo "... edit_cache"
 	@echo "... smart_graphviz"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... edit_cache"
+	@echo "... graph.o"
+	@echo "... graph.i"
+	@echo "... graph.s"
 .PHONY : help
 
 
@@ -187,6 +175,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
