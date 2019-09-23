@@ -22,3 +22,4 @@ Google_tests/*
 !Google_tests/*.cpp
 !Google_tests/CMakeLists.txt
 !Google_tests/lib
+!Google_tests/lib/*
