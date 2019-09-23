@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="GraphvizWarmup"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\smart_graphviz\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GraphvizWarmup">
+				<Option output="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/GraphvizWarmup" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 GraphvizWarmup"/>
+					<CompileFile command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GraphvizWarmup/fast">
+				<Option output="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/GraphvizWarmup" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 GraphvizWarmup/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="smart_graphviz">
+				<Option output="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/libsmart_graphviz.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/Makefile&quot;  VERBOSE=1 smart_graphviz"/>
+					<CompileFile command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="smart_graphviz/fast">
+				<Option output="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/libsmart_graphviz.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/Makefile&quot;  VERBOSE=1 smart_graphviz/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/main.cpp">
+			<Option target="GraphvizWarmup"/>
+		</Unit>
+		<Unit filename="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/graph.cpp">
+			<Option target="smart_graphviz"/>
+		</Unit>
+		<Unit filename="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/graph.h">
+			<Option target="smart_graphviz"/>
+		</Unit>
+		<Unit filename="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/mnt/3B1D7BDC2D2641B0/Documents/GIT/JavaCompiler/smart_graphviz/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\smart_graphviz\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
