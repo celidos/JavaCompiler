@@ -2,4 +2,5 @@
 target/**
 **.yy.cc
 cmake-build-debug
-
+lexer_test/target/**
+lexer_test/answer/**
