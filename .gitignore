@@ -1,0 +1,5 @@
+**/.idea/**
+target/**
+**.yy.cc
+cmake-build-debug
+
