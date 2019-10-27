@@ -5,4 +5,5 @@
 Запуск тестов:
 
 `cd lexer_test/`
+
 `./run_test.sh`
