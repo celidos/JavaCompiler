@@ -9,6 +9,7 @@ cd ..
 cd lexer_test
 mkdir -p ./target
 g++ -std=c++17 -o ./target/tester main.cpp
+mkdir ./answer
 for file in samples/*
 do
   filename=$(basename -- "$file")
