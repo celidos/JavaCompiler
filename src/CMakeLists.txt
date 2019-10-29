@@ -13,20 +13,27 @@ BISON_TARGET(mc_parser
 FLEX_TARGET(mc_lexer
             mc_lexer.l
             ${CMAKE_CURRENT_BINARY_DIR}/mc_lexer.yy.cc)
+
+add_subdirectory(AST)
 ADD_FLEX_BISON_DEPENDENCY(mc_lexer mc_parser)
 
-add_executable(my_wc
+add_executable(my_jc
     main.cpp
     mc_driver.cpp
 
     ${FLEX_mc_lexer_OUTPUTS}
     ${BISON_mc_parser_OUTPUTS}
 )
-target_include_directories(my_wc
+
+target_link_libraries(my_jc
+        PUBLIC AST
+)
+
+target_include_directories(my_jc
     PRIVATE
         .
         ${CMAKE_CURRENT_BINARY_DIR})
-set_property(TARGET my_wc
+set_property(TARGET my_jc
              PROPERTY CXX_STANDARD 14)
 
 enable_testing()

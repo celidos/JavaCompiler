@@ -1,5 +1,4 @@
-#ifndef __MCSCANNER_HPP__
-#define __MCSCANNER_HPP__ 1
+#pragma once
 
 #if ! defined(yyFlexLexerOnce)
 #include <FlexLexer.h>
@@ -35,5 +34,3 @@ private:
 };
 
 } /* end namespace MC */
-
-#endif /* END __MCSCANNER_HPP__ */

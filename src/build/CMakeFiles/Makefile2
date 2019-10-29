@@ -60,39 +60,94 @@ CMAKE_SOURCE_DIR = "/home/sofya/Homework/7 семестр/ABBYY: компиля�
 CMAKE_BINARY_DIR = "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build"
 
 #=============================================================================
-# Target rules for target CMakeFiles/my_wc.dir
+# Target rules for target CMakeFiles/my_jc.dir
 
 # All Build rule for target.
-CMakeFiles/my_wc.dir/all:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/depend
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles" --progress-num=1,2,3,4,5,6,7 "Built target my_wc"
-.PHONY : CMakeFiles/my_wc.dir/all
+CMakeFiles/my_jc.dir/all: AST/CMakeFiles/AST.dir/all
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/depend
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles" --progress-num=5,6,7,8,9,10,11 "Built target my_jc"
+.PHONY : CMakeFiles/my_jc.dir/all
 
 # Include target in all.
-all: CMakeFiles/my_wc.dir/all
+all: CMakeFiles/my_jc.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/my_wc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles" 7
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/my_wc.dir/all
+CMakeFiles/my_jc.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles" 11
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/my_jc.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles" 0
-.PHONY : CMakeFiles/my_wc.dir/rule
+.PHONY : CMakeFiles/my_jc.dir/rule
 
 # Convenience name for target.
-my_wc: CMakeFiles/my_wc.dir/rule
+my_jc: CMakeFiles/my_jc.dir/rule
 
-.PHONY : my_wc
-
-# clean rule for target.
-CMakeFiles/my_wc.dir/clean:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/clean
-.PHONY : CMakeFiles/my_wc.dir/clean
+.PHONY : my_jc
 
 # clean rule for target.
-clean: CMakeFiles/my_wc.dir/clean
+CMakeFiles/my_jc.dir/clean:
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/clean
+.PHONY : CMakeFiles/my_jc.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/my_jc.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory AST
+
+# Convenience name for "all" pass in the directory.
+AST/all: AST/CMakeFiles/AST.dir/all
+
+.PHONY : AST/all
+
+# Convenience name for "clean" pass in the directory.
+AST/clean: AST/CMakeFiles/AST.dir/clean
+
+.PHONY : AST/clean
+
+# Convenience name for "preinstall" pass in the directory.
+AST/preinstall:
+
+.PHONY : AST/preinstall
+
+#=============================================================================
+# Target rules for target AST/CMakeFiles/AST.dir
+
+# All Build rule for target.
+AST/CMakeFiles/AST.dir/all:
+	$(MAKE) -f AST/CMakeFiles/AST.dir/build.make AST/CMakeFiles/AST.dir/depend
+	$(MAKE) -f AST/CMakeFiles/AST.dir/build.make AST/CMakeFiles/AST.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles" --progress-num=1,2,3,4 "Built target AST"
+.PHONY : AST/CMakeFiles/AST.dir/all
+
+# Include target in all.
+all: AST/CMakeFiles/AST.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+AST/CMakeFiles/AST.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles" 4
+	$(MAKE) -f CMakeFiles/Makefile2 AST/CMakeFiles/AST.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles" 0
+.PHONY : AST/CMakeFiles/AST.dir/rule
+
+# Convenience name for target.
+AST: AST/CMakeFiles/AST.dir/rule
+
+.PHONY : AST
+
+# clean rule for target.
+AST/CMakeFiles/AST.dir/clean:
+	$(MAKE) -f AST/CMakeFiles/AST.dir/build.make AST/CMakeFiles/AST.dir/clean
+.PHONY : AST/CMakeFiles/AST.dir/clean
+
+# clean rule for target.
+clean: AST/CMakeFiles/AST.dir/clean
 
 .PHONY : clean
 

@@ -12,8 +12,7 @@ MC::MC_Driver::~MC_Driver()
    parser = nullptr;
 }
 
-void 
-MC::MC_Driver::parse( const char * const filename )
+void MC::MC_Driver::parse( const char * const filename )
 {
    assert( filename != nullptr );
    std::ifstream in_file( filename );
@@ -26,33 +25,16 @@ MC::MC_Driver::parse( const char * const filename )
 }
 
 
-void 
-MC::MC_Driver::parse_helper( std::istream &stream )
+void MC::MC_Driver::parse_helper( std::istream &stream )
 {
    
    delete(scanner);
-   try
-   {
-      scanner = new MC::MC_Scanner( &stream );
-   }
-   catch( std::bad_alloc &ba )
-   {
-      std::cerr << "Failed to allocate scanner: (" << ba.what() << "), exiting!!\n";
-      exit( EXIT_FAILURE );
-   }
+   scanner = new MC::MC_Scanner( &stream );
    
    delete(parser); 
-   try
-   {
-      parser = new MC::MC_Parser( (*scanner) /* scanner */, 
+      
+   parser = new MC::MC_Parser( (*scanner) /* scanner */, 
                                   (*this) /* driver */ );
-   }
-   catch( std::bad_alloc &ba )
-   {
-      std::cerr << "Failed to allocate parser: (" << 
-         ba.what() << "), exiting!!\n";
-      exit( EXIT_FAILURE );
-   }
    const int accept( 0 );
    if( parser->parse() != accept )
    {

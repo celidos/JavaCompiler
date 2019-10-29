@@ -6,6 +6,15 @@
 %define parser_class_name {MC_Parser}
 
 %code requires{
+   #include <iostream>
+   #include <cstdlib>
+   #include <fstream>
+   #include <string>
+
+   #include "Expression/ExpressionBase.h"
+   #include "Expression/ExpressionInt.h"
+   #include "Expression/ExpressionBinaryOp.h"
+   
    namespace MC {
       class MC_Driver;
       class MC_Scanner;
@@ -26,9 +35,7 @@
 %parse-param { MC_Driver  &driver  }
 
 %code{
-   #include <iostream>
-   #include <cstdlib>
-   #include <fstream>
+   #include <memory>
    
    /* include for all driver functions */
    #include "mc_driver.hpp"
@@ -41,17 +48,18 @@
 %define parse.assert
 
 %token<int> INTEGER_LITERAL
+%token<std::string> OPERATION_LITERAL
 
-%type<int> expr
+%type<std::shared_ptr<ExpressionBase>> expr
 
 %locations
 
 %%
 
-list_option: expr '\n' {std::cout << $1 << std::endl;};
+list_option: expr '\n' {std::cout << std::endl;};
 
-expr: INTEGER_LITERAL {$$ = $1; }
-  | expr '+' INTEGER_LITERAL {$$ = $1 + $3; }
+expr: INTEGER_LITERAL {$$ = std::make_shared<ExpressionInt>($1); }
+  | expr OPERATION_LITERAL expr {$$ = std::make_shared<ExpressionBinaryOp>($1, $3, $2); }
   ;
 %%
 

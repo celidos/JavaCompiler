@@ -41,11 +41,9 @@
 
 
 // Unqualified %code blocks.
-#line 28 "mc_parser.yy"
+#line 37 "mc_parser.yy"
 
-   #include <iostream>
-   #include <cstdlib>
-   #include <fstream>
+   #include <memory>
    
    /* include for all driver functions */
    #include "mc_driver.hpp"
@@ -53,7 +51,7 @@
 #undef yylex
 #define yylex scanner.yylex
 
-#line 57 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
+#line 55 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
 
 
 #ifndef YY_
@@ -148,7 +146,7 @@
 
 #line 5 "mc_parser.yy"
 namespace MC {
-#line 152 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
+#line 150 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
 
 
   /// Build a parser object.
@@ -183,8 +181,15 @@ namespace MC {
     switch (this->type_get ())
     {
       case 3: // INTEGER_LITERAL
-      case 8: // expr
         value.move< int > (std::move (that.value));
+        break;
+
+      case 8: // expr
+        value.move< std::shared_ptr<ExpressionBase> > (std::move (that.value));
+        break;
+
+      case 4: // OPERATION_LITERAL
+        value.move< std::string > (std::move (that.value));
         break;
 
       default:
@@ -203,8 +208,15 @@ namespace MC {
     switch (this->type_get ())
     {
       case 3: // INTEGER_LITERAL
-      case 8: // expr
         value.copy< int > (YY_MOVE (that.value));
+        break;
+
+      case 8: // expr
+        value.copy< std::shared_ptr<ExpressionBase> > (YY_MOVE (that.value));
+        break;
+
+      case 4: // OPERATION_LITERAL
+        value.copy< std::string > (YY_MOVE (that.value));
         break;
 
       default:
@@ -230,8 +242,15 @@ namespace MC {
     switch (this->type_get ())
     {
       case 3: // INTEGER_LITERAL
-      case 8: // expr
         value.move< int > (YY_MOVE (s.value));
+        break;
+
+      case 8: // expr
+        value.move< std::shared_ptr<ExpressionBase> > (YY_MOVE (s.value));
+        break;
+
+      case 4: // OPERATION_LITERAL
+        value.move< std::string > (YY_MOVE (s.value));
         break;
 
       default:
@@ -326,8 +345,15 @@ namespace MC {
     switch (that.type_get ())
     {
       case 3: // INTEGER_LITERAL
-      case 8: // expr
         value.YY_MOVE_OR_COPY< int > (YY_MOVE (that.value));
+        break;
+
+      case 8: // expr
+        value.YY_MOVE_OR_COPY< std::shared_ptr<ExpressionBase> > (YY_MOVE (that.value));
+        break;
+
+      case 4: // OPERATION_LITERAL
+        value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
         break;
 
       default:
@@ -346,8 +372,15 @@ namespace MC {
     switch (that.type_get ())
     {
       case 3: // INTEGER_LITERAL
-      case 8: // expr
         value.move< int > (YY_MOVE (that.value));
+        break;
+
+      case 8: // expr
+        value.move< std::shared_ptr<ExpressionBase> > (YY_MOVE (that.value));
+        break;
+
+      case 4: // OPERATION_LITERAL
+        value.move< std::string > (YY_MOVE (that.value));
         break;
 
       default:
@@ -366,8 +399,15 @@ namespace MC {
     switch (that.type_get ())
     {
       case 3: // INTEGER_LITERAL
-      case 8: // expr
         value.move< int > (that.value);
+        break;
+
+      case 8: // expr
+        value.move< std::shared_ptr<ExpressionBase> > (that.value);
+        break;
+
+      case 4: // OPERATION_LITERAL
+        value.move< std::string > (that.value);
         break;
 
       default:
@@ -619,8 +659,15 @@ namespace MC {
       switch (yyr1_[yyn])
     {
       case 3: // INTEGER_LITERAL
-      case 8: // expr
         yylhs.value.emplace< int > ();
+        break;
+
+      case 8: // expr
+        yylhs.value.emplace< std::shared_ptr<ExpressionBase> > ();
+        break;
+
+      case 4: // OPERATION_LITERAL
+        yylhs.value.emplace< std::string > ();
         break;
 
       default:
@@ -644,25 +691,25 @@ namespace MC {
           switch (yyn)
             {
   case 2:
-#line 51 "mc_parser.yy"
-    {std::cout << yystack_[1].value.as < int > () << std::endl;}
-#line 650 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
+#line 59 "mc_parser.yy"
+    {std::cout << std::endl;}
+#line 697 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
     break;
 
   case 3:
-#line 53 "mc_parser.yy"
-    {yylhs.value.as < int > () = yystack_[0].value.as < int > (); }
-#line 656 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
+#line 61 "mc_parser.yy"
+    {yylhs.value.as < std::shared_ptr<ExpressionBase> > () = std::make_shared<ExpressionInt>(yystack_[0].value.as < int > ()); }
+#line 703 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
     break;
 
   case 4:
-#line 54 "mc_parser.yy"
-    {yylhs.value.as < int > () = yystack_[2].value.as < int > () + yystack_[0].value.as < int > (); }
-#line 662 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
+#line 62 "mc_parser.yy"
+    {yylhs.value.as < std::shared_ptr<ExpressionBase> > () = std::make_shared<ExpressionBinaryOp>(yystack_[2].value.as < std::shared_ptr<ExpressionBase> > (), yystack_[0].value.as < std::shared_ptr<ExpressionBase> > (), yystack_[1].value.as < std::string > ()); }
+#line 709 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
     break;
 
 
-#line 666 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
+#line 713 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
 
             default:
               break;
@@ -850,19 +897,19 @@ namespace MC {
   const signed char
   MC_Parser::yypact_[] =
   {
-      -1,    -5,     3,    -4,    -5,    -5,     1,    -5
+      -1,    -5,     3,    -4,    -5,    -1,    -5,     0
   };
 
   const unsigned char
   MC_Parser::yydefact_[] =
   {
-       0,     3,     0,     0,     1,     2,     0,     4
+       0,     3,     0,     0,     1,     0,     2,     4
   };
 
   const signed char
   MC_Parser::yypgoto_[] =
   {
-      -5,    -5,    -5
+      -5,    -5,     1
   };
 
   const signed char
@@ -874,19 +921,19 @@ namespace MC {
   const unsigned char
   MC_Parser::yytable_[] =
   {
-       5,     6,     1,     4,     7
+       5,     6,     1,     4,     5,     0,     7
   };
 
-  const unsigned char
+  const signed char
   MC_Parser::yycheck_[] =
   {
-       4,     5,     3,     0,     3
+       4,     5,     3,     0,     4,    -1,     5
   };
 
   const unsigned char
   MC_Parser::yystos_[] =
   {
-       0,     3,     7,     8,     0,     4,     5,     3
+       0,     3,     7,     8,     0,     4,     5,     8
   };
 
   const unsigned char
@@ -908,15 +955,15 @@ namespace MC {
   const char*
   const MC_Parser::yytname_[] =
   {
-  "$end", "error", "$undefined", "INTEGER_LITERAL", "'\\n'", "'+'",
-  "$accept", "list_option", "expr", YY_NULLPTR
+  "$end", "error", "$undefined", "INTEGER_LITERAL", "OPERATION_LITERAL",
+  "'\\n'", "$accept", "list_option", "expr", YY_NULLPTR
   };
 
 
   const unsigned char
   MC_Parser::yyrline_[] =
   {
-       0,    51,    51,    53,    54
+       0,    59,    59,    61,    62
   };
 
   // Print the state stack on the debug stream.
@@ -958,10 +1005,7 @@ namespace MC {
     translate_table[] =
     {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       4,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     5,     2,     2,     2,     2,     2,     2,
+       5,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -982,9 +1026,12 @@ namespace MC {
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4
     };
-    const unsigned user_token_number_max_ = 258;
+    const unsigned user_token_number_max_ = 259;
     const token_number_type undef_token_ = 2;
 
     if (static_cast<int> (t) <= yyeof_)
@@ -997,9 +1044,9 @@ namespace MC {
 
 #line 5 "mc_parser.yy"
 } // MC
-#line 1001 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
+#line 1048 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
 
-#line 56 "mc_parser.yy"
+#line 64 "mc_parser.yy"
 
 
 

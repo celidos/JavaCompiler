@@ -472,7 +472,7 @@ static const flex_int16_t yy_chk[17] =
 
 static const flex_int16_t yy_rule_linenum[5] =
     {   0,
-       66,   72,   77,   82
+       66,   72,   78,   83
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -788,7 +788,7 @@ YY_RULE_SETUP
 {
 	//std::cout << " LEX_INTEGER_LITERAL ";
     yylval->build<int>(atoi(yytext));
-    return( token::INTEGER_LITERAL);
+    return token::INTEGER_LITERAL;
 }
 	YY_BREAK
 case 2:
@@ -796,13 +796,14 @@ YY_RULE_SETUP
 #line 72 "mc_lexer.l"
 {
 	//std::cout << " LEX_OPERATORS ";
-    return yytext[0];
+	yylval->build<std::string>(yytext);
+    return token::OPERATION_LITERAL;
 }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 77 "mc_lexer.l"
+#line 78 "mc_lexer.l"
 {
 	return yytext[0];
 	//std::cout << " LEX_SPACE ";
@@ -810,15 +811,15 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 82 "mc_lexer.l"
+#line 83 "mc_lexer.l"
 { std::cout << std::endl << "UNKNOWN  " << yytext << std::endl; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 84 "mc_lexer.l"
+#line 85 "mc_lexer.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 822 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_lexer.yy.cc"
+#line 823 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_lexer.yy.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1936,7 +1937,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 84 "mc_lexer.l"
+#line 85 "mc_lexer.l"
 
 
 

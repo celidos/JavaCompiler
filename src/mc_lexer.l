@@ -65,12 +65,13 @@ LEX_OPERATORS  [!%\(\)*+,-./;<=\[\]\{\}]
 {LEX_INTEGER_LITERAL} {
 	//std::cout << " LEX_INTEGER_LITERAL ";
     yylval->build<int>(atoi(yytext));
-    return( token::INTEGER_LITERAL);
+    return token::INTEGER_LITERAL;
 }
 
 {LEX_OPERATORS} {
 	//std::cout << " LEX_OPERATORS ";
-    return yytext[0];
+	yylval->build<std::string>(yytext);
+    return token::OPERATION_LITERAL;
 }
 
 {LEX_SPACE} {

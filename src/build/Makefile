@@ -122,17 +122,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named my_wc
+# Target rules for targets named my_jc
 
 # Build rule for target.
-my_wc: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 my_wc
-.PHONY : my_wc
+my_jc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 my_jc
+.PHONY : my_jc
 
 # fast build rule for target.
-my_wc/fast:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/build
-.PHONY : my_wc/fast
+my_jc/fast:
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/build
+.PHONY : my_jc/fast
+
+#=============================================================================
+# Target rules for targets named AST
+
+# Build rule for target.
+AST: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 AST
+.PHONY : AST
+
+# fast build rule for target.
+AST/fast:
+	$(MAKE) -f AST/CMakeFiles/AST.dir/build.make AST/CMakeFiles/AST.dir/build
+.PHONY : AST/fast
 
 main.o: main.cpp.o
 
@@ -140,7 +153,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -149,7 +162,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -158,7 +171,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 mc_driver.o: mc_driver.cpp.o
@@ -167,7 +180,7 @@ mc_driver.o: mc_driver.cpp.o
 
 # target to build an object file
 mc_driver.cpp.o:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/mc_driver.cpp.o
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/mc_driver.cpp.o
 .PHONY : mc_driver.cpp.o
 
 mc_driver.i: mc_driver.cpp.i
@@ -176,7 +189,7 @@ mc_driver.i: mc_driver.cpp.i
 
 # target to preprocess a source file
 mc_driver.cpp.i:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/mc_driver.cpp.i
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/mc_driver.cpp.i
 .PHONY : mc_driver.cpp.i
 
 mc_driver.s: mc_driver.cpp.s
@@ -185,7 +198,7 @@ mc_driver.s: mc_driver.cpp.s
 
 # target to generate assembly for a file
 mc_driver.cpp.s:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/mc_driver.cpp.s
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/mc_driver.cpp.s
 .PHONY : mc_driver.cpp.s
 
 mc_lexer.yy.o: mc_lexer.yy.cc.o
@@ -194,7 +207,7 @@ mc_lexer.yy.o: mc_lexer.yy.cc.o
 
 # target to build an object file
 mc_lexer.yy.cc.o:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/mc_lexer.yy.cc.o
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/mc_lexer.yy.cc.o
 .PHONY : mc_lexer.yy.cc.o
 
 mc_lexer.yy.i: mc_lexer.yy.cc.i
@@ -203,7 +216,7 @@ mc_lexer.yy.i: mc_lexer.yy.cc.i
 
 # target to preprocess a source file
 mc_lexer.yy.cc.i:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/mc_lexer.yy.cc.i
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/mc_lexer.yy.cc.i
 .PHONY : mc_lexer.yy.cc.i
 
 mc_lexer.yy.s: mc_lexer.yy.cc.s
@@ -212,7 +225,7 @@ mc_lexer.yy.s: mc_lexer.yy.cc.s
 
 # target to generate assembly for a file
 mc_lexer.yy.cc.s:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/mc_lexer.yy.cc.s
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/mc_lexer.yy.cc.s
 .PHONY : mc_lexer.yy.cc.s
 
 mc_parser.tab.o: mc_parser.tab.cc.o
@@ -221,7 +234,7 @@ mc_parser.tab.o: mc_parser.tab.cc.o
 
 # target to build an object file
 mc_parser.tab.cc.o:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/mc_parser.tab.cc.o
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/mc_parser.tab.cc.o
 .PHONY : mc_parser.tab.cc.o
 
 mc_parser.tab.i: mc_parser.tab.cc.i
@@ -230,7 +243,7 @@ mc_parser.tab.i: mc_parser.tab.cc.i
 
 # target to preprocess a source file
 mc_parser.tab.cc.i:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/mc_parser.tab.cc.i
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/mc_parser.tab.cc.i
 .PHONY : mc_parser.tab.cc.i
 
 mc_parser.tab.s: mc_parser.tab.cc.s
@@ -239,7 +252,7 @@ mc_parser.tab.s: mc_parser.tab.cc.s
 
 # target to generate assembly for a file
 mc_parser.tab.cc.s:
-	$(MAKE) -f CMakeFiles/my_wc.dir/build.make CMakeFiles/my_wc.dir/mc_parser.tab.cc.s
+	$(MAKE) -f CMakeFiles/my_jc.dir/build.make CMakeFiles/my_jc.dir/mc_parser.tab.cc.s
 .PHONY : mc_parser.tab.cc.s
 
 # Help Target
@@ -250,8 +263,9 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... my_wc"
+	@echo "... my_jc"
 	@echo "... test"
+	@echo "... AST"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

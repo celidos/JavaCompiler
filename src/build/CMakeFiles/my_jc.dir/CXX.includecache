@@ -1,0 +1,204 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+.././mc_driver.hpp
+string
+-
+cstddef
+-
+istream
+-
+mc_scanner.hpp
+.././mc_scanner.hpp
+mc_parser.tab.hh
+.././mc_parser.tab.hh
+
+.././mc_scanner.hpp
+FlexLexer.h
+-
+mc_parser.tab.hh
+.././mc_parser.tab.hh
+location.hh
+.././location.hh
+
+../AST/Expression/ExpressionBase.h
+memory
+-
+
+../AST/Expression/ExpressionBinaryOp.h
+memory
+-
+string
+-
+ExpressionBase.h
+../AST/Expression/ExpressionBase.h
+
+../AST/Expression/ExpressionInt.h
+memory
+-
+string
+-
+ExpressionBase.h
+../AST/Expression/ExpressionBase.h
+
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/location.hh
+algorithm
+-
+iostream
+-
+string
+-
+
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_lexer.yy.cc
+inttypes.h
+-
+iostream
+-
+errno.h
+-
+cstdlib
+-
+cstdio
+-
+cstring
+-
+FlexLexer.h
+-
+string
+-
+mc_scanner.hpp
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_scanner.hpp
+unistd.h
+-
+
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc
+mc_parser.tab.hh
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.hh
+memory
+-
+mc_driver.hpp
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_driver.hpp
+libintl.h
+-
+
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.hh
+iostream
+-
+cstdlib
+-
+fstream
+-
+string
+-
+Expression/ExpressionBase.h
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/Expression/ExpressionBase.h
+Expression/ExpressionInt.h
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/Expression/ExpressionInt.h
+Expression/ExpressionBinaryOp.h
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/Expression/ExpressionBinaryOp.h
+cassert
+-
+cstdlib
+-
+iostream
+-
+stdexcept
+-
+string
+-
+vector
+-
+location.hh
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/location.hh
+typeinfo
+-
+cassert
+-
+
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/main.cpp
+iostream
+-
+cstdlib
+-
+cstring
+-
+mc_driver.hpp
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/mc_driver.hpp
+
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/mc_driver.cpp
+cctype
+-
+fstream
+-
+cassert
+-
+mc_driver.hpp
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/mc_driver.hpp
+
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/mc_driver.hpp
+string
+-
+cstddef
+-
+istream
+-
+mc_scanner.hpp
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/mc_scanner.hpp
+mc_parser.tab.hh
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/mc_parser.tab.hh
+
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/mc_scanner.hpp
+FlexLexer.h
+-
+mc_parser.tab.hh
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/mc_parser.tab.hh
+location.hh
+/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/location.hh
+
+location.hh
+algorithm
+-
+iostream
+-
+string
+-
+
+mc_parser.tab.hh
+iostream
+-
+cstdlib
+-
+fstream
+-
+string
+-
+Expression/ExpressionBase.h
+Expression/ExpressionBase.h
+Expression/ExpressionInt.h
+Expression/ExpressionInt.h
+Expression/ExpressionBinaryOp.h
+Expression/ExpressionBinaryOp.h
+cassert
+-
+cstdlib
+-
+iostream
+-
+stdexcept
+-
+string
+-
+vector
+-
+location.hh
+location.hh
+typeinfo
+-
+cassert
+-
+

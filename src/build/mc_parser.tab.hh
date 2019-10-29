@@ -46,6 +46,15 @@
 // //                    "%code requires" blocks.
 #line 8 "mc_parser.yy"
 
+   #include <iostream>
+   #include <cstdlib>
+   #include <fstream>
+   #include <string>
+
+   #include "Expression/ExpressionBase.h"
+   #include "Expression/ExpressionInt.h"
+   #include "Expression/ExpressionBinaryOp.h"
+   
    namespace MC {
       class MC_Driver;
       class MC_Scanner;
@@ -61,7 +70,7 @@
 # endif
 
 
-#line 65 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.hh"
+#line 74 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.hh"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -177,7 +186,7 @@
 
 #line 5 "mc_parser.yy"
 namespace MC {
-#line 181 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.hh"
+#line 190 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.hh"
 
 
 
@@ -382,8 +391,13 @@ namespace MC {
     union union_type
     {
       // INTEGER_LITERAL
-      // expr
       char dummy1[sizeof (int)];
+
+      // expr
+      char dummy2[sizeof (std::shared_ptr<ExpressionBase>)];
+
+      // OPERATION_LITERAL
+      char dummy3[sizeof (std::string)];
     };
 
     /// The size of the largest semantic type.
@@ -431,7 +445,8 @@ namespace MC {
     {
       enum yytokentype
       {
-        INTEGER_LITERAL = 258
+        INTEGER_LITERAL = 258,
+        OPERATION_LITERAL = 259
       };
     };
 
@@ -498,6 +513,32 @@ namespace MC {
         , location (l)
       {}
 #endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::shared_ptr<ExpressionBase>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::shared_ptr<ExpressionBase>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::string&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::string& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
 
       /// Destroy the symbol.
       ~basic_symbol ()
@@ -522,8 +563,15 @@ namespace MC {
 switch (yytype)
     {
       case 3: // INTEGER_LITERAL
-      case 8: // expr
         value.template destroy< int > ();
+        break;
+
+      case 8: // expr
+        value.template destroy< std::shared_ptr<ExpressionBase> > ();
+        break;
+
+      case 4: // OPERATION_LITERAL
+        value.template destroy< std::string > ();
         break;
 
       default:
@@ -605,13 +653,13 @@ switch (yytype)
       symbol_type (int tok, location_type l)
         : super_type(token_type (tok), std::move (l))
       {
-        YYASSERT (tok == 0 || tok == 10 || tok == 43);
+        YYASSERT (tok == 0 || tok == 10);
       }
 #else
       symbol_type (int tok, const location_type& l)
         : super_type(token_type (tok), l)
       {
-        YYASSERT (tok == 0 || tok == 10 || tok == 43);
+        YYASSERT (tok == 0 || tok == 10);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -625,6 +673,19 @@ switch (yytype)
         : super_type(token_type (tok), v, l)
       {
         YYASSERT (tok == token::INTEGER_LITERAL);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      symbol_type (int tok, std::string v, location_type l)
+        : super_type(token_type (tok), std::move (v), std::move (l))
+      {
+        YYASSERT (tok == token::OPERATION_LITERAL);
+      }
+#else
+      symbol_type (int tok, const std::string& v, const location_type& l)
+        : super_type(token_type (tok), v, l)
+      {
+        YYASSERT (tok == token::OPERATION_LITERAL);
       }
 #endif
     };
@@ -677,6 +738,21 @@ switch (yytype)
       make_INTEGER_LITERAL (const int& v, const location_type& l)
       {
         return symbol_type (token::INTEGER_LITERAL, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_OPERATION_LITERAL (std::string v, location_type l)
+      {
+        return symbol_type (token::OPERATION_LITERAL, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_OPERATION_LITERAL (const std::string& v, const location_type& l)
+      {
+        return symbol_type (token::OPERATION_LITERAL, v, l);
       }
 #endif
 
@@ -735,7 +811,7 @@ switch (yytype)
   // number is the opposite.  If YYTABLE_NINF, syntax error.
   static const unsigned char yytable_[];
 
-  static const unsigned char yycheck_[];
+  static const signed char yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -982,7 +1058,7 @@ switch (yytype)
     enum
     {
       yyeof_ = 0,
-      yylast_ = 4,     ///< Last index in yytable_.
+      yylast_ = 6,     ///< Last index in yytable_.
       yynnts_ = 3,  ///< Number of nonterminal symbols.
       yyfinal_ = 4, ///< Termination state number.
       yyterror_ = 1,
@@ -999,7 +1075,7 @@ switch (yytype)
 
 #line 5 "mc_parser.yy"
 } // MC
-#line 1003 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.hh"
+#line 1079 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.hh"
 
 
 

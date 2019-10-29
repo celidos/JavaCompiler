@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Wno-deprecated-register  -rdynamic CMakeFiles/my_jc.dir/main.cpp.o CMakeFiles/my_jc.dir/mc_driver.cpp.o CMakeFiles/my_jc.dir/mc_lexer.yy.cc.o CMakeFiles/my_jc.dir/mc_parser.tab.cc.o  -o my_jc AST/libAST.a 
