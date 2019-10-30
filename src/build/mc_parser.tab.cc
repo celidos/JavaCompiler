@@ -692,7 +692,7 @@ namespace MC {
             {
   case 2:
 #line 59 "mc_parser.yy"
-    {std::cout << std::endl;}
+    {std::cout << std::endl; }
 #line 697 "/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/mc_parser.tab.cc"
     break;
 

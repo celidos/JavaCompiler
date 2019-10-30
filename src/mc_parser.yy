@@ -56,7 +56,7 @@
 
 %%
 
-list_option: expr '\n' {std::cout << std::endl;};
+list_option: expr '\n' {std::cout << std::endl; };
 
 expr: INTEGER_LITERAL {$$ = std::make_shared<ExpressionInt>($1); }
   | expr OPERATION_LITERAL expr {$$ = std::make_shared<ExpressionBinaryOp>($1, $3, $2); }
