@@ -3,7 +3,10 @@
 %debug 
 %defines 
 %define api.namespace {MC}
-%define parser_class_name {MC_Parser}
+%define api.parser.class {MC_Parser}
+
+// %define api.location.type {master::location}
+// %code requires { #include "src/ast/yyltype.hhp" }
 
 %code requires{
    #include <iostream>
@@ -11,10 +14,8 @@
    #include <fstream>
    #include <string>
 
-   #include "Expression/ExpressionBase.h"
-   #include "Expression/ExpressionInt.h"
-   #include "Expression/ExpressionBinaryOp.h"
-   
+   #include "src/ast/handlers/expressions.hpp"
+
    namespace MC {
       class MC_Driver;
       class MC_Scanner;
@@ -36,9 +37,11 @@
 
 %code{
    #include <memory>
-   
+
    /* include for all driver functions */
-   #include "mc_driver.hpp"
+   #include "src/mc_driver.hpp"
+
+   MC::YYLTYPE LLCAST(MC::location x) { return MC::YYLTYPE({(x.begin.line), (x.begin.column), (x.end.line), (x.end.column)} ); }
 
 #undef yylex
 #define yylex scanner.yylex
@@ -50,7 +53,7 @@
 %token<int> INTEGER_LITERAL
 %token<std::string> OPERATION_LITERAL
 
-%type<std::shared_ptr<ExpressionBase>> expr
+%type<std::shared_ptr<ast::Expression>> expr
 
 %locations
 
@@ -58,11 +61,13 @@
 
 list_option: expr '\n' {std::cout << std::endl; };
 
-expr: INTEGER_LITERAL {$$ = std::make_shared<ExpressionInt>($1); }
-  | expr OPERATION_LITERAL expr {$$ = std::make_shared<ExpressionBinaryOp>($1, $3, $2); }
-  ;
-%%
+expr
+    : INTEGER_LITERAL
+        { $$ = std::make_shared<ast::ExpressionInt>($1, LLCAST(@$)); }
+    | expr OPERATION_LITERAL expr
+        { $$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$)); }
 
+%%
 
 void 
 MC::MC_Parser::error( const location_type &l, const std::string &err_message )

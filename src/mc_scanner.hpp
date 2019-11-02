@@ -7,12 +7,11 @@
 #include "mc_parser.tab.hh"
 #include "location.hh"
 
-namespace MC{
+namespace MC {
 
-class MC_Scanner : public yyFlexLexer{
+class MC_Scanner : public yyFlexLexer {
 public:
-   
-   MC_Scanner(std::istream *in) : yyFlexLexer(in)
+   explicit MC_Scanner(std::istream *in) : yyFlexLexer(in)
    {
    };
    virtual ~MC_Scanner() {
@@ -21,8 +20,7 @@ public:
    //get rid of override virtual function warning
    using FlexLexer::yylex;
 
-   virtual
-   int yylex( MC::MC_Parser::semantic_type * const lval, 
+   virtual int yylex( MC::MC_Parser::semantic_type * const lval,
               MC::MC_Parser::location_type *location );
    // YY_DECL defined in mc_lexer.l
    // Method body created by flex in mc_lexer.yy.cc

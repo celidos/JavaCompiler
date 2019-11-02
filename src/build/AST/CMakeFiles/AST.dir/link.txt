@@ -1,2 +1,0 @@
-/usr/bin/ar qc libAST.a  CMakeFiles/AST.dir/Expression/ExpressionBase.cpp.o CMakeFiles/AST.dir/Expression/ExpressionBinaryOp.cpp.o CMakeFiles/AST.dir/Expression/ExpressionInt.cpp.o
-/usr/bin/ranlib libAST.a

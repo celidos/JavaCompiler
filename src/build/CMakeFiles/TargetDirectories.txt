@@ -1,8 +1,0 @@
-/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles/rebuild_cache.dir
-/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles/edit_cache.dir
-/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles/my_jc.dir
-/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/CMakeFiles/test.dir
-/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/AST/CMakeFiles/rebuild_cache.dir
-/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/AST/CMakeFiles/edit_cache.dir
-/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/AST/CMakeFiles/AST.dir
-/home/sofya/Homework/7 семестр/ABBYY: компиляторы/JavaCompiler/src/build/AST/CMakeFiles/test.dir
