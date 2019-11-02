@@ -10,14 +10,8 @@ flex 2.6.4
 
 Запуск:
 
-`cd src/build/`
-
-`cmake ..`
-
-`make`
-
-`./my_wc ${.java file}`
+`./run.sh`
 
 Тестирование:
 
-`./my_wc test/test.java`
+TODO
