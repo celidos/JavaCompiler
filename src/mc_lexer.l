@@ -54,7 +54,16 @@ LEX_LOGIC_LITERAL     {LEX_TRUE}|{LEX_FALSE}
 LEX_ID         {LEX_LETTER}({LEX_DIGIT}|{LEX_LETTER})*
 LEX_COMMENT    \/\/.*|\/\*((.|\n)*?)\*\/
 LEX_SPACE      [\n\r\t ]+
-LEX_OPERATORS  [!%\(\)*+,-./;<=\[\]\{\}]
+LEX_OPERATORS  [!%*+,-/;<=]
+
+LEX_DOT [\.]
+LEX_LBRACKET [\(]
+LEX_RBRACKET [\)]
+LEX_LSQUAREBRACKET [\[]
+LEX_RSQUAREBRACKET [\]]
+LEX_LBRACE [\{]
+LEX_RBRACE [\}]
+LEX_UNARY_NEGATION [\!]
 
 %%
 
@@ -68,15 +77,61 @@ LEX_OPERATORS  [!%\(\)*+,-./;<=\[\]\{\}]
     return token::INTEGER_LITERAL;
 }
 
+{LEX_LOGIC_LITERAL} {
+    return std::string(yytext) == "true";
+}
+
+{LEX_ID} {
+    yylval->build<std::string>(yytext);
+    return token::IDENTIFIER;
+}
+
+{LEX_SPACE} {
+    // do nothing because we are ignoring spaces
+    // return yytext[0];
+    // std::cout << " LEX_SPACE ";
+}
+
 {LEX_OPERATORS} {
 	//std::cout << " LEX_OPERATORS ";
 	yylval->build<std::string>(yytext);
     return token::OPERATION_LITERAL;
 }
 
-{LEX_SPACE} {
-	return yytext[0];
-	//std::cout << " LEX_SPACE ";
+{LEX_LBRACKET} {
+    return token::LBRACKET;
+}
+
+{LEX_RBRACKET} {
+    return token::RBRACKET;
+}
+
+{LEX_LSQUAREBRACKET} {
+    return token::LSQUAREBRACKET;
+}
+
+{LEX_RSQUAREBRACKET} {
+    return token::RSQUAREBRACKET;
+}
+
+{LEX_LBRACE} {
+    return token::LBRACE;
+}
+
+{LEX_RBRACE} {
+    return token::RBRACE;
+}
+
+{LEX_DOT} {
+    return token::DOT;
+}
+
+{LEX_LENGTH} {
+    return token::LENGTH;
+}
+
+{LEX_UNARY_NEGATION} {
+    return token::UNARY_NEGATION;
 }
 
 .  { std::cout << std::endl << "UNKNOWN  " << yytext << std::endl; }

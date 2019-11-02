@@ -52,7 +52,18 @@
 %define parse.assert
 
 %token<int> INTEGER_LITERAL
+%token<bool> LOGICAL_LITERAL
 %token<std::string> OPERATION_LITERAL
+%token<std::string> IDENTIFIER
+%token LBRACKET
+%token RBRACKET
+%token LSQUAREBRACKET
+%token RSQUAREBRACKET
+%token LBRACE
+%token RBRACE
+%token DOT
+%token LENGTH
+%token UNARY_NEGATION
 
 %type<std::shared_ptr<ast::Expression>> expr
 
@@ -64,10 +75,24 @@ list_option: expr '\n' {std::cout << std::endl; };
 
 expr
     : INTEGER_LITERAL
-        { $$ = std::make_shared<ast::ExpressionInt>($1, LLCAST(@$)); }
-    | expr OPERATION_LITERAL expr
-        { $$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$)); *root = $$;}
+        { $$ = std::make_shared<ast::ExpressionInt>    ($1, LLCAST(@$)); }
+    | LOGICAL_LITERAL
+        { $$ = std::make_shared<ast::ExpressionLogical>($1, LLCAST(@$)); }
+    | IDENTIFIER
+        { $$ = std::make_shared<ast::ExpressionId>     ($1, LLCAST(@$)); }
 
+    | LBRACKET expr RBRACKET { $$ = $2; }
+
+    | expr OPERATION_LITERAL expr
+        { $$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$)); *root = $$; }
+    | expr LSQUAREBRACKET expr RSQUAREBRACKET
+        { $$ = std::make_shared<ast::ExpressionSquareBracket>($1, $3, LLCAST(@$)); }
+    | expr DOT LENGTH
+        { $$ = std::make_shared<ast::ExpressionLen>($1, LLCAST(@$)); }
+
+    | UNARY_NEGATION expr
+        { $$ = std::make_shared<ast::ExpressionUnaryNegation>($2, LLCAST(@$)); }
+        
 %%
 
 void 
