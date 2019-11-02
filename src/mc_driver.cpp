@@ -22,9 +22,8 @@ void MC::MC_Driver::parse(const char * const filename) {
     parse_helper(in_file);
 }
 
-
 void MC::MC_Driver::parse_helper(std::istream &stream) {
-    std::shared_ptr<ast::Expression> root;
+    PExpression root;
 
     delete(scanner);
     scanner = new MC::MC_Scanner(&stream);
@@ -37,8 +36,11 @@ void MC::MC_Driver::parse_helper(std::istream &stream) {
     } else {
         std::cerr << "Parsing OK" << std::endl;
     }
-    std::shared_ptr<ast::ExpressionBinaryOp> new_root = std::static_pointer_cast<ast::ExpressionBinaryOp>(root);
-    std::cout << new_root->getOp() << std::endl;
-    // ast::VisitorPrettyPrinter visit;
-    // new_root->accept(&visit);
+    ast::VisitorPrettyPrinter visit;
+    root->accept(&visit);
+}
+
+
+void MC::MC_Driver::parse_tree(PExpression new_root) {
+
 }
