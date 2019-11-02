@@ -53,6 +53,8 @@
 
 %token<int> INTEGER_LITERAL
 %token<std::string> OPERATION_LITERAL
+%token<bool> LOGICAL_LITERAL
+%token <std::string> IDENTIFIER
 
 %type<std::shared_ptr<ast::Expression>> expr
 
@@ -64,9 +66,13 @@ list_option: expr '\n' {std::cout << std::endl; };
 
 expr
     : INTEGER_LITERAL
-        { $$ = std::make_shared<ast::ExpressionInt>($1, LLCAST(@$)); }
+        { $$ = std::make_shared<ast::ExpressionInt>    ($1, LLCAST(@$)); }
+    | LOGICAL_LITERAL
+        { $$ = std::make_shared<ast::ExpressionLogical>($1, LLCAST(@$)); }
     | expr OPERATION_LITERAL expr
-        { $$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$)); *root = $$;}
+        { $$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$)); *root = $$; }
+    | IDENTIFIER
+        { $$ = std::make_shared<ast::ExpressionId>($1, LLCAST(@$)); }
 
 %%
 

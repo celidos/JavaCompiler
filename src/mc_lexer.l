@@ -68,16 +68,29 @@ LEX_OPERATORS  [!%\(\)*+,-./;<=\[\]\{\}]
     return token::INTEGER_LITERAL;
 }
 
+{LEX_LOGIC_LITERAL} {
+    return std::string(yytext) == "true";
+}
+
+{LEX_ID} {
+    yylval->build<std::string>(yytext);
+    return token::IDENTIFIER;
+}
+
+{LEX_SPACE} {
+    return yytext[0];
+    //std::cout << " LEX_SPACE ";
+}
+
 {LEX_OPERATORS} {
 	//std::cout << " LEX_OPERATORS ";
 	yylval->build<std::string>(yytext);
     return token::OPERATION_LITERAL;
 }
 
-{LEX_SPACE} {
-	return yytext[0];
-	//std::cout << " LEX_SPACE ";
-}
+
+
+
 
 .  { std::cout << std::endl << "UNKNOWN  " << yytext << std::endl; }
 

@@ -22,7 +22,6 @@ void MC::MC_Driver::parse(const char * const filename) {
     parse_helper(in_file);
 }
 
-
 void MC::MC_Driver::parse_helper(std::istream &stream) {
     std::shared_ptr<ast::Expression> root;
 

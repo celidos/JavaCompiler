@@ -40,7 +40,7 @@ private:
 typedef std::shared_ptr<ExpressionInt> PExpressionInt;
 
 /***************************************************************************************************
- * All binary operations.
+ * All binary operations (+, -, ^, ||, etc)
  */
 
 class ExpressionBinaryOp: public Expression {
@@ -56,7 +56,6 @@ public:
     const PExpression & getLeft() const { return left_; };
     const PExpression & getRight() const { return right_; };
     const std::string & getOp() const { return operation_; };
-
     void accept(IVisitor *visitor) const { visitor->visit(this); }
 private:
     std::string operation_;
@@ -65,6 +64,45 @@ private:
 };
 
 typedef std::shared_ptr<ExpressionBinaryOp> PExpressionBinaryOp;
+
+/***************************************************************************************************
+ * Logical literal (true/false)
+ */
+class ExpressionLogical : public Expression {
+public:
+    ExpressionLogical(
+        bool value,
+        const MC::YYLTYPE pos
+    ) :
+        value_(value) { setPos(pos); }
+
+    bool value() const { return value_; }
+    void accept(IVisitor* visitor) const { visitor->visit(this); }
+private:
+    bool value_;
+};
+
+typedef std::shared_ptr<ExpressionLogical> PExpressionLogical;
+
+/***************************************************************************************************
+ * Identifiers
+ */
+
+class ExpressionId : public Expression {
+public:
+    ExpressionId(
+        const std::string& identifier,
+        const MC::YYLTYPE pos
+    ) :
+        id_(identifier) { setPos(pos); }
+
+    const std::string& getId() const { return id_; };
+    void accept(IVisitor* visitor) const { visitor->visit(this); }
+private:
+    std::string id_;
+};
+
+typedef std::shared_ptr<ExpressionId> PExpressionId;
 
 }
 
