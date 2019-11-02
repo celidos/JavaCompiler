@@ -34,6 +34,7 @@
 
 %parse-param { MC_Scanner  &scanner  }
 %parse-param { MC_Driver  &driver  }
+%parse-param { std::shared_ptr<ast::Expression>* root  }
 
 %code{
    #include <memory>
@@ -65,7 +66,7 @@ expr
     : INTEGER_LITERAL
         { $$ = std::make_shared<ast::ExpressionInt>($1, LLCAST(@$)); }
     | expr OPERATION_LITERAL expr
-        { $$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$)); }
+        { $$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$)); *root = $$;}
 
 %%
 

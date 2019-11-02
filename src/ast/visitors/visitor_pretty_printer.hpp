@@ -13,8 +13,8 @@ public:
     VisitorPrettyPrinter() = default;
 
 private:
-    void visit(const PExpressionInt expr);
-    void visit(const PExpressionBinaryOp expr);
+    void visit(const ExpressionInt* expr);
+    void visit(const ExpressionBinaryOp* expr);
 };
 
 }
