@@ -32,4 +32,10 @@ void VisitorPrettyPrinter::visit(const ExpressionBinaryOp* expr) {
 
     // std::cout << expr->getPos();
 }
+
+void VisitorPrettyPrinter::visit(const ExpressionLogical* expr){}
+void VisitorPrettyPrinter::visit(const ExpressionId* expr){}
+void VisitorPrettyPrinter::visit(const ExpressionSquareBracket* expr){}
+void VisitorPrettyPrinter::visit(const ExpressionLen* expr){}
+void VisitorPrettyPrinter::visit(const ExpressionUnaryNegation* expr){}
 }
