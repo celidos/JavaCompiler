@@ -32,6 +32,5 @@ void MC::MC_Driver::parse_helper(std::istream &stream) {
         std::cerr << "Parsing failed!" << std::endl;
     } else {
         std::cerr << "Parsing OK" << std::endl;
-        parser->
     }
 }
