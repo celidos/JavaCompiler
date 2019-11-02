@@ -104,6 +104,64 @@ private:
 
 typedef std::shared_ptr<ExpressionId> PExpressionId;
 
+/***************************************************************************************************
+ * Indexation a[x]
+ */
+class ExpressionSquareBracket: public Expression {
+public:
+    ExpressionSquareBracket(
+        PExpression &entity,
+        PExpression &index,
+        const MC::YYLTYPE pos
+    ) :
+        entity_(entity), index_(index) { setPos(pos); }
+
+    const PExpression & getEntity() const { return entity_; };
+    const PExpression & getIndex() const { return index_; };
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
+private:
+    PExpression entity_;
+    PExpression index_;
+};
+
+typedef std::shared_ptr<ExpressionSquareBracket> PExpressionSquareBracket;
+
+/***************************************************************************************************
+ * length expression
+ */
+
+class ExpressionLen: public Expression {
+public:
+    ExpressionLen(
+        PExpression &arg,
+        const MC::YYLTYPE pos
+    ) :
+        arg_(arg) { setPos(pos); }
+
+    const PExpression & getArg() const { return arg_; };
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
+private:
+    PExpression arg_;
+};
+
+/***************************************************************************************************
+ * Unary prefix negation
+ */
+
+class ExpressionUnaryNegation: public Expression {
+public:
+    ExpressionUnaryNegation (
+        PExpression &arg,
+        const MC::YYLTYPE pos
+    ) :
+        arg_(arg) { setPos(pos); }
+
+    const PExpression & getArg() const { return arg_; };
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
+private:
+    PExpression arg_;
+};
+
 }
 
 #endif
