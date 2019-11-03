@@ -144,6 +144,8 @@ private:
     PExpression arg_;
 };
 
+typedef std::shared_ptr<ExpressionLen> PExpressionLen;
+
 /***************************************************************************************************
  * Unary prefix negation
  */
@@ -161,6 +163,23 @@ public:
 private:
     PExpression arg_;
 };
+
+typedef std::shared_ptr<ExpressionUnaryNegation> PExpressionUnaryNegation;
+
+/***************************************************************************************************
+ * "this" expression
+ */
+
+class ExpressionThis : public Expression {
+public:
+    explicit ExpressionThis(
+        const MC::YYLTYPE pos
+    ) { setPos(pos); }
+
+    void accept(IVisitor* visitor) const override { visitor->visit(this); }
+};
+
+typedef std::shared_ptr<ExpressionThis> PExpressionThis;
 
 }
 

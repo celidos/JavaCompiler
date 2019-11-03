@@ -64,6 +64,7 @@
 %token DOT
 %token LENGTH
 %token UNARY_NEGATION
+%token THIS
 
 %type<std::shared_ptr<ast::Expression>> expr
 
@@ -72,6 +73,8 @@
 %%
 
 list_option: expr '\n' {std::cout << std::endl; };
+
+// TODO: REPLACE ROOT WITH SOMETHING ELSE
 
 expr
     : INTEGER_LITERAL
@@ -92,7 +95,9 @@ expr
 
     | UNARY_NEGATION expr
         { $$ = std::make_shared<ast::ExpressionUnaryNegation>($2, LLCAST(@$)); }
-        
+    | THIS
+        { $$ = std::make_shared<ast::ExpressionThis>(LLCAST(@$)); }
+
 %%
 
 void 

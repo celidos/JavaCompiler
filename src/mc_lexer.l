@@ -25,6 +25,11 @@ using token = MC::MC_Parser::token;
 %option noyywrap
 %option c++
 
+/* The rules are executed sequentially, therefore in this place the order of recording the
+ * instructions is IMPORTANT. In particular, regular expressions that are responsible
+ * for keywords like "static" must be placed before the regular expression that is responsible
+ * for naming variables. Thus, due to a higher priority, words like "this" become *keywords*. */
+
 LEX_AND        "&&"
 LEX_OR         "||"
 LEX_CLASS      "class"
@@ -52,18 +57,18 @@ LEX_LETTER     [a-zA-Z_]
 LEX_INTEGER_LITERAL   [1-9]{LEX_DIGIT}*|0
 LEX_LOGIC_LITERAL     {LEX_TRUE}|{LEX_FALSE}
 LEX_ID         {LEX_LETTER}({LEX_DIGIT}|{LEX_LETTER})*
-LEX_COMMENT    \/\/.*|\/\*((.|\n)*?)\*\/
+LEX_COMMENT    (\/\/.*)|(\/\*((.|\n)*?)\*\/)
 LEX_SPACE      [\n\r\t ]+
-LEX_OPERATORS  [!%*+,-/;<=]
+LEX_OPERATORS  "+"|"-"|"*"|"/"
 
-LEX_DOT [\.]
-LEX_LBRACKET [\(]
-LEX_RBRACKET [\)]
-LEX_LSQUAREBRACKET [\[]
-LEX_RSQUAREBRACKET [\]]
-LEX_LBRACE [\{]
-LEX_RBRACE [\}]
-LEX_UNARY_NEGATION [\!]
+LEX_DOT "."
+LEX_LBRACKET "("
+LEX_RBRACKET ")"
+LEX_LSQUAREBRACKET "["
+LEX_RSQUAREBRACKET "]"
+LEX_LBRACE "{"
+LEX_RBRACE "}"
+LEX_UNARY_NEGATION "!"
 
 %%
 
@@ -79,6 +84,14 @@ LEX_UNARY_NEGATION [\!]
 
 {LEX_LOGIC_LITERAL} {
     return std::string(yytext) == "true";
+}
+
+{LEX_LENGTH} {
+    return token::LENGTH;
+}
+
+{LEX_THIS} {
+    return token::THIS;
 }
 
 {LEX_ID} {
@@ -126,9 +139,6 @@ LEX_UNARY_NEGATION [\!]
     return token::DOT;
 }
 
-{LEX_LENGTH} {
-    return token::LENGTH;
-}
 
 {LEX_UNARY_NEGATION} {
     return token::UNARY_NEGATION;
