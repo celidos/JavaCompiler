@@ -3,8 +3,9 @@
 
 #include <iostream>
 
-#include <visitors/ivisitor.hpp>
-#include <handlers/expressions.hpp>
+#include "visitors/ivisitor.hpp"
+#include "handlers/expressions.hpp"
+#include "yyltype.hpp"
 
 namespace ast {
 
@@ -15,6 +16,11 @@ public:
 private:
     void visit(const ExpressionInt* expr);
     void visit(const ExpressionBinaryOp* expr);
+    void visit(const ExpressionLogical* expr);
+    void visit(const ExpressionId* expr);
+    void visit(const ExpressionSquareBracket* expr);
+    void visit(const ExpressionLen* expr);
+    void visit(const ExpressionUnaryNegation* expr);
 };
 
 }
