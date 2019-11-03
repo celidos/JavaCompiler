@@ -38,4 +38,5 @@ void VisitorPrettyPrinter::visit(const ExpressionId* expr){}
 void VisitorPrettyPrinter::visit(const ExpressionSquareBracket* expr){}
 void VisitorPrettyPrinter::visit(const ExpressionLen* expr){}
 void VisitorPrettyPrinter::visit(const ExpressionUnaryNegation* expr){}
+void VisitorPrettyPrinter::visit(const ExpressionThis* expr) {}
 }

@@ -1,0 +1,7 @@
+graph my_graph {
+	1;
+	2;
+	ExpressionBinaryOp;
+	ExpressionBinaryOp -- 1;
+	ExpressionBinaryOp -- 2;
+}

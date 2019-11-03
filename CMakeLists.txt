@@ -15,6 +15,8 @@ FLEX_TARGET (mc_lexer
              ${CMAKE_CURRENT_BINARY_DIR}/mc_lexer.yy.cc)
 
 add_subdirectory(src/ast)
+add_subdirectory(src/smart_graphviz)
+
 ADD_FLEX_BISON_DEPENDENCY(mc_lexer mc_parser)
 
 add_executable(javacompiler
@@ -27,6 +29,10 @@ add_executable(javacompiler
 
 target_link_libraries(javacompiler
     PUBLIC ast
+)
+
+target_link_libraries(javacompiler
+    PUBLIC smart_graphviz
 )
 
 target_include_directories(javacompiler
