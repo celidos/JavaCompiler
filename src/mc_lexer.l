@@ -2,7 +2,7 @@
 /* C++ string header, for string ops below */
 #include <string>
 
-/* Implementation of yyFlexScanner */ 
+/* Implementation of yyFlexScanner */
 #include "src/mc_scanner.hpp"
 #undef  YY_DECL
 #define YY_DECL int MC::MC_Scanner::yylex( MC::MC_Parser::semantic_type * const lval, MC::MC_Parser::location_type *loc )
@@ -34,7 +34,7 @@ LEX_AND        "&&"
 LEX_OR         "||"
 LEX_CLASS      "class"
 LEX_PUBLIC     "public"
-LEX_PRIVATE    "private"    
+LEX_PRIVATE    "private"
 LEX_STATIC     "static"
 LEX_VOID       "void"
 LEX_MAIN       "main"
@@ -60,7 +60,9 @@ LEX_ID         {LEX_LETTER}({LEX_DIGIT}|{LEX_LETTER})*
 LEX_COMMENT    (\/\/.*)|(\/\*((.|\n)*?)\*\/)
 LEX_SPACE      [\n\r\t ]+
 LEX_OPERATORS  "+"|"-"|"*"|"/"
+LEX_ASSIGN     "="
 
+LEX_DOT_COMMA ";"
 LEX_DOT "."
 LEX_LBRACKET "("
 LEX_RBRACKET ")"
@@ -75,6 +77,23 @@ LEX_UNARY_NEGATION "!"
 %{
   yylval = lval;
 %}
+
+{LEX_DOT_COMMA} {
+    return token::DOT_COMMA;
+}
+
+
+{LEX_ASSIGN} {
+    return token::ASSIGN;
+}
+
+{LEX_PUBLIC} {
+    return token::PUBLIC;
+}
+
+{LEX_PRIVATE} {
+    return token::PRIVATE;
+}
 
 {LEX_INTEGER_LITERAL} {
 	//std::cout << " LEX_INTEGER_LITERAL ";

@@ -1,7 +1,7 @@
 %skeleton "lalr1.cc"
 %require  "3.0"
-%debug 
-%defines 
+%debug
+%defines
 %define api.namespace {MC}
 %define api.parser.class {MC_Parser}
 
@@ -15,7 +15,7 @@
    #include <string>
 
    #include "src/ast/handlers/expressions.hpp"
-
+   #include "src/ast/handlers/statements.hpp"
    namespace MC {
       class MC_Driver;
       class MC_Scanner;
@@ -55,6 +55,10 @@
 %token<bool> LOGICAL_LITERAL
 %token<std::string> OPERATION_LITERAL
 %token<std::string> IDENTIFIER
+%token PRIVATE
+%token PUBLIC
+%token ASSIGN
+%token DOT_COMMA
 %token LBRACKET
 %token RBRACKET
 %token LSQUAREBRACKET
@@ -67,14 +71,25 @@
 %token THIS
 
 %type<std::shared_ptr<ast::Expression>> expr
-
+%type<std::shared_ptr<ast::Statement>> statement
 %locations
 
 %%
 
 list_option: expr '\n' {std::cout << std::endl; };
-
 // TODO: REPLACE ROOT WITH SOMETHING ELSE
+
+
+statement
+      : IDENTIFIER ASSIGN expr DOT_COMMA {$$ = std::make_shared<ast::StatementAssign>($1, $3); *root = $$;}
+
+/*
+      : LBRACE statement_sequence  RBRACE {$$ = std::make_shared<ast::StatementSequence>($2);}
+      | RBRACE LBRACE {$$ = std::make_shared<ast::Statement>();}
+statement_sequence
+    : statement {std::vector<std::shared_ptr<ast::Statement> > statements; statements.push_back($1); $$ = statement; }
+    | statement_sequence statement{$1.push_back($2); $$ = $1;}
+*/
 
 expr
     : INTEGER_LITERAL
@@ -87,7 +102,7 @@ expr
     | LBRACKET expr RBRACKET { $$ = $2; }
 
     | expr OPERATION_LITERAL expr
-        { $$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$)); *root = $$; }
+        { $$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$));}
     | expr LSQUAREBRACKET expr RSQUAREBRACKET
         { $$ = std::make_shared<ast::ExpressionSquareBracket>($1, $3, LLCAST(@$)); }
     | expr DOT LENGTH
@@ -97,10 +112,9 @@ expr
         { $$ = std::make_shared<ast::ExpressionUnaryNegation>($2, LLCAST(@$)); }
     | THIS
         { $$ = std::make_shared<ast::ExpressionThis>(LLCAST(@$)); }
-
 %%
 
-void 
+void
 MC::MC_Parser::error( const location_type &l, const std::string &err_message )
 {
    std::cerr << "Error: " << err_message << " at " << l << "\n";

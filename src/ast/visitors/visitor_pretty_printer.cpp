@@ -39,4 +39,9 @@ void VisitorPrettyPrinter::visit(const ExpressionSquareBracket* expr){}
 void VisitorPrettyPrinter::visit(const ExpressionLen* expr){}
 void VisitorPrettyPrinter::visit(const ExpressionUnaryNegation* expr){}
 void VisitorPrettyPrinter::visit(const ExpressionThis* expr) {}
+
+void VisitorPrettyPrinter::visit(const StatementAssign* statement) {
+
+    std::cout << "StatementAssign(" << statement->getIdentifier() <<" expresion)\n";
+}
 }

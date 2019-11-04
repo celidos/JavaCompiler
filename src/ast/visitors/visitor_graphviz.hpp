@@ -7,6 +7,7 @@
 
 #include "visitors/ivisitor.hpp"
 #include "handlers/expressions.hpp"
+#include "handlers/statements.hpp"
 #include "yyltype.hpp"
 #include "../smart_graphviz/graph.h"
 
@@ -34,6 +35,7 @@ private:
     void visit(const ExpressionLen* expr);
     void visit(const ExpressionUnaryNegation* expr);
     void visit(const ExpressionThis* expr);
+    void visit(const StatementAssign* statement);
 };
 
 }

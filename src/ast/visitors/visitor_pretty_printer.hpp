@@ -3,9 +3,7 @@
 
 #include <iostream>
 
-#include "visitors/ivisitor.hpp"
-#include "handlers/expressions.hpp"
-#include "yyltype.hpp"
+#include <handlers/statements.hpp>
 
 namespace ast {
 
@@ -22,6 +20,7 @@ private:
     void visit(const ExpressionLen* expr);
     void visit(const ExpressionUnaryNegation* expr);
     void visit(const ExpressionThis* expr);
+    void visit(const StatementAssign* statement);
 };
 
 }
