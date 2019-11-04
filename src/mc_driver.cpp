@@ -24,7 +24,7 @@ void MC::MC_Driver::parse(const char * const input_filename, const char * const 
 }
 
 void MC::MC_Driver::parse_helper(std::istream &i_stream, std::ofstream &o_stream) {
-    PExpression root;
+    ast::PStatement root;
 
     delete(scanner);
     scanner = new MC::MC_Scanner(&i_stream);

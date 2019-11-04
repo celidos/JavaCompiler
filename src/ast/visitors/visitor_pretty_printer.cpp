@@ -42,6 +42,8 @@ void VisitorPrettyPrinter::visit(const ExpressionThis* expr) {}
 
 void VisitorPrettyPrinter::visit(const StatementAssign* statement) {
 
-    std::cout << "StatementAssign(" << statement->getIdentifier() <<" expresion)\n";
+    std::cout << "StatementAssign(" << statement->getIdentifier() <<"; ";
+    statement->getExpression()->accept(this);
+    std::cout << ")\n";
 }
 }

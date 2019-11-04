@@ -50,7 +50,14 @@ public:
         std::string &operation,
         const MC::YYLTYPE pos
     ) :
-        left_(left), right_(right), operation_(operation) { setPos(pos); }
+        left_(left), right_(right), operation_(operation) {
+            setPos(pos);
+            if (operation_ == "+") {
+                operation_ = "plus";
+            } else if (operation_ == "-") {
+                operation_ = "minus";
+            }
+        }
 
     const PExpression & getLeft() const { return left_; };
     const PExpression & getRight() const { return right_; };

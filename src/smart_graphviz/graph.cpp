@@ -93,7 +93,7 @@ namespace Graphs
 
         for (auto node : nodes)
         {
-            ss << '\t' << node->name << ';' << '\n';
+            ss << node->name << '\t' << "[ label = " << node->name.substr(1, node->name.find("_") - 1) << "];" << '\n';
         }
 
         for (auto edge : edges)

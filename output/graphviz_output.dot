@@ -1,0 +1,15 @@
+graph my_graph {
+s1_31879632	[ label = 1];
+s1_31879760	[ label = 1];
+s2_31879696	[ label = 2];
+sStatementAssign_31880048	[ label = StatementAssign];
+sidiot_31880048	[ label = idiot];
+splus_31879824	[ label = plus];
+splus_31879936	[ label = plus];
+	sStatementAssign_31880048 -- sidiot_31880048;
+	sStatementAssign_31880048 -- splus_31879936;
+	splus_31879824 -- s2_31879696;
+	splus_31879824 -- s1_31879760;
+	splus_31879936 -- s1_31879632;
+	splus_31879936 -- splus_31879824;
+}
