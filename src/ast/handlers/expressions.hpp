@@ -1,5 +1,4 @@
-#ifndef JAVACOMPILER_VISITABLE_HPP
-#define JAVACOMPILER_VISITABLE_HPP
+#pragma once
 
 #include <string>
 #include <memory>
@@ -183,4 +182,3 @@ typedef std::shared_ptr<ExpressionThis> PExpressionThis;
 
 }
 
-#endif

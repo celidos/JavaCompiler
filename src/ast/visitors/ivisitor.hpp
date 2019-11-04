@@ -1,5 +1,4 @@
-#ifndef JAVACOMPILER_SRC_AST_IVISITOR_HPP_
-#define JAVACOMPILER_SRC_AST_IVISITOR_HPP_
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -43,4 +42,3 @@ public:
 
 }
 
-#endif //JAVACOMPILER_SRC_AST_IVISITOR_HPP_

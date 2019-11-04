@@ -1,5 +1,4 @@
-//#ifndef JAVACOMPILER_VISITABLE_HPP
-//#define JAVACOMPILER_VISITABLE_HPP
+#pragma once
 
 #include <yyltype.hpp>
 #include <visitors/ivisitor.hpp>

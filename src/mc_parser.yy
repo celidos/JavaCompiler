@@ -34,7 +34,7 @@
 
 %parse-param { MC_Scanner  &scanner  }
 %parse-param { MC_Driver  &driver  }
-%parse-param { std::shared_ptr<ast::Expression>* root  }
+%parse-param { std::shared_ptr<ast::Statement>* root  }
 
 %code{
    #include <memory>
@@ -77,11 +77,12 @@
 %%
 
 list_option: expr '\n' {std::cout << std::endl; };
+list_option: statement '\n' {std::cout << std::endl; };
 // TODO: REPLACE ROOT WITH SOMETHING ELSE
 
 
 statement
-      : IDENTIFIER ASSIGN expr DOT_COMMA {$$ = std::make_shared<ast::StatementAssign>($1, $3); *root = $$;}
+      : IDENTIFIER ASSIGN expr DOT_COMMA {$$ = std::make_shared<ast::StatementAssign>($1, $3, LLCAST(@$)); *root = $$;}
 
 /*
       : LBRACE statement_sequence  RBRACE {$$ = std::make_shared<ast::StatementSequence>($2);}
