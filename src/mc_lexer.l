@@ -118,6 +118,10 @@ LEX_UNARY_NEGATION "!"
     return token::LENGTH;
 }
 
+{LEX_NEW} {
+    return token::NEW;
+}
+
 {LEX_THIS} {
     return token::THIS;
 }

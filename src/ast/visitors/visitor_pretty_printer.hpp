@@ -27,6 +27,8 @@ private:
     void visit(const TypeInt* type, bool need_new_line = true);
     void visit(const VarDeclaration* var_declaration, bool need_new_line = true);
     void visit(const MethodBody* method_body, bool need_new_line = true);
+    void visit(const ExpressionNewId* expr, bool need_new_line = true);
+    void visit(const ExpressionNewIntArray* expr, bool need_new_line = true);
 
 };
 

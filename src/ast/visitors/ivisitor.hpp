@@ -18,6 +18,8 @@ class StatementAssign;
 class TypeInt;
 class VarDeclaration;
 class MethodBody;
+class ExpressionNewId;
+class ExpressionNewIntArray;
 typedef std::shared_ptr<ExpressionInt> PExpressionInt;
 typedef std::shared_ptr<ExpressionBinaryOp> PExpressionBinaryOp;
 typedef std::shared_ptr<ExpressionLogical> PExpressionLogical;
@@ -30,6 +32,8 @@ typedef std::shared_ptr<StatementAssign> PStatementAssign;
 typedef std::shared_ptr<TypeInt> PTypeInt;
 typedef std::shared_ptr<VarDeclaration> PVarDeclaration;
 typedef std::shared_ptr<MethodBody> PMethodBody;
+typedef std::shared_ptr<ExpressionNewId> PExpressionNewId;
+typedef std::shared_ptr<ExpressionNewIntArray> PExpressionNewIntArray;
 class IVisitor {
 public:
     virtual ~IVisitor() = default;
@@ -46,6 +50,8 @@ public:
     virtual void visit(const TypeInt* type, bool need_new_line = true) = 0;
     virtual void visit(const VarDeclaration* var_declaration, bool need_new_line = true) = 0;
     virtual void visit(const MethodBody* method_body, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionNewId* expr, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionNewIntArray* expr, bool need_new_line = true) = 0;
 
 };
 

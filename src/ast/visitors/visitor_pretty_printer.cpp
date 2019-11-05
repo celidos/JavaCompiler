@@ -86,5 +86,8 @@ void VisitorPrettyPrinter::visit(const MethodBody* method_body, bool need_new_li
     }
 }
 
+void VisitorPrettyPrinter::visit(const ExpressionNewId* expr, bool need_new_line){}
+void VisitorPrettyPrinter::visit(const ExpressionNewIntArray* expr, bool need_new_line){}
+
 }
 
