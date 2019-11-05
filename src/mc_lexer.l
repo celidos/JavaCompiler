@@ -78,6 +78,15 @@ LEX_UNARY_NEGATION "!"
   yylval = lval;
 %}
 
+{LEX_RETURN} {
+    return token::RETURN;
+}
+
+{LEX_INT} {
+    return token::INT;
+}
+
+
 {LEX_DOT_COMMA} {
     return token::DOT_COMMA;
 }

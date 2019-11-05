@@ -1,1 +1,6 @@
-idiot=1+2+1;
+{
+
+    int curr;
+    curr = 2 + 2;
+    return 2;
+}

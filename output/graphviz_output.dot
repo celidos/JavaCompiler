@@ -1,15 +1,23 @@
 graph my_graph {
-s1_31879632	[ label = 1];
-s1_31879760	[ label = 1];
-s2_31879696	[ label = 2];
-sStatementAssign_31880048	[ label = StatementAssign];
-sidiot_31880048	[ label = idiot];
-splus_31879824	[ label = plus];
-splus_31879936	[ label = plus];
-	sStatementAssign_31880048 -- sidiot_31880048;
-	sStatementAssign_31880048 -- splus_31879936;
-	splus_31879824 -- s2_31879696;
-	splus_31879824 -- s1_31879760;
-	splus_31879936 -- s1_31879632;
-	splus_31879936 -- splus_31879824;
+s2_9253472	[ label = 2];
+s2_9253536	[ label = 2];
+s2_9253808	[ label = 2];
+sINT_9253328	[ label = INT];
+sMethodBody_9253872	[ label = MethodBody];
+sReturn_9253872	[ label = Return];
+sStatementAssign_9253712	[ label = StatementAssign];
+sVarDeclaration_9253376	[ label = VarDeclaration];
+scurr_9253376	[ label = curr];
+scurr_9253712	[ label = curr];
+splus_9253600	[ label = plus];
+	sMethodBody_9253872 -- sVarDeclaration_9253376;
+	sMethodBody_9253872 -- sStatementAssign_9253712;
+	sMethodBody_9253872 -- sReturn_9253872;
+	sReturn_9253872 -- s2_9253808;
+	sStatementAssign_9253712 -- scurr_9253712;
+	sStatementAssign_9253712 -- splus_9253600;
+	sVarDeclaration_9253376 -- sINT_9253328;
+	sVarDeclaration_9253376 -- scurr_9253376;
+	splus_9253600 -- s2_9253472;
+	splus_9253600 -- s2_9253536;
 }

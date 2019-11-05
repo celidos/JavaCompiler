@@ -15,33 +15,27 @@ namespace ast {
  * Base class for expression handler. It is the parent for tree nodes, therefore it is
  * inherited from Visitable.
  */
-class Statement : public IVisitable {
+class Type : public IVisitable {
 public:
-    Statement() = default;
+    Type() = default;
 protected:
     void setPos(const MC::YYLTYPE pos) { pos_ = pos; }
 };
 
-typedef std::shared_ptr<Statement> PStatement;
+typedef std::shared_ptr<Type> PType;
 
 /***************************************************************************************************
  * */
 
-class StatementAssign : public Statement {
+class TypeInt : public Type {
 public:
-    StatementAssign(const std::string& identifier,
-                  const PExpression& expression,
-                                    MC::YYLTYPE pos) : identifier_(identifier), expression_(expression) { setPos(pos); }
+    TypeInt(MC::YYLTYPE pos) { setPos(pos); }
 
-    std::string getIdentifier() const { return identifier_; }
-    const PExpression& getExpression() const { return expression_; }
+    std::string getType() const { return "INT"; }
     void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
-private:
-    std::string identifier_;
-    PExpression expression_;
 };
 
-typedef std::shared_ptr<StatementAssign> PStatementAssign;
+typedef std::shared_ptr<TypeInt> PTypeInt;
 
 }
 
