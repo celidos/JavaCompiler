@@ -33,8 +33,7 @@ using token = MC::MC_Parser::token;
 LEX_AND        "&&"
 LEX_OR         "||"
 LEX_CLASS      "class"
-LEX_PUBLIC     "public"
-LEX_PRIVATE    "private"
+LEX_PRIVACY    "private"|"public"
 LEX_STATIC     "static"
 LEX_VOID       "void"
 LEX_MAIN       "main"
@@ -78,6 +77,31 @@ LEX_UNARY_NEGATION "!"
   yylval = lval;
 %}
 
+{LEX_STATIC} {
+    return token::STATIC;
+}
+
+{LEX_CLASS} {
+    return token::CLASS;
+}
+
+{LEX_MAIN} {
+    return token::MAIN;
+}
+
+{LEX_STRING} {
+    return token::STRING;
+}
+
+{LEX_VOID} {
+    return token::VOID;
+}
+
+{LEX_PRIVACY} {
+    yylval->build<std::string>(yytext);
+    return token::PRIVACY;
+}
+
 {LEX_RETURN} {
     return token::RETURN;
 }
@@ -96,13 +120,6 @@ LEX_UNARY_NEGATION "!"
     return token::ASSIGN;
 }
 
-{LEX_PUBLIC} {
-    return token::PUBLIC;
-}
-
-{LEX_PRIVATE} {
-    return token::PRIVATE;
-}
 
 {LEX_INTEGER_LITERAL} {
 	//std::cout << " LEX_INTEGER_LITERAL ";

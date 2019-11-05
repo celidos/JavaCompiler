@@ -75,16 +75,48 @@ void VisitorPrettyPrinter::visit(const MethodBody* method_body, bool need_new_li
 
     std::cout << "MethodBody(\n";
     method_body->getVarDeclaration()->accept(this, false);
-    std::cout << "\n";
+    std::cout << ";\n";
     method_body->getStatement()->accept(this, false);
-    std::cout << "\n";
+    std::cout << ";\n";
     std::cout << "Return: ";
     method_body->getExpression()->accept(this, false);
+    std::cout <<";\n)";
+    if (need_new_line) {
+        std::cout <<"\n";
+    }
+}
+
+void VisitorPrettyPrinter::visit(const MethodDeclaration* method_declaration, bool need_new_line) {
+
+    std::cout << "MethodDeclaration("<<method_declaration->getPrivacy() <<"; ";
+    method_declaration->getType()->accept(this, false);
+    std::cout << " "<<method_declaration->getIdentifier() <<"\n";
+    method_declaration->getMethodBody()->accept(this, false);
     std::cout <<"\n)";
     if (need_new_line) {
         std::cout <<"\n";
     }
 }
 
+void VisitorPrettyPrinter::visit(const MainClass* main_class, bool need_new_line) {
+
+    std::cout << "MainClass("<<main_class->getIdentifier() <<"; String[] "<<main_class->getVariable() <<"; ";
+
+    main_class->getStatement()->accept(this, false);
+    std::cout <<")";
+    if (need_new_line) {
+        std::cout <<"\n";
+    }
+}
+
+void VisitorPrettyPrinter::visit(const Goal* goal, bool need_new_line) {
+
+    std::cout << "Goal(\n";
+    goal->getMainClass()->accept(this, true);
+    std::cout <<")";
+    if (need_new_line) {
+        std::cout <<"\n";
+    }
+}
 }
 

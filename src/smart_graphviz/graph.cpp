@@ -16,14 +16,14 @@ namespace Graphs
         {
             if (node.second != nullptr)
             {
-                std::cout << "Clean node!" << std::endl;
+                // std::cout << "Clean node!" << std::endl;
                 delete node.second;
             }
         }
 
         for (auto node : nodes)
         {
-            std::cout << "Clean edges!" << std::endl;
+            // std::cout << "Clean edges!" << std::endl;
             freeNode(node.first);
         }
     }
@@ -93,7 +93,13 @@ namespace Graphs
 
         for (auto node : nodes)
         {
-            ss << node->name << '\t' << "[ label = " << node->name.substr(1, node->name.find("_") - 1) << "];" << '\n';
+            std::string name = node->name;
+            auto index = name.find("__");
+            if (index != std::string::npos) {
+                name.replace(index, 2, " ");
+            }
+            name = name.substr(1, name.find("_") - 1);
+            ss << node->name << '\t' << "[ label = \"" << name << "\"];" << '\n';
         }
 
         for (auto edge : edges)

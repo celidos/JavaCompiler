@@ -41,6 +41,7 @@ void VisitorGraphviz::visit(const StatementAssign* statement, bool need_new_line
     graph.addNode(node_name);
     auto current_left_chld = "s" + statement->getIdentifier() + "_" + std::to_string(reinterpret_cast<int64_t>(statement));
     graph.addNode(current_left_chld);
+
     graph.addEdge(node_name, current_left_chld);
     statement->getExpression()->accept(this);
     std::string right_child = node_names.top();
@@ -67,7 +68,7 @@ void VisitorGraphviz::visit(const VarDeclaration* var_declaration, bool need_new
 
     auto current_right_chld = "s" + var_declaration->getIdentifier() + "_" + std::to_string(reinterpret_cast<int64_t>(var_declaration));
     graph.addNode(current_right_chld);
-    graph.addEdge(node_name, current_right_chld);
+    graph.addEdge(left_child, current_right_chld);
     node_names.push(node_name);
 }
 
@@ -99,4 +100,64 @@ void VisitorGraphviz::visit(const MethodBody* method_body, bool need_new_line) {
     node_names.push(node_name);
 }
 
+void VisitorGraphviz::visit(const MethodDeclaration* method_declaration, bool need_new_line) {
+    std::string node_name = "s" + method_declaration->getPrivacy() + \
+                             "__MethodDeclaration_" + std::to_string(reinterpret_cast<int64_t>(method_declaration));
+    graph.addNode(node_name);
+
+    method_declaration->getType()->accept(this);
+    std::string left_child = node_names.top();
+    graph.addEdge(node_name, left_child);
+    node_names.pop();
+
+    auto current_right_chld = "s" + method_declaration->getIdentifier() + "_" + std::to_string(reinterpret_cast<int64_t>(method_declaration));
+    graph.addNode(current_right_chld);
+    graph.addEdge(left_child, current_right_chld);
+
+    method_declaration->getMethodBody()->accept(this);
+    std::string middle_child = node_names.top();
+    graph.addEdge(node_name, middle_child);
+    node_names.pop();
+
+    node_names.push(node_name);
+}
+
+void VisitorGraphviz::visit(const MainClass* main_class, bool need_new_line) {
+    std::string node_name = "sMainClass_" + std::to_string(reinterpret_cast<int64_t>(main_class));
+    graph.addNode(node_name);
+
+    auto current_left_chld = "sName__" + main_class->getIdentifier() + "_" + std::to_string(reinterpret_cast<int64_t>(main_class));
+    graph.addNode(current_left_chld);
+    graph.addEdge(node_name, current_left_chld);
+
+    auto current_middle_chld = "sString__" + main_class->getVariable() + "_" + std::to_string(reinterpret_cast<int64_t>(main_class));
+    graph.addNode(current_middle_chld);
+    graph.addEdge(node_name, current_middle_chld);
+
+
+    auto current_right_chld = "sStatement_" + std::to_string(reinterpret_cast<int64_t>(main_class));
+    graph.addNode(current_right_chld);
+    graph.addEdge(node_name, current_right_chld);
+
+
+    main_class->getStatement()->accept(this);
+    std::string right_child = node_names.top();
+    graph.addEdge(current_right_chld, right_child);
+    node_names.pop();
+
+    node_names.push(node_name);
+}
+
+
+void VisitorGraphviz::visit(const Goal* goal, bool need_new_line) {
+    std::string node_name = "sGoal_" + std::to_string(reinterpret_cast<int64_t>(goal));
+    graph.addNode(node_name);
+
+    goal->getMainClass()->accept(this);
+    std::string left_child = node_names.top();
+    graph.addEdge(node_name, left_child);
+    node_names.pop();
+
+    node_names.push(node_name);
+}
 }

@@ -7,6 +7,9 @@
 #include <handlers/types.hpp>
 #include <handlers/var_declaration.hpp>
 #include <handlers/method_body.hpp>
+#include <handlers/method_declaration.hpp>
+#include <handlers/main_class.hpp>
+#include <handlers/goal.hpp>
 
 namespace ast {
 
@@ -27,7 +30,9 @@ private:
     void visit(const TypeInt* type, bool need_new_line = true);
     void visit(const VarDeclaration* var_declaration, bool need_new_line = true);
     void visit(const MethodBody* method_body, bool need_new_line = true);
-
+    void visit(const MethodDeclaration* method_declaration, bool need_new_line = true);
+    void visit(const MainClass* main_class, bool need_new_line = true);
+    void visit(const Goal* goal, bool need_new_line = true);
 };
 
 }

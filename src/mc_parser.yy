@@ -19,6 +19,10 @@
    #include "src/ast/handlers/types.hpp"
    #include "src/ast/handlers/var_declaration.hpp"
    #include "src/ast/handlers/method_body.hpp"
+   #include "src/ast/handlers/method_declaration.hpp"
+   #include "src/ast/handlers/main_class.hpp"
+   #include "src/ast/handlers/goal.hpp"
+
    namespace MC {
       class MC_Driver;
       class MC_Scanner;
@@ -37,7 +41,7 @@
 
 %parse-param { MC_Scanner  &scanner  }
 %parse-param { MC_Driver  &driver  }
-%parse-param { std::shared_ptr<ast::MethodBody>* root }
+%parse-param { ast::PGoal* root }
 
 %code{
    #include <memory>
@@ -58,9 +62,8 @@
 %token<bool> LOGICAL_LITERAL
 %token<std::string> OPERATION_LITERAL
 %token<std::string> IDENTIFIER
+%token<std::string> PRIVACY
 %token RETURN
-%token PRIVATE
-%token PUBLIC
 %token INT
 %token ASSIGN
 %token DOT_COMMA
@@ -74,12 +77,20 @@
 %token LENGTH
 %token UNARY_NEGATION
 %token THIS
-
+%token MAIN
+%token CLASS
+%token VOID
+%token STRING
+%token STATIC
+%token END 0
 %type<ast::PExpression> expr
 %type<ast::PStatement> statement
 %type<ast::PType> type;
 %type<ast::PVarDeclaration> var_declaration;
 %type<ast::PMethodBody> method_body;
+%type<ast::PMethodDeclaration> method_declaration
+%type<ast::PMainClass> main_class
+%type<ast::PGoal> goal
 %locations
 
 %%
@@ -89,10 +100,24 @@ list_option: statement '\n' {std::cout << std::endl; };
 list_option: type '\n' {std::cout << std::endl; };
 list_option: var_declaration '\n' {std::cout << std::endl; };
 list_option: method_body '\n' {std::cout << std::endl; };
+list_option: method_declaration '\n' {std::cout << std::endl; };
+list_option: main_class '\n' {std::cout << std::endl; };
+list_option: goal '\n' {std::cout << std::endl; };
 // TODO: REPLACE ROOT WITH SOMETHING ELSE
 
+goal
+      : main_class END{$$ = std::make_shared<ast::Goal>($1, LLCAST(@$)); *root = $$;}
+
+
+main_class
+      : CLASS IDENTIFIER LBRACE PRIVACY STATIC VOID MAIN LBRACKET STRING LSQUAREBRACKET RSQUAREBRACKET IDENTIFIER RBRACKET LBRACE statement RBRACE RBRACE
+        {$$ = std::make_shared<ast::MainClass>($2, $4, $12, $15, LLCAST(@$));}
+
+method_declaration
+      : PRIVACY type IDENTIFIER LBRACKET RBRACKET method_body {$$ = std::make_shared<ast::MethodDeclaration>($1, $2, $3, $6, LLCAST(@$));}
+
 method_body
-      : LBRACE var_declaration statement RETURN expr DOT_COMMA RBRACE {$$ = std::make_shared<ast::MethodBody>($2, $3, $5, LLCAST(@$)); *root = $$;}
+      : LBRACE var_declaration statement RETURN expr DOT_COMMA RBRACE {$$ = std::make_shared<ast::MethodBody>($2, $3, $5, LLCAST(@$));}
 
 var_declaration
       : type IDENTIFIER DOT_COMMA {$$ = std::make_shared<ast::VarDeclaration>($1, $2, LLCAST(@$));}

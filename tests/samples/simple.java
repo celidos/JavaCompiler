@@ -1,6 +1,2 @@
-{
+class MySleep {public static void main(String[] curr) {curr = 2 + 2;}}
 
-    int curr;
-    curr = 2 + 2;
-    return 2;
-}
