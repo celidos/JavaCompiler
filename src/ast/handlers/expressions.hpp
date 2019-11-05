@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 
+#include <vector>
 #include <yyltype.hpp>
 #include <handlers/visitable.hpp>
 #include <visitors/ivisitor.hpp>
@@ -186,6 +187,47 @@ public:
 };
 
 typedef std::shared_ptr<ExpressionThis> PExpressionThis;
+
+/***************************************************************************************************
+ * New Identifiers expression
+ */
+
+class ExpressionNewId : public Expression {
+public:
+    ExpressionNewId(const std::string& identifier,
+            const MC::YYLTYPE pos
+            ) :
+                id_(identifier) { setPos(pos); }
+
+    const std::string& getId() const { return id_; };
+    void accept(IVisitor* visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line);}
+private:
+    std::string id_;
+};
+
+typedef std::shared_ptr<ExpressionNewId> PExpressionNewId;
+
+/***************************************************************************************************
+ * New Int Array expression
+ */
+
+class ExpressionNewIntArray : public Expression {
+public:
+    ExpressionNewIntArray(
+            PExpression &counter,
+            const MC::YYLTYPE pos
+            ) : counter_(counter) {}
+
+    const PExpression & getCounter() const { return counter_; };
+    void accept(IVisitor* visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line);}
+private:
+    std::shared_ptr<Expression> counter_;
+};
+
+typedef std::shared_ptr<ExpressionNewIntArray> PExpressionNewIntArray;
+
+
+
 
 }
 
