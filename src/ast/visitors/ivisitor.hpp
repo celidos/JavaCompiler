@@ -46,21 +46,23 @@ class IVisitor {
 public:
     virtual ~IVisitor() = default;
 
-    virtual void visit(const ExpressionInt* expr) = 0;
-    virtual void visit(const ExpressionBinaryOp* expr) = 0;
-    virtual void visit(const ExpressionLogical* expr) = 0;
-    virtual void visit(const ExpressionId* expr) = 0;
-    virtual void visit(const ExpressionSquareBracket* expr) = 0;
-    virtual void visit(const ExpressionLen* expr) = 0;
-    virtual void visit(const ExpressionUnaryNegation* expr) = 0;
-    virtual void visit(const ExpressionThis* expr) = 0;
-    virtual void visit(const StatementAssign* statement) = 0;
-    virtual void visit(const TypeInt* type) = 0;
-    virtual void visit(const VarDeclaration* var_declaration) = 0;
-    virtual void visit(const MethodBody* method_body) = 0;
-    virtual void visit(const MethodDeclaration* method_declaration) = 0;
-    virtual void visit(const MainClass* main_class) = 0;
-    virtual void visit(const Goal* goal) = 0;
+    virtual void visit(const ExpressionInt* expr, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionBinaryOp* expr, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionLogical* expr, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionId* expr, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionSquareBracket* expr, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionLen* expr, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionUnaryNegation* expr, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionThis* expr, bool need_new_line = true) = 0;
+    virtual void visit(const StatementAssign* statement, bool need_new_line = true) = 0;
+    virtual void visit(const TypeInt* type, bool need_new_line = true) = 0;
+    virtual void visit(const VarDeclaration* var_declaration, bool need_new_line = true) = 0;
+    virtual void visit(const MethodBody* method_body, bool need_new_line = true) = 0;
+    virtual void visit(const MethodDeclaration* method_declaration, bool need_new_line = true) = 0;
+    virtual void visit(const MainClass* main_class, bool need_new_line = true) = 0;
+    virtual void visit(const Goal* goal, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionNewId* expr, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionNewIntArray* expr, bool need_new_line = true) = 0;
 };
 
 }
