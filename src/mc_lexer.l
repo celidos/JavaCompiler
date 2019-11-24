@@ -32,6 +32,8 @@ using token = MC::MC_Parser::token;
 
 LEX_AND        "&&"
 LEX_OR         "||"
+LEX_LESS       "<"
+LEX_GREATER    ">"
 LEX_CLASS      "class"
 LEX_PRIVACY    "private"|"public"
 LEX_STATIC     "static"
@@ -58,7 +60,7 @@ LEX_LOGIC_LITERAL     {LEX_TRUE}|{LEX_FALSE}
 LEX_ID         {LEX_LETTER}({LEX_DIGIT}|{LEX_LETTER})*
 LEX_COMMENT    (\/\/.*)|(\/\*((.|\n)*?)\*\/)
 LEX_SPACE      [\n\r\t ]+
-LEX_OPERATORS  "+"|"-"|"*"|"/"
+LEX_OPERATORS  "+"|"-"|"*"|"/"|LEX_AND|LEX_OR
 LEX_ASSIGN     "="
 
 LEX_DOT_COMMA ";"
@@ -118,6 +120,22 @@ LEX_UNARY_NEGATION "!"
 
 {LEX_ASSIGN} {
     return token::ASSIGN;
+}
+
+{LEX_OR} {
+    return token::BINOR;
+}
+
+{LEX_LESS} {
+    return token::BINLESS;
+}
+
+{LEX_GREATER} {
+    return token::BINGREATER;
+}
+
+{LEX_AND} {
+    return token::BINAND;
 }
 
 

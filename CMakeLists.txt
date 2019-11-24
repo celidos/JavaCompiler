@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-SET (CMAKE_CXX_COMPILER  "/usr/bin/clang++")
+# GET (CMAKE_CXX_COMPILER  "/usr/bin/clang++")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-deprecated-register")
 
 project(javacompiler CXX)
@@ -10,7 +10,7 @@ find_package(FLEX REQUIRED)
 
 BISON_TARGET(mc_parser
              src/mc_parser.yy
-             ${CMAKE_CURRENT_BINARY_DIR}/mc_parser.tab.cc)
+             ${CMAKE_CURRENT_BINARY_DIR}/mc_parser.tab.cc VERBOSE)
 FLEX_TARGET (mc_lexer
              src/mc_lexer.l
              ${CMAKE_CURRENT_BINARY_DIR}/mc_lexer.yy.cc)
