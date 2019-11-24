@@ -1,3 +1,4 @@
+#!/bin/bash
 #!/usr/bin/env bash
 
 echo "[run] Cleaning..."
@@ -14,6 +15,11 @@ echo "[run] Starting make..."
 pwd
 make
 
-# echo "Running test.java ... "
-# ./my_wc test/test.java
-# echo "Done!"
+echo "[run] Starting Graphviz..."
+rm -rf ../output
+mkdir ../output
+touch ../output/$2
+touch ../output/$3
+
+./javacompiler ../$1 ../output/$2
+dot -Tsvg ../output/$2 -o ../output/$3

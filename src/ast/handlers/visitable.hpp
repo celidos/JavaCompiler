@@ -1,5 +1,4 @@
-//#ifndef JAVACOMPILER_VISITABLE_HPP
-//#define JAVACOMPILER_VISITABLE_HPP
+#pragma once
 
 #include <yyltype.hpp>
 #include <visitors/ivisitor.hpp>
@@ -10,7 +9,7 @@ class IVisitable {
 public:
     IVisitable() = default;
     virtual ~IVisitable() = default;
-    virtual void accept(IVisitor* visitor) const = 0;
+    virtual void accept(IVisitor* visitor, bool need_new_line = true) const = 0;
 
     MC::YYLTYPE getPos() const { return pos_; };
 protected:

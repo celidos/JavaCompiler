@@ -1,23 +1,38 @@
-#ifndef JAVACOMPILER_SRC_AST_VISITORS_VISITOR_PRETTY_PRINTER_HPP_
-#define JAVACOMPILER_SRC_AST_VISITORS_VISITOR_PRETTY_PRINTER_HPP_
+#ifndef JAVACOMPILER_SRC_AST_VISITORS_VISITOR_GRAPHVIZ_HPP_
+#define JAVACOMPILER_SRC_AST_VISITORS_VISITOR_GRAPHVIZ_HPP_
 
 #include <iostream>
+#include <string>
+#include <stack>
 
-#include <handlers/statements.hpp>
-#include <handlers/types.hpp>
-#include <handlers/var_declaration.hpp>
-#include <handlers/method_body.hpp>
-#include <handlers/method_declaration.hpp>
+#include "visitors/ivisitor.hpp"
+#include "handlers/expressions.hpp"
+#include "handlers/statements.hpp"
+#include "handlers/types.hpp"
+#include "handlers/var_declaration.hpp"
+#include "handlers/method_body.hpp"
+#include "handlers/method_declaration.hpp"
 #include <handlers/main_class.hpp>
 #include <handlers/goal.hpp>
+#include "yyltype.hpp"
+#include "../smart_graphviz/graph.h"
 
 namespace ast {
 
-class VisitorPrettyPrinter : public IVisitor {
+class VisitorGraphviz : public IVisitor {
 public:
-    VisitorPrettyPrinter() = default;
+    VisitorGraphviz() = default;
+
+    VisitorGraphviz(std::string graph_name);
+
+    const Graphs::UndirectedGraph& GetGraph(){
+    	return graph;
+    }
 
 private:
+	Graphs::UndirectedGraph graph;
+	std::stack<std::string> node_names;
+
     void visit(const ExpressionInt* expr, bool need_new_line = true);
     void visit(const ExpressionBinaryOp* expr, bool need_new_line = true);
     void visit(const ExpressionLogical* expr, bool need_new_line = true);
@@ -37,4 +52,4 @@ private:
 
 }
 
-#endif //JAVACOMPILER_SRC_AST_VISITORS_VISITOR_PRETTY_PRINTER_HPP_
+#endif //JAVACOMPILER_SRC_AST_VISITORS_VISITOR_GRAPHVIZ_HPP_

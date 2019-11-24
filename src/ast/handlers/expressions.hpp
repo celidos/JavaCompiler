@@ -1,5 +1,4 @@
-#ifndef JAVACOMPILER_VISITABLE_HPP
-#define JAVACOMPILER_VISITABLE_HPP
+#pragma once
 
 #include <string>
 #include <memory>
@@ -32,7 +31,7 @@ public:
 
     int getValue() const { return value_; }
 
-    void accept(IVisitor *visitor) const { visitor->visit(this); }
+    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
 private:
     int value_;
 };
@@ -40,7 +39,7 @@ private:
 typedef std::shared_ptr<ExpressionInt> PExpressionInt;
 
 /***************************************************************************************************
- * All binary operations.
+ * All binary operations (+, -, ^, ||, etc)
  */
 
 class ExpressionBinaryOp: public Expression {
@@ -51,13 +50,19 @@ public:
         std::string &operation,
         const MC::YYLTYPE pos
     ) :
-        left_(left), right_(right), operation_(operation) { setPos(pos); }
+        left_(left), right_(right), operation_(operation) {
+            setPos(pos);
+            if (operation_ == "+") {
+                operation_ = "plus";
+            } else if (operation_ == "-") {
+                operation_ = "minus";
+            }
+        }
 
     const PExpression & getLeft() const { return left_; };
     const PExpression & getRight() const { return right_; };
     const std::string & getOp() const { return operation_; };
-
-    void accept(IVisitor *visitor) const { visitor->visit(this); }
+    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
 private:
     std::string operation_;
     PExpression left_;
@@ -66,6 +71,121 @@ private:
 
 typedef std::shared_ptr<ExpressionBinaryOp> PExpressionBinaryOp;
 
+/***************************************************************************************************
+ * Logical literal (true/false)
+ */
+class ExpressionLogical : public Expression {
+public:
+    ExpressionLogical(
+        bool value,
+        const MC::YYLTYPE pos
+    ) :
+        value_(value) { setPos(pos); }
+
+    bool value() const { return value_; }
+    void accept(IVisitor* visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+private:
+    bool value_;
+};
+
+typedef std::shared_ptr<ExpressionLogical> PExpressionLogical;
+
+/***************************************************************************************************
+ * Identifiers
+ */
+
+class ExpressionId : public Expression {
+public:
+    ExpressionId(
+        const std::string& identifier,
+        const MC::YYLTYPE pos
+    ) :
+        id_(identifier) { setPos(pos); }
+
+    const std::string& getId() const { return id_; };
+    void accept(IVisitor* visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+private:
+    std::string id_;
+};
+
+typedef std::shared_ptr<ExpressionId> PExpressionId;
+
+/***************************************************************************************************
+ * Indexation a[x]
+ */
+class ExpressionSquareBracket: public Expression {
+public:
+    ExpressionSquareBracket(
+        PExpression &entity,
+        PExpression &index,
+        const MC::YYLTYPE pos
+    ) :
+        entity_(entity), index_(index) { setPos(pos); }
+
+    const PExpression & getEntity() const { return entity_; };
+    const PExpression & getIndex() const { return index_; };
+    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+private:
+    PExpression entity_;
+    PExpression index_;
+};
+
+typedef std::shared_ptr<ExpressionSquareBracket> PExpressionSquareBracket;
+
+/***************************************************************************************************
+ * length expression
+ */
+
+class ExpressionLen: public Expression {
+public:
+    ExpressionLen(
+        PExpression &arg,
+        const MC::YYLTYPE pos
+    ) :
+        arg_(arg) { setPos(pos); }
+
+    const PExpression & getArg() const { return arg_; };
+    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+private:
+    PExpression arg_;
+};
+
+typedef std::shared_ptr<ExpressionLen> PExpressionLen;
+
+/***************************************************************************************************
+ * Unary prefix negation
+ */
+
+class ExpressionUnaryNegation: public Expression {
+public:
+    ExpressionUnaryNegation (
+        PExpression &arg,
+        const MC::YYLTYPE pos
+    ) :
+        arg_(arg) { setPos(pos); }
+
+    const PExpression & getArg() const { return arg_; };
+    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+private:
+    PExpression arg_;
+};
+
+typedef std::shared_ptr<ExpressionUnaryNegation> PExpressionUnaryNegation;
+
+/***************************************************************************************************
+ * "this" expression
+ */
+
+class ExpressionThis : public Expression {
+public:
+    explicit ExpressionThis(
+        const MC::YYLTYPE pos
+    ) { setPos(pos); }
+
+    void accept(IVisitor* visitor, bool need_new_line = true) const override { visitor->visit(this, need_new_line); }
+};
+
+typedef std::shared_ptr<ExpressionThis> PExpressionThis;
+
 }
 
-#endif

@@ -2,7 +2,7 @@
 /* C++ string header, for string ops below */
 #include <string>
 
-/* Implementation of yyFlexScanner */ 
+/* Implementation of yyFlexScanner */
 #include "src/mc_scanner.hpp"
 #undef  YY_DECL
 #define YY_DECL int MC::MC_Scanner::yylex( MC::MC_Parser::semantic_type * const lval, MC::MC_Parser::location_type *loc )
@@ -25,11 +25,15 @@ using token = MC::MC_Parser::token;
 %option noyywrap
 %option c++
 
+/* The rules are executed sequentially, therefore in this place the order of recording the
+ * instructions is IMPORTANT. In particular, regular expressions that are responsible
+ * for keywords like "static" must be placed before the regular expression that is responsible
+ * for naming variables. Thus, due to a higher priority, words like "this" become *keywords*. */
+
 LEX_AND        "&&"
 LEX_OR         "||"
 LEX_CLASS      "class"
-LEX_PUBLIC     "public"
-LEX_PRIVATE    "private"    
+LEX_PRIVACY    "private"|"public"
 LEX_STATIC     "static"
 LEX_VOID       "void"
 LEX_MAIN       "main"
@@ -52,9 +56,20 @@ LEX_LETTER     [a-zA-Z_]
 LEX_INTEGER_LITERAL   [1-9]{LEX_DIGIT}*|0
 LEX_LOGIC_LITERAL     {LEX_TRUE}|{LEX_FALSE}
 LEX_ID         {LEX_LETTER}({LEX_DIGIT}|{LEX_LETTER})*
-LEX_COMMENT    \/\/.*|\/\*((.|\n)*?)\*\/
+LEX_COMMENT    (\/\/.*)|(\/\*((.|\n)*?)\*\/)
 LEX_SPACE      [\n\r\t ]+
-LEX_OPERATORS  [!%\(\)*+,-./;<=\[\]\{\}]
+LEX_OPERATORS  "+"|"-"|"*"|"/"
+LEX_ASSIGN     "="
+
+LEX_DOT_COMMA ";"
+LEX_DOT "."
+LEX_LBRACKET "("
+LEX_RBRACKET ")"
+LEX_LSQUAREBRACKET "["
+LEX_RSQUAREBRACKET "]"
+LEX_LBRACE "{"
+LEX_RBRACE "}"
+LEX_UNARY_NEGATION "!"
 
 %%
 
@@ -62,10 +77,77 @@ LEX_OPERATORS  [!%\(\)*+,-./;<=\[\]\{\}]
   yylval = lval;
 %}
 
+{LEX_STATIC} {
+    return token::STATIC;
+}
+
+{LEX_CLASS} {
+    return token::CLASS;
+}
+
+{LEX_MAIN} {
+    return token::MAIN;
+}
+
+{LEX_STRING} {
+    return token::STRING;
+}
+
+{LEX_VOID} {
+    return token::VOID;
+}
+
+{LEX_PRIVACY} {
+    yylval->build<std::string>(yytext);
+    return token::PRIVACY;
+}
+
+{LEX_RETURN} {
+    return token::RETURN;
+}
+
+{LEX_INT} {
+    return token::INT;
+}
+
+
+{LEX_DOT_COMMA} {
+    return token::DOT_COMMA;
+}
+
+
+{LEX_ASSIGN} {
+    return token::ASSIGN;
+}
+
+
 {LEX_INTEGER_LITERAL} {
 	//std::cout << " LEX_INTEGER_LITERAL ";
     yylval->build<int>(atoi(yytext));
     return token::INTEGER_LITERAL;
+}
+
+{LEX_LOGIC_LITERAL} {
+    return std::string(yytext) == "true";
+}
+
+{LEX_LENGTH} {
+    return token::LENGTH;
+}
+
+{LEX_THIS} {
+    return token::THIS;
+}
+
+{LEX_ID} {
+    yylval->build<std::string>(yytext);
+    return token::IDENTIFIER;
+}
+
+{LEX_SPACE} {
+    // do nothing because we are ignoring spaces
+    // return yytext[0];
+    // std::cout << " LEX_SPACE ";
 }
 
 {LEX_OPERATORS} {
@@ -74,9 +156,37 @@ LEX_OPERATORS  [!%\(\)*+,-./;<=\[\]\{\}]
     return token::OPERATION_LITERAL;
 }
 
-{LEX_SPACE} {
-	return yytext[0];
-	//std::cout << " LEX_SPACE ";
+{LEX_LBRACKET} {
+    return token::LBRACKET;
+}
+
+{LEX_RBRACKET} {
+    return token::RBRACKET;
+}
+
+{LEX_LSQUAREBRACKET} {
+    return token::LSQUAREBRACKET;
+}
+
+{LEX_RSQUAREBRACKET} {
+    return token::RSQUAREBRACKET;
+}
+
+{LEX_LBRACE} {
+    return token::LBRACE;
+}
+
+{LEX_RBRACE} {
+    return token::RBRACE;
+}
+
+{LEX_DOT} {
+    return token::DOT;
+}
+
+
+{LEX_UNARY_NEGATION} {
+    return token::UNARY_NEGATION;
 }
 
 .  { std::cout << std::endl << "UNKNOWN  " << yytext << std::endl; }
