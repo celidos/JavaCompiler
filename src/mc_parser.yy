@@ -83,6 +83,9 @@
 %token STRING
 %token STATIC
 %token END 0
+%token NEW
+
+
 %type<ast::PExpression> expr
 %type<ast::PStatement> statement
 %type<ast::PType> type;
@@ -141,8 +144,12 @@ expr
         { $$ = std::make_shared<ast::ExpressionInt>    ($1, LLCAST(@$)); }
     | LOGICAL_LITERAL
         { $$ = std::make_shared<ast::ExpressionLogical>($1, LLCAST(@$)); }
+    | NEW INT LSQUAREBRACKET expr RSQUAREBRACKET
+        { $$ = std::make_shared<ast::ExpressionNewIntArray>($4, LLCAST(@$)); }
     | IDENTIFIER
         { $$ = std::make_shared<ast::ExpressionId>     ($1, LLCAST(@$)); }
+    | NEW IDENTIFIER LBRACKET RBRACKET
+        { $$ = std::make_shared<ast::ExpressionNewId>  ($2, LLCAST(@$)); }
 
     | LBRACKET expr RBRACKET { $$ = $2; }
 

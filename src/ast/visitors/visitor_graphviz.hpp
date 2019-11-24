@@ -48,6 +48,8 @@ private:
     void visit(const MethodDeclaration* method_declaration, bool need_new_line = true);
     void visit(const MainClass* main_class, bool need_new_line = true);
     void visit(const Goal* goal, bool need_new_line = true);
+    void visit(const ExpressionNewId* expr, bool need_new_line = true);
+    void visit(const ExpressionNewIntArray* expr, bool need_new_line = true);
 };
 
 }

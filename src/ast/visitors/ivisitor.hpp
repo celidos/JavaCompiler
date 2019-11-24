@@ -21,6 +21,9 @@ class MethodBody;
 class MethodDeclaration;
 class MainClass;
 class Goal;
+class ExpressionNewId;
+class ExpressionNewIntArray;
+
 typedef std::shared_ptr<ExpressionInt> PExpressionInt;
 typedef std::shared_ptr<ExpressionBinaryOp> PExpressionBinaryOp;
 typedef std::shared_ptr<ExpressionLogical> PExpressionLogical;
@@ -36,6 +39,9 @@ typedef std::shared_ptr<MethodBody> PMethodBody;
 typedef std::shared_ptr<MethodDeclaration> PMethodDeclaration;
 typedef std::shared_ptr<MainClass> PMainClass;
 typedef std::shared_ptr<Goal> PGoal;
+typedef std::shared_ptr<ExpressionNewId> PExpressionNewId;
+typedef std::shared_ptr<ExpressionNewIntArray> PExpressionNewIntArray;
+
 class IVisitor {
 public:
     virtual ~IVisitor() = default;
@@ -55,6 +61,8 @@ public:
     virtual void visit(const MethodDeclaration* method_declaration, bool need_new_line = true) = 0;
     virtual void visit(const MainClass* main_class, bool need_new_line = true) = 0;
     virtual void visit(const Goal* goal, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionNewId* expr, bool need_new_line = true) = 0;
+    virtual void visit(const ExpressionNewIntArray* expr, bool need_new_line = true) = 0;
 };
 
 }

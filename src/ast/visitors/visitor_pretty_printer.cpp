@@ -35,11 +35,11 @@ void VisitorPrettyPrinter::visit(const ExpressionBinaryOp* expr, bool need_new_l
     // std::cout << expr->getPos();
 }
 
-void VisitorPrettyPrinter::visit(const ExpressionLogical* expr, bool need_new_line){}
-void VisitorPrettyPrinter::visit(const ExpressionId* expr, bool need_new_line){}
-void VisitorPrettyPrinter::visit(const ExpressionSquareBracket* expr, bool need_new_line){}
-void VisitorPrettyPrinter::visit(const ExpressionLen* expr, bool need_new_line){}
-void VisitorPrettyPrinter::visit(const ExpressionUnaryNegation* expr, bool need_new_line){}
+void VisitorPrettyPrinter::visit(const ExpressionLogical* expr, bool need_new_line) {}
+void VisitorPrettyPrinter::visit(const ExpressionId* expr, bool need_new_line) {}
+void VisitorPrettyPrinter::visit(const ExpressionSquareBracket* expr, bool need_new_line) {}
+void VisitorPrettyPrinter::visit(const ExpressionLen* expr, bool need_new_line) {}
+void VisitorPrettyPrinter::visit(const ExpressionUnaryNegation* expr, bool need_new_line) {}
 void VisitorPrettyPrinter::visit(const ExpressionThis* expr, bool need_new_line) {}
 
 void VisitorPrettyPrinter::visit(const StatementAssign* statement, bool need_new_line) {
@@ -118,5 +118,8 @@ void VisitorPrettyPrinter::visit(const Goal* goal, bool need_new_line) {
         std::cout <<"\n";
     }
 }
+
+void VisitorPrettyPrinter::visit(const ExpressionNewId* expr, bool need_new_line) {}
+void VisitorPrettyPrinter::visit(const ExpressionNewIntArray* expr, bool need_new_line) {}
 }
 

@@ -35,6 +35,8 @@ void VisitorGraphviz::visit(const ExpressionSquareBracket* expr, bool need_new_l
 void VisitorGraphviz::visit(const ExpressionLen* expr, bool need_new_line){}
 void VisitorGraphviz::visit(const ExpressionUnaryNegation* expr, bool need_new_line){}
 void VisitorGraphviz::visit(const ExpressionThis* expr, bool need_new_line) {}
+void VisitorGraphviz::visit(const ExpressionNewId* expr, bool need_new_line) {}
+void VisitorGraphviz::visit(const ExpressionNewIntArray* expr, bool need_new_line) {}
 
 void VisitorGraphviz::visit(const StatementAssign* statement, bool need_new_line) {
     std::string node_name = "sStatementAssign_" + std::to_string(reinterpret_cast<int64_t>(statement));
