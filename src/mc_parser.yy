@@ -58,6 +58,8 @@
 %define api.value.type variant
 %define parse.assert
 
+///
+
 %token<int> INTEGER_LITERAL
 %token<bool> LOGICAL_LITERAL
 %token<std::string> OPERATION_LITERAL
@@ -84,7 +86,10 @@
 %token STATIC
 %token END 0
 %token NEW
-
+%token BINOR
+%token BINAND
+%token BINLESS
+%token BINGREATER
 
 %type<ast::PExpression> expr
 %type<ast::PStatement> statement
@@ -96,6 +101,17 @@
 %type<ast::PGoal> goal
 %locations
 
+%left ASSIGN
+%left BINOR
+%left BINAND
+%left BINLESS
+%left BINGREATER
+
+%left OPERATION_LITERAL
+%right UNARY_NEGATION
+%left LSQUAREBRACKET DOT LBRACKET
+
+
 %%
 
 list_option: expr '\n' {std::cout << std::endl; };
@@ -106,6 +122,7 @@ list_option: method_body '\n' {std::cout << std::endl; };
 list_option: method_declaration '\n' {std::cout << std::endl; };
 list_option: main_class '\n' {std::cout << std::endl; };
 list_option: goal '\n' {std::cout << std::endl; };
+
 // TODO: REPLACE ROOT WITH SOMETHING ELSE
 
 goal
