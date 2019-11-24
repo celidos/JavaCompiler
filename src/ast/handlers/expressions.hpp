@@ -32,7 +32,7 @@ public:
 
     int getValue() const { return value_; }
 
-    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
 private:
     int value_;
 };
@@ -63,7 +63,7 @@ public:
     const PExpression & getLeft() const { return left_; };
     const PExpression & getRight() const { return right_; };
     const std::string & getOp() const { return operation_; };
-    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
 private:
     std::string operation_;
     PExpression left_;
@@ -84,7 +84,7 @@ public:
         value_(value) { setPos(pos); }
 
     bool value() const { return value_; }
-    void accept(IVisitor* visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor* visitor) const { visitor->visit(this); }
 private:
     bool value_;
 };
@@ -104,7 +104,7 @@ public:
         id_(identifier) { setPos(pos); }
 
     const std::string& getId() const { return id_; };
-    void accept(IVisitor* visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor* visitor) const { visitor->visit(this); }
 private:
     std::string id_;
 };
@@ -125,7 +125,7 @@ public:
 
     const PExpression & getEntity() const { return entity_; };
     const PExpression & getIndex() const { return index_; };
-    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
 private:
     PExpression entity_;
     PExpression index_;
@@ -146,7 +146,7 @@ public:
         arg_(arg) { setPos(pos); }
 
     const PExpression & getArg() const { return arg_; };
-    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
 private:
     PExpression arg_;
 };
@@ -166,7 +166,7 @@ public:
         arg_(arg) { setPos(pos); }
 
     const PExpression & getArg() const { return arg_; };
-    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
 private:
     PExpression arg_;
 };
@@ -183,7 +183,7 @@ public:
         const MC::YYLTYPE pos
     ) { setPos(pos); }
 
-    void accept(IVisitor* visitor, bool need_new_line = true) const override { visitor->visit(this, need_new_line); }
+    void accept(IVisitor* visitor) const override { visitor->visit(this); }
 };
 
 typedef std::shared_ptr<ExpressionThis> PExpressionThis;
@@ -200,7 +200,7 @@ public:
                 id_(identifier) { setPos(pos); }
 
     const std::string& getId() const { return id_; };
-    void accept(IVisitor* visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line);}
+    void accept(IVisitor* visitor) const { visitor->visit(this);}
 private:
     std::string id_;
 };
@@ -219,7 +219,7 @@ public:
             ) : counter_(counter) {}
 
     const PExpression & getCounter() const { return counter_; };
-    void accept(IVisitor* visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line);}
+    void accept(IVisitor* visitor) const { visitor->visit(this);}
 private:
     std::shared_ptr<Expression> counter_;
 };

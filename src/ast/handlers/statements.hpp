@@ -35,7 +35,7 @@ public:
 
     std::string getIdentifier() const { return identifier_; }
     const PExpression& getExpression() const { return expression_; }
-    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
 private:
     std::string identifier_;
     PExpression expression_;

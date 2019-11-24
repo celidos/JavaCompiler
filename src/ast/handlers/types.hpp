@@ -32,7 +32,7 @@ public:
     TypeInt(MC::YYLTYPE pos) { setPos(pos); }
 
     std::string getType() const { return "INT"; }
-    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
 };
 
 typedef std::shared_ptr<TypeInt> PTypeInt;

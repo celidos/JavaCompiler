@@ -24,7 +24,7 @@ public:
         return main_class_;
     }
 
-    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
 protected:
 
     PMainClass main_class_;

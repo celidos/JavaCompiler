@@ -31,7 +31,7 @@ public:
         return expr_;
     }
 
-    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
 protected:
     PVarDecalartion var_declaration_;
     PStatement statement_;

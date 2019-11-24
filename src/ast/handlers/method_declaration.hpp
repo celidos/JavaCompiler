@@ -37,7 +37,7 @@ public:
         return method_body_;
     }
 
-    void accept(IVisitor *visitor, bool need_new_line = true) const { visitor->visit(this, need_new_line); }
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
 protected:
     std::string identifier_;
     PType type_;
