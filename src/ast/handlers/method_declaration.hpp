@@ -18,11 +18,16 @@ public:
     MethodDeclaration(const std::string &privacy,
                 const PType &type,
                 const std::string &identifier,
+                const std::vector<std::pair<PType, std::string>> args,
                 const PMethodBody &method_body,
-            MC::YYLTYPE pos) : privacy_(privacy), type_(type), identifier_(identifier), method_body_(method_body) { setPos(pos); }
+            MC::YYLTYPE pos) : privacy_(privacy), type_(type), identifier_(identifier), args_(args), method_body_(method_body) { setPos(pos); }
 
     const PType &getType() const {
         return type_;
+    }
+
+    const std::vector<std::pair<PType, std::string>>& getArgs() const {
+        return args_;
     }
 
     const std::string& getPrivacy() const {
@@ -38,8 +43,9 @@ public:
     }
 
     void accept(IVisitor *visitor) const { visitor->visit(this); }
-protected:
+private:
     std::string identifier_;
+    std::vector<std::pair<PType, std::string>> args_;
     PType type_;
     PMethodBody method_body_;
     std::string privacy_;

@@ -42,10 +42,10 @@ namespace Graphs
         }
     }
 
-    void UndirectedGraph::addNode(string _name)
+    void UndirectedGraph::addNode(string node_name, string label)
     {
-        Node *node = new Node(_name);
-        nodes[_name] = node;
+        Node *node = new Node(node_name, label);
+        nodes[node_name] = node;
     }
 
     void UndirectedGraph::addEdge(string from, string to)
@@ -93,13 +93,7 @@ namespace Graphs
 
         for (auto node : nodes)
         {
-            std::string name = node->name;
-            auto index = name.find("__");
-            if (index != std::string::npos) {
-                name.replace(index, 2, " ");
-            }
-            name = name.substr(1, name.find("_") - 1);
-            ss << node->name << '\t' << "[ label = \"" << name << "\"];" << '\n';
+            ss << node->name << '\t' << "[ label = \"" << node->label << "\"];" << '\n';
         }
 
         for (auto edge : edges)

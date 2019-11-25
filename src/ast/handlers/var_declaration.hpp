@@ -24,7 +24,7 @@ public:
     }
 
     void accept(IVisitor *visitor) const { visitor->visit(this); }
-protected:
+private:
     std::string identifier_;
     PType type_;
 
