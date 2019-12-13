@@ -5,8 +5,8 @@
 
 #include <vector>
 #include <yyltype.hpp>
-#include <handlers/visitable.hpp>
-#include <visitors/ivisitor.hpp>
+#include <src/ast/visitors/visitable.hpp>
+#include <src/ast/visitors/ivisitor.hpp>
 
 namespace ast {
 

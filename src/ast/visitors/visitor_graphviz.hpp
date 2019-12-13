@@ -5,7 +5,7 @@
 #include <string>
 #include <stack>
 
-#include "visitors/ivisitor.hpp"
+#include "ivisitor.hpp"
 #include "handlers/expressions.hpp"
 #include "handlers/statements.hpp"
 #include "handlers/types.hpp"

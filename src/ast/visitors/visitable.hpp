@@ -1,9 +1,7 @@
 #pragma once
 
 #include <yyltype.hpp>
-#include <visitors/ivisitor.hpp>
-
-namespace ast {
+#include <src/ast/visitors/ivisitor.hpp>
 
 class IVisitable {
 public:
@@ -15,7 +13,5 @@ public:
 protected:
     MC::YYLTYPE pos_;
 };
-
-}
 
 //#endif //JAVACOMPILER_VISITABLE_HPP

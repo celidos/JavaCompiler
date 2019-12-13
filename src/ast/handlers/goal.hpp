@@ -5,8 +5,8 @@
 #include <cassert>
 
 #include <yyltype.hpp>
-#include <handlers/visitable.hpp>
-#include <visitors/ivisitor.hpp>
+#include <src/ast/visitors/visitable.hpp>
+#include <src/ast/visitors/ivisitor.hpp>
 
 #include <handlers/var_declaration.hpp>
 #include <handlers/statements.hpp>
@@ -16,8 +16,8 @@ namespace ast {
 
 class Goal : public IVisitable {
 public:
-    Goal(const PMainClass &main_class,
-            MC::YYLTYPE pos) : main_class_(main_class)  { setPos(pos);
+    Goal(const PMainClass &main_class, MC::YYLTYPE pos) : main_class_(main_class) {
+        setPos(pos);
     }
 
     const PMainClass& getMainClass() const {

@@ -111,7 +111,6 @@
 %right UNARY_NEGATION
 %left LSQUAREBRACKET DOT LBRACKET
 
-
 %%
 
 list_option: expr '\n' {std::cout << std::endl; };
