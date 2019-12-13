@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <iostream>
 
 #include <vector>
 #include <yyltype.hpp>
@@ -53,11 +54,6 @@ public:
     ) :
         left_(left), right_(right), operation_(operation) {
             setPos(pos);
-            if (operation_ == "+") {
-                operation_ = "plus";
-            } else if (operation_ == "-") {
-                operation_ = "minus";
-            }
         }
 
     const PExpression & getLeft() const { return left_; };
@@ -78,15 +74,14 @@ typedef std::shared_ptr<ExpressionBinaryOp> PExpressionBinaryOp;
 class ExpressionLogical : public Expression {
 public:
     ExpressionLogical(
-        bool value,
+        std::string& value,
         const MC::YYLTYPE pos
-    ) :
-        value_(value) { setPos(pos); }
+    ) : value_(value) { setPos(pos); }
 
-    bool value() const { return value_; }
+    const std::string getValue() const { return value_; }
     void accept(IVisitor* visitor) const { visitor->visit(this); }
 private:
-    bool value_;
+    std::string value_;
 };
 
 typedef std::shared_ptr<ExpressionLogical> PExpressionLogical;
@@ -216,17 +211,38 @@ public:
     ExpressionNewIntArray(
             PExpression &counter,
             const MC::YYLTYPE pos
-            ) : counter_(counter) {}
+            ) : counter_(counter) { setPos(pos); }
 
     const PExpression & getCounter() const { return counter_; };
     void accept(IVisitor* visitor) const { visitor->visit(this);}
 private:
-    std::shared_ptr<Expression> counter_;
+    PExpression counter_;
 };
 
 typedef std::shared_ptr<ExpressionNewIntArray> PExpressionNewIntArray;
 
 
+
+class ExpressionCallFunction : public Expression {
+public:
+    ExpressionCallFunction(
+            PExpression& expr,
+            const std::string& func_name,
+            const std::vector<PExpression>& args,
+            const MC::YYLTYPE pos
+            ) :  expr_(expr), func_name_(func_name), args_(args) { setPos(pos); }
+
+    const PExpression & getExpr() const { return expr_; }
+    const std::string & getFuncName() const { return func_name_; }
+    const std::vector<PExpression> & getArgs() const { return args_; }
+    void accept(IVisitor* visitor) const { visitor->visit(this);}
+private:
+    PExpression expr_;
+    std::string func_name_;
+    std::vector<PExpression> args_;
+};
+
+typedef std::shared_ptr<ExpressionCallFunction> PExpressionCallFunction;
 
 
 }
