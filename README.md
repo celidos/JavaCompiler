@@ -12,16 +12,10 @@ flex 2.6.4
 
 dot - graphviz version 2.40.1 (20161225.0304)
 
-Запуск:
+Сборка всего:
 
-`./run.sh`
-<<<<<<< HEAD
+`./make_all.sh`
 
-Визуализация graphviz (результат записывается в папку `output`): 
+Запуск программы на примере с кодом (результаты записываются в подпапки `output`): 
 
-`./run_ast_graphviz.sh tests/samples/simple.java graphviz_output.dot output.svg`
-
-
-Тестирование:
-
-TODO
+`./run_sample.sh ./tests/samples/two_plus_two.java two_plus_two`
