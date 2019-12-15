@@ -19,7 +19,6 @@ install:
   - sudo ./configure
   - sudo make
   - sudo make install
-  - sudo ln -s /usr/local/bin/bison /usr/bin/bison
 
 script:
   - sh ./make_all.sh
