@@ -8,9 +8,7 @@ if [ $# -ne 2 ]
 fi
 
 pwd
-# sh make_all.sh
-
-
+sh make_all.sh
 
 INPUT_FILENAME=$1
 OUTPUT_AST_GRAPH_IMG_FILENAME=output/ast_graphs/$2.svg
@@ -18,8 +16,16 @@ OUTPUT_AST_GRAPH_DOT_FILENAME=output/ast_graphs/$2.dot
 OUTPUT_IRT_GRAPH_IMG_FILENAME=output/irt_graphs/$2.svg
 OUTPUT_IRT_GRAPH_DOT_FILENAME=output/irt_graphs/$2.dot
 
+if [ ! -f "$OUTPUT_AST_GRAPH_DOT_FILENAME" ]; then
+  touch "$OUTPUT_AST_GRAPH_DOT_FILENAME"
+fi
+
+if [ ! -f "$OUTPUT_IRT_GRAPH_DOT_FILENAME" ]; then
+  touch "$OUTPUT_IRT_GRAPH_DOT_FILENAME"
+fi
+
 echo "[run] Starting program..."
-./build/javacompiler $1 ${OUTPUT_AST_GRAPH_DOT_FILENAME} ${OUTPUT_IRT_GRAPH_DOT_FILENAME}
+./build/javacompiler ${INPUT_FILENAME} ${OUTPUT_AST_GRAPH_DOT_FILENAME} ${OUTPUT_IRT_GRAPH_DOT_FILENAME}
 
 echo "[run] Running AST graphviz..."
 dot -Tsvg ${OUTPUT_AST_GRAPH_DOT_FILENAME} -o ${OUTPUT_AST_GRAPH_IMG_FILENAME}
