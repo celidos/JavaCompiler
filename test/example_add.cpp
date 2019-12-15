@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include <../src/mc_driver.hpp>
+#include <src/mc_driver.hpp>
 
 TEST(return_five, return_five)
 {
