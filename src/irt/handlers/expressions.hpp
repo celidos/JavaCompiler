@@ -10,31 +10,14 @@
 
 #include "../irt/visitors/ivisitor.hpp"
 
+
 namespace irt {
 
 /// TODO TO REFACTOR REFACTOR
 
 class Expression : public Statement {
 public:
-
-    Expression(const std::string type = "int") {
-        return_type_ = type;
-    }
-
-    std::string getReturnType() const {
-        return return_type_;
-    }
-
-    virtual void setReturnType(const std::string type) {
-        return_type_ = type;
-    }
-
-    Expression(const std::string &ret_type)
-        : return_type_(ret_type)
-    { }
-
-private:
-    std::string return_type_;
+    Expression() {};
 };
 
 typedef std::shared_ptr<Expression> PExpression;
@@ -49,6 +32,7 @@ public:
     int getValue() const {
         return value_;
     }
+
     void accept(IVisitor *visitor) const { visitor->visit(this); }
 
 private:
@@ -64,14 +48,17 @@ typedef std::shared_ptr<ExpressionLoadConst> PExpressionLoadConst;
 class ExpressionBinaryOp : public Expression {
 public:
     ExpressionBinaryOp(std::string operation_type,
-            const PExpression& left, const PExpression& right) :
+                       const PExpression &left, const PExpression &right) :
         operation_(operation_type),
         left_(left),
-        right_(right)
-    {};
-    const PExpression & getLeft() const { return left_; };
-    const PExpression & getRight() const { return right_; };
+        right_(right) {};
+
+    const PExpression &getLeft() const { return left_; };
+
+    const PExpression &getRight() const { return right_; };
+
     const std::string getOp() const { return operation_; };
+
     void accept(IVisitor *visitor) const { visitor->visit(this); }
 
 private:
@@ -81,5 +68,22 @@ private:
 };
 
 typedef std::shared_ptr<ExpressionBinaryOp> PExpressionBinaryOp;
+
+/***************************************************************************************************
+ *  Function argument
+ */
+class FunctionArg : public Expression {
+public:
+    FunctionArg(const PExpression &argument) : argument_(argument) {}
+
+    PExpression getArgument() {
+        return argument_;
+    }
+
+private:
+    PExpression argument_;
+};
+
+typedef std::shared_ptr<FunctionArgs> PFunctionArgs;
 
 } // namespace irt

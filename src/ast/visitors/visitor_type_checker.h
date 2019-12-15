@@ -19,6 +19,10 @@
 #include "handlers/class.hpp"
 #include "handlers/goal.hpp"
 
+/*
+ * bool, int, array, class (кастуются к родителям)
+ */
+
 namespace ast {
 
 class VisitorIrtBuilder : public IVisitor {
@@ -56,12 +60,12 @@ public:
     void visit(const Statements* statement);
 
     std::shared_ptr<irt::IVisitable> retrieveIrt() {
-        return tree_;
+        return last_result_;
     }
 
 private:
     std::shared_ptr<symtable::TableGlobal> symbol_table_;
-    std::shared_ptr<irt::IVisitable> tree_;
+    std::shared_ptr<irt::IVisitable> last_result_;
 };
 
 } // namespace ast
