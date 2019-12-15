@@ -12,8 +12,8 @@ before_install:
   - sudo apt-get install cmake
 
 install:
-  - sudo apt-get install flex=2.6.4
-  - sudo apt-get install bison=3.4
+  - sudo apt-get install flex
+  - sudo apt-get install bison
 
 script:
   - sh ./make_all.sh
