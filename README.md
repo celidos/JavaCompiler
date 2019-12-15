@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/celidos/JavaCompiler.svg?branch=symbol_table)](https://travis-ci.org/celidos/JavaCompiler)
+
 Зависимости:
 
 `bison --version`
