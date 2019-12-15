@@ -18,6 +18,6 @@ dot - graphviz version 2.40.1 (20161225.0304)
 
 `./make_all.sh`
 
-Запуск программы на примере с кодом (результаты записываются в подпапки `output`): 
+Запуск программы на примере с кодом (результаты записываются в подпапки `output`):
 
 `./run_sample.sh ./tests/samples/two_plus_two.java two_plus_two`

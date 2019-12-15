@@ -5,7 +5,7 @@ if (UNIX AND NOT APPLE)
 endif()
 
 # SET (CMAKE_CXX_COMPILER "/Library/Developer/CommandLineTools/usr/bin/clang++")
-if(LINUX) 
+if(LINUX)
     message("")
     message(STATUS "LINUX DETECTED, choosing g++ compiler. If that's not true, please, check out CMakeLists.txt")
     message("")
@@ -16,7 +16,8 @@ else()
     set(CMAKE_CXX_COMPILER  "/usr/bin/clang++") # Dima, that's your place
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wno-deprecated-register")
+SET (CMAKE_CXX_COMPILER  "/usr/bin/clang++")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-deprecated-register")
 
 project(javacompiler CXX)
 

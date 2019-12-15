@@ -42,7 +42,7 @@
 
 %parse-param { MC_Scanner  &scanner  }
 %parse-param { MC_Driver  &driver  }
-%parse-param { ast::PExpression * root }
+%parse-param { ast::PGoal* root }
 
 %code{
    #include <memory>
@@ -103,7 +103,7 @@
 %type<ast::PMethodDeclaration> method_declaration
 %type<ast::PMainClass> main_class
 %type<ast::PClass> class
-%type<ast::PExpressionBinaryOp> goal  /* IF YOU WANT TO CHANGE GOAL, YOU HAVE TO REPLACE THIS */
+%type<ast::PGoal> goal  /* IF YOU WANT TO CHANGE GOAL, YOU HAVE TO REPLACE THIS */
 
 %type <std::vector<ast::PExpression>> expressions
 %type <std::vector<ast::PStatement>> statements
@@ -117,7 +117,6 @@
 
 %left OPERATION_LITERAL
 %right UNARY_NEGATION
-%right NEW
 
 %right LBRACKET
 %right LBRACE
@@ -137,7 +136,7 @@
 
 /* IF YOU WANT TO CHANGE GOAL, YOU HAVE TO REPLACE THIS */
 goal
-      : expr OPERATION_LITERAL expr {$$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$)); *root = $$;}
+      : main_class classes {$$ = std::make_shared<ast::Goal>($1, $2, LLCAST(@$)); *root = $$;}
 
 main_class
       : CLASS IDENTIFIER LBRACE PRIVACY STATIC VOID MAIN LBRACKET STRING LSQUAREBRACKET RSQUAREBRACKET IDENTIFIER RBRACKET LBRACE statement RBRACE RBRACE
@@ -157,8 +156,8 @@ class
 
 
 method_args
-      : type IDENTIFIER COMMA method_args
-          {$4.push_back(std::make_pair($1, $2)); $$ = $4;}
+      : method_args COMMA type IDENTIFIER
+          {$1.push_back(std::make_pair($3, $4)); $$ = $1;}
       | type IDENTIFIER
           {std::vector<std::pair<ast::PType, std::string>> array; array.push_back(std::make_pair($1, $2)); $$ = array;}
 

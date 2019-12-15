@@ -1,7 +1,8 @@
 #pragma once
 
+#include <iostream>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 
@@ -14,61 +15,78 @@ namespace symtable
 /// TODO REFACTOR ADD MORE REFACTOR ADD MORE REFACTOR ADD MORE
 
 /***************************************************************************************************
- * variable info
- */
-
-class VariableInfo
-{
-public:
-    VariableInfo(const std::string type) : type_(type) { };
-    std::string getType() const { return type_; }
-private:
-    std::string type_;
-};
-
-typedef std::shared_ptr<VariableInfo> PVariableInfo;
-
-/***************************************************************************************************
  * Method info
  */
 
 class MethodInfo
 {
 public:
-    MethodInfo(const std::string& name) :
-        name_(name)
+    MethodInfo(const std::string& name, const std::string& privacy, const std::string& type) :
+        name_(name),
+        privacy_(privacy),
+        return_type_(type)
     { }
 
-    void addVar(const int position, const ast::PVarDeclaration& variable) {
-        table_vars_[variable->getIdentifier()] = std::make_shared<VariableInfo>(variable->getType()->getType());
+    void addParam(const std::string& name, const std::string& type) {
+        table_vars_[name] = type;
+        param_types_.push_back(type);
     }
 
-    void addVar(const int position, const std::string& name_, const std::string& variable) {
-        table_vars_[name_] = std::make_shared<VariableInfo>(variable);
+    void addVar(const ast::PVarDeclaration& variable) {
+        table_vars_[variable->getIdentifier()] = variable->getType()->getType();
     }
 
-    PVariableInfo getVar(const std::string& name) {
-        return table_vars_[name];
+    void addVar(const std::string& var_name, const std::string& type) {
+        table_vars_[var_name] = type;
     }
 
-    std::string getName() const {
-        return name_;
+    const std::string& getVarType(const std::string& name) const {
+        return table_vars_.at(name);
     }
 
-    std::string getReturnType() const {
+    const std::string& getParamType(int param_id) const {
+        return param_types_[param_id];
+    }
+
+    const std::string& getResultType() const {
         return return_type_;
     }
 
-    int getSize() const {
-        return table_vars_.size();
+    const std::string& getName() const {
+        return name_;
+    }
+    const std::string& getPrivacy() const {
+        return privacy_;
     }
 
+    const std::string& getReturnType() const {
+        return return_type_;
+    }
+
+    bool hasVar(const std::string& name) const {
+        return table_vars_.find(name) != table_vars_.end();
+    }
+
+    void Print() const {
+        std::cout <<"    Privacy: " << privacy_ <<"\n";
+        std::cout <<"    Param types: ";
+        for (const auto& param_type: param_types_) {
+            std::cout << param_type <<", ";
+        }
+        std::cout <<"\n";
+        std::cout <<"    Return type: " << return_type_ <<"\n";
+        std::cout <<"    vars:\n";
+        for (const auto& var: table_vars_) {
+            std::cout << "      " <<var.second <<" "<<var.first <<"\n";
+        }
+    }
 private:
     bool is_public;
     std::string name_;
     std::string return_type_;
-    std::map<std::string, PVariableInfo> table_params_;
-    std::map<std::string, PVariableInfo> table_vars_;
+    std::string privacy_;
+    std::vector<std::string> param_types_;
+    std::unordered_map<std::string, std::string> table_vars_;
 };
 
 typedef std::shared_ptr<MethodInfo> PMethodInfo;
@@ -80,33 +98,52 @@ typedef std::shared_ptr<MethodInfo> PMethodInfo;
 class ClassInfo
 {
 public:
-    ClassInfo(const std::string& name): name_(name) {
-        // TODO
+    ClassInfo(const std::string& name): name_(name) {}
+    ClassInfo(const std::string& name, const std::string& parent): name_(name), parent_(parent) {}
+
+    void addVar(const ast::PVarDecalartion& variable) {
+        table_var_[variable->getIdentifier()] = variable->getType()->getType();
     }
 
-    void addVar(const int position, const ast::PVarDeclaration& variable) {
-        table_var_[variable->getIdentifier()] = std::make_shared<VariableInfo>(variable->getType()->getType());
-    }
-
-    void addMethodTable(const int position, const PMethodInfo& method) {
+    void addMethod(PMethodInfo& method) {
+        for (const auto& variable : table_var_) {
+            if (!method->hasVar(variable.first)) {
+                method->addVar(variable.first, variable.second);
+            }
+        }
         table_method_[method->getName()] = method;
     }
 
-    PVariableInfo getVariable(const std::string& name) {
-        return table_var_[name];
+    const std::string& getVariableType(const std::string& name) const {
+        return table_var_.at(name);
     }
 
-    PMethodInfo getMethod(const std::string& name, const std::vector<std::string>& variable_list) {
-        // TODO
+    const PMethodInfo& getMethod(const std::string& name) const {
+        return table_method_.at(name);
     }
 
-    std::string getName() {
+    const std::string& getName() const {
         return name_;
+    }
+
+    const std::string& getParent() const {
+        return parent_;
+    }
+
+    void Print() const {
+        std::cout <<" Parent: " << parent_ <<"\n";
+        std::cout <<" Methods:\n";
+        for (const auto& method: table_method_) {
+            std::cout <<"  method "<<method.first<<";\n";
+            method.second->Print();
+            std::cout <<"-----------------------------\n";
+        }
     }
 private:
     std::string name_;
-    std::map<std::string, PVariableInfo> table_var_;
-    std::map<std::string, PMethodInfo> table_method_;
+    std::string parent_ = "";
+    std::unordered_map<std::string, std::string> table_var_;
+    std::unordered_map<std::string, PMethodInfo> table_method_;
 };
 
 typedef std::shared_ptr<ClassInfo> PClassInfo;
@@ -122,14 +159,29 @@ public:
 
     void addClass(const PClassInfo& new_class) {
         table_[new_class->getName()] = new_class;
+        class_graph_[new_class->getParent()].push_back(new_class->getName());
     }
 
-    PClassInfo getClass(const std::string& name) {
+    PClassInfo& getClass(const std::string& name) {
         return table_[name];
     }
 
+    const std::vector<std::string>& getChilds(const std::string& name) const {
+        return class_graph_.at(name);
+    }
+
+    void Print() const {
+        for (const auto& value : table_) {
+          std::cout <<"class "<< value.first <<":\n";
+          value.second->Print();
+          std::cout <<"==========================\n";
+        }
+    }
 private:
-    std::map<std::string, PClassInfo> table_;
+    std::unordered_map<std::string, PClassInfo> table_;
+    std::unordered_map<std::string, std::vector<std::string> > class_graph_;
 };
+
+typedef std::shared_ptr<TableGlobal> PTableGlobal;
 
 } // namespace symtable

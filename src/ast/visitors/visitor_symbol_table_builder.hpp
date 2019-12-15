@@ -29,8 +29,8 @@ public:
         return table_;
     };
 private:
-    std::shared_ptr<symtable::TableGlobal> table_;
-
+    symtable::PTableGlobal table_;
+    symtable::PMethodInfo last_method_;
     void visit(const ExpressionInt* expr);
     void visit(const ExpressionBinaryOp* expr);
     void visit(const ExpressionLogical* expr);

@@ -18,7 +18,7 @@ class Next extends Sec {
     return true;
   }
   private int next() {
-    int a;
+    int as;
     int[] b;
     boolean c;
     b = new int[64];
