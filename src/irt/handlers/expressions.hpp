@@ -15,7 +15,7 @@ namespace irt {
 
 /// TODO TO REFACTOR REFACTOR
 
-class Expression : public Statement {
+class Expression : public IVisitable {
 public:
     Expression() {};
 };
@@ -72,9 +72,11 @@ typedef std::shared_ptr<ExpressionBinaryOp> PExpressionBinaryOp;
 /***************************************************************************************************
  *  Function argument
  */
-class FunctionArg : public Expression {
+
+// TODO: недоделано
+class ExpressionArg : public Expression {
 public:
-    FunctionArg(const PExpression &argument) : argument_(argument) {}
+    ExpressionArg(const PExpression &argument) : argument_(argument) {}
 
     PExpression getArgument() {
         return argument_;
@@ -84,6 +86,24 @@ private:
     PExpression argument_;
 };
 
-typedef std::shared_ptr<FunctionArg> PFunctionArgs;
+typedef std::shared_ptr<ExpressionArg> PExpressionArg;
+
+/***************************************************************************************************
+ *  Local variable
+ */
+
+class ExpressionLocal : public Expression {
+public:
+    ExpressionLocal(const std::string& id) : id_(id) {}
+
+    std::string getId() {
+        return id_;
+    }
+
+private:
+    std::string id_;
+};
+
+typedef std::shared_ptr<ExpressionLocal> PExpressionLocal;
 
 } // namespace irt

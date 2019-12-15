@@ -8,6 +8,7 @@
 
 #include <../irt/handlers/statements.hpp>
 #include <../irt/handlers/expressions.hpp>
+#include <../irt/wrappers/wrappers.hpp>
 
 #include "handlers/expressions.hpp"
 #include "handlers/statements.hpp"
@@ -56,12 +57,12 @@ public:
     void visit(const Statements* statement);
 
     std::shared_ptr<irt::IVisitable> retrieveIrt() {
-        return tree_;
+        return tree_->toExpression();
     }
 
 private:
     std::shared_ptr<symtable::TableGlobal> symbol_table_;
-    std::shared_ptr<irt::IVisitable> tree_;
+    std::shared_ptr<irt::ISubtreeWrapper> tree_;
 };
 
 } // namespace ast
