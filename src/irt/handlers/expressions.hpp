@@ -84,6 +84,6 @@ private:
     PExpression argument_;
 };
 
-typedef std::shared_ptr<FunctionArgs> PFunctionArgs;
+typedef std::shared_ptr<FunctionArg> PFunctionArgs;
 
 } // namespace irt

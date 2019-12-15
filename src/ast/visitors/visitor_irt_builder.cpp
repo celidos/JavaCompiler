@@ -40,10 +40,7 @@ void VisitorIrtBuilder::visit(const ExpressionUnaryNegation* expr) {
     tree_ = res;
 };
 
-void VisitorIrtBuilder::visit(const ExpressionThis* expr) {
-    irt::PFunctionArgs res(expr);
-    tree_ = res;
-};
+void VisitorIrtBuilder::visit(const ExpressionThis* expr) { };
 
 // TODO: fill other classes for irt ---------------------------------------------------------------
 
