@@ -1,3 +1,4 @@
+#!/bin/bash
 #!/usr/bin/env bash
 
 echo "[run] Cleaning..."
@@ -13,7 +14,3 @@ cmake ..
 echo "[run] Starting make..."
 pwd
 make
-
-# echo "Running test.java ... "
-# ./my_wc test/test.java
-# echo "Done!"

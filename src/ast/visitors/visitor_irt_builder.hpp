@@ -1,11 +1,14 @@
-#ifndef JAVACOMPILER_SRC_AST_VISITORS_VISITOR_GRAPHVIZ_HPP_
-#define JAVACOMPILER_SRC_AST_VISITORS_VISITOR_GRAPHVIZ_HPP_
+#pragma once
 
-#include <iostream>
-#include <string>
-#include <stack>
+#include <../ast/handlers/expressions.hpp>
 
 #include "ivisitor.hpp"
+
+#include "visitor_symbol_table_builder.hpp"
+
+#include <../irt/handlers/statements.hpp>
+#include <../irt/handlers/expressions.hpp>
+
 #include "handlers/expressions.hpp"
 #include "handlers/statements.hpp"
 #include "handlers/types.hpp"
@@ -15,24 +18,14 @@
 #include "handlers/main_class.hpp"
 #include "handlers/class.hpp"
 #include "handlers/goal.hpp"
-#include "yyltype.hpp"
-#include "../smart_graphviz/graph.h"
 
 namespace ast {
 
-class VisitorGraphviz : public IVisitor {
+class VisitorIrtBuilder : public IVisitor {
 public:
-    VisitorGraphviz() = default;
-
-    VisitorGraphviz(std::string graph_name);
-
-    const Graphs::UndirectedGraph& GetGraph(){
-    	return graph;
-    }
-
-private:
-	Graphs::UndirectedGraph graph;
-	std::stack<std::string> node_names;
+    VisitorIrtBuilder(std::shared_ptr<symtable::TableGlobal> symbolTable) :
+        symbol_table_(symbolTable)
+    {  }
 
     void visit(const ExpressionInt* expr);
     void visit(const ExpressionBinaryOp* expr);
@@ -50,8 +43,8 @@ private:
     void visit(const VarDeclaration* var_declaration);
     void visit(const MethodBody* method_body);
     void visit(const MethodDeclaration* method_declaration);
-    void visit(const MainClass* main_class);
     void visit(const Class* class_var);
+    void visit(const MainClass* main_class);
     void visit(const Goal* goal);
     void visit(const ExpressionNewId* expr);
     void visit(const ExpressionNewIntArray* expr);
@@ -62,9 +55,13 @@ private:
     void visit(const StatementIf* statement);
     void visit(const Statements* statement);
 
+    std::shared_ptr<irt::IVisitable> retrieveIrt() {
+        return last_result_;
+    }
 
+private:
+    std::shared_ptr<symtable::TableGlobal> symbol_table_;
+    std::shared_ptr<irt::IVisitable> last_result_;
 };
 
-}
-
-#endif //JAVACOMPILER_SRC_AST_VISITORS_VISITOR_GRAPHVIZ_HPP_
+} // namespace ast

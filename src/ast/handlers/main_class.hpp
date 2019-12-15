@@ -5,7 +5,7 @@
 #include <cassert>
 
 #include <yyltype.hpp>
-#include <handlers/visitable.hpp>
+#include <visitors/visitable.hpp>
 #include <visitors/ivisitor.hpp>
 
 #include <handlers/var_declaration.hpp>
@@ -38,7 +38,7 @@ public:
     }
 
     void accept(IVisitor *visitor) const { visitor->visit(this); }
-protected:
+private:
     std::string identifier_;
     std::string variable_;
     PStatement statement_;

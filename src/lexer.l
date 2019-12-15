@@ -28,19 +28,30 @@ LEX_SOUT       "System.out.println"
 LEX_LENGTH     "length"
 LEX_NEW        "new"
 LEX_THIS       "this"
-LEX_TRUE       "true"
-LEX_FALSE      "false"
 LEX_STRING     "String"
 LEX_BOOLEAN    "boolean"
 LEX_INT        "int"
 LEX_DIGIT      [0-9]
 LEX_LETTER     [a-zA-Z_]
 LEX_INTEGER_LITERAL   [1-9]{LEX_DIGIT}*|0
-LEX_LOGIC_LITERAL     {LEX_TRUE}|{LEX_FALSE}
+LEX_LOGIC_LITERAL     "True"|"False"
 LEX_ID         {LEX_LETTER}({LEX_DIGIT}|{LEX_LETTER})*
 LEX_COMMENT    \/\/.*|\/\*((.|\n)*?)\*\/
 LEX_SPACE      [\n\r\t ]+
 LEX_OPERATORS  [!%\(\)*+,-./;<=\[\]\{\}]
+
+LEX_OPERATORS  "+"|"-"|"*"|"/"|"%"|LEX_AND|LEX_OR
+LEX_ASSIGN     "="
+
+LEX_DOT_COMMA ";"
+LEX_DOT "."
+LEX_LBRACKET "("
+LEX_RBRACKET ")"
+LEX_LSQUAREBRACKET "["
+LEX_RSQUAREBRACKET "]"
+LEX_LBRACE "{"
+LEX_RBRACE "}"
+LEX_UNARY_NEGATION "!"
 
 %%
 
@@ -49,7 +60,7 @@ LEX_OPERATORS  [!%\(\)*+,-./;<=\[\]\{\}]
 }
 
 {LEX_LOGIC_LITERAL} {
-    handleToken("BOOL_LITERAL", lexem_iterator);
+    handleToken("LOGIC_LITERAL", lexem_iterator);
 }
 
 {LEX_CLASS} {

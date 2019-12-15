@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <map>
 #include <vector>
@@ -6,17 +8,11 @@ using std::string;
 using std::vector;
 using std::map;
 
-
 namespace Graphs
 {
     struct Node
     {
-        Node(string _name, string _label="")
-        {
-            name = _name;
-            label = _label;
-        }
-
+        Node(string node_name, string label): name(node_name), label(label) {}
         string name;
         string label;
     };
@@ -45,7 +41,7 @@ namespace Graphs
         void getAllNodes(vector<Node *> &nodes) const;
         string getName() const;
 
-        void addNode(string _name);
+        void addNode(string node_name, string label);
         void addEdge(string from, string to);
 
     private:
