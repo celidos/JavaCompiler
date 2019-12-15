@@ -1,24 +1,26 @@
 cmake_minimum_required(VERSION 3.0)
 
-if (UNIX AND NOT APPLE)
-    set(LINUX TRUE)
-endif()
+#if (UNIX AND NOT APPLE)
+#    set(LINUX TRUE)
+#endif()
 
 # SET (CMAKE_CXX_COMPILER "/Library/Developer/CommandLineTools/usr/bin/clang++")
-if(LINUX) 
-    message("")
-    message(STATUS "LINUX DETECTED, choosing g++ compiler. If that's not true, please, check out CMakeLists.txt")
-    message("")
-else()
-    message("")
-    message(STATUS "MACOS DETECTED, choosing clang++ compiler. If that's not true, please, check out CMakeLists.txt")
-    message("")
-    set(CMAKE_CXX_COMPILER  "/usr/bin/clang++") # Dima, that's your place
-endif()
+#if(LINUX) 
+#    message("")
+#    message(STATUS "LINUX DETECTED, choosing g++ compiler. If that's not true, please, check out CMakeLists.txt")
+#    message("")
+#else()
+#    message("")
+#    message(STATUS "MACOS DETECTED, choosing clang++ compiler. If that's not true, please, check out CMakeLists.txt")
+#    message("")
+#    set(CMAKE_CXX_COMPILER "/usr/bin/clang++") # Dima, that's your place
+#endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wno-deprecated-register")
 
 project(javacompiler CXX)
+
+
 
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
@@ -29,6 +31,15 @@ BISON_TARGET(mc_parser
 FLEX_TARGET (mc_lexer
              src/mc_lexer.l
              ${CMAKE_CURRENT_BINARY_DIR}/mc_lexer.yy.cc)
+
+
+
+# TEST TEST -----------------------------------------------------------------
+include(GNUInstallDirs)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
+# TEST TEST -----------------------------------------------------------------
 
 add_subdirectory(src/ast)
 add_subdirectory(src/irt)
@@ -64,7 +75,18 @@ set_property(TARGET javacompiler
 
 message("Current binary dir: " ${CMAKE_CURRENT_BINARY_DIR})
 
+include(cmake/googletest.cmake)
+fetch_googletest(
+    ${PROJECT_SOURCE_DIR}/cmake
+    ${PROJECT_BINARY_DIR}/googletest
+    )
+
+
+include(CTest)
+
 # enable_testing()
-# add_test(NAME basic
-#         COMMAND ${CMAKE_SOURCE_DIR}/test/test0.pl
-#         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+# include(CTest)
+
+add_subdirectory(test)
+# -------------------------------------------------------------------------------------------
+
