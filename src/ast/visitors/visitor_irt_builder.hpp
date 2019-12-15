@@ -2,105 +2,66 @@
 
 #include <../ast/handlers/expressions.hpp>
 
-#include <ivisitor.hpp>
+#include "ivisitor.hpp"
 
-#include "../../SymbolTableVisitor.h"
-#include "../IRTNodeBase.h"
+#include "visitor_symbol_table_builder.hpp"
 
-#include "Statement/IRTStatement.h"
-#include "IRTExp/IRTExp.h"
-#include "../IRTExp/IRTExpBase.h"
+#include <../irt/handlers/statements.hpp>
+#include <../irt/handlers/expressions.hpp>
 
-class IRTBuilderVisitor : IVisitor {
-private:
-    struct FuncInfo{
-        std::string className;
-        std::vector<std::string> argsTypes;
-        std::string funcName;
-        std::shared_ptr<IRTNodeBase> irtTree;
+#include "handlers/expressions.hpp"
+#include "handlers/statements.hpp"
+#include "handlers/types.hpp"
+#include "handlers/var_declaration.hpp"
+#include "handlers/method_body.hpp"
+#include "handlers/method_declaration.hpp"
+#include "handlers/main_class.hpp"
+#include "handlers/class.hpp"
+#include "handlers/goal.hpp"
 
-        FuncInfo(
-            const std::string& className,
-            std::vector<std::string>& argsTypes,
-            const std::string& funcName,
-            const std::shared_ptr<IRTNodeBase>& irtTree
-        )
-            : className(className),
-              argsTypes(argsTypes),
-              funcName(funcName),
-              irtTree(irtTree)
-        {}
-    };
+namespace ast {
 
-    std::vector<FuncInfo> irtTrees;
-    std::shared_ptr<IRTNodeBase> lastResult;
-    std::string curClass;
-
-    std::string curLabel = "a";
-    std::string curRegister = "a";
-
-    void updateString(std::string& str) {
-        char& last_char = str.back();
-        if (last_char == 'z') {
-            str.push_back('a');
-        } else {
-            last_char++;
-        }
-    }
-    std::string getNextRegister() {
-        updateString(curRegister);
-        return curRegister;
-
-    }
-    std::string getNextLabel() {
-        updateString(curLabel);
-        return curLabel;
-    }
-
-    void handleStatementArray(const std::vector<std::shared_ptr<StatementBase>>& array);
-
-    bool canCast(const std::string& castingType, const std::string& typeToCast);
-
-    std::shared_ptr<SymbolTableGlobal> symbolTable;
-    std::shared_ptr<SymbolTableMethod> methodTable;
-
-    std::shared_ptr<IRTExpBase> getAddressOfVariable(std::string identifier);
-
+class VisitorIrtBuilder : public IVisitor {
 public:
+    VisitorIrtBuilder(std::shared_ptr<symtable::TableGlobal> symbolTable) :
+        symbol_table_(symbolTable)
+    {  }
 
-    IRTBuilderVisitor(std::shared_ptr<SymbolTableGlobal> symbolTable)
-        : symbolTable(symbolTable)
-    {
+    void visit(const ExpressionInt* expr);
+    void visit(const ExpressionBinaryOp* expr);
+    void visit(const ExpressionLogical* expr);
+    void visit(const ExpressionId* expr);
+    void visit(const ExpressionSquareBracket* expr);
+    void visit(const ExpressionLen* expr);
+    void visit(const ExpressionUnaryNegation* expr);
+    void visit(const ExpressionThis* expr);
+    void visit(const StatementAssign* statement);
+    void visit(const TypeInt* type);
+    void visit(const TypeBoolean* type);
+    void visit(const TypeArray* type);
+    void visit(const TypeClass* type);
+    void visit(const VarDeclaration* var_declaration);
+    void visit(const MethodBody* method_body);
+    void visit(const MethodDeclaration* method_declaration);
+    void visit(const Class* class_var);
+    void visit(const MainClass* main_class);
+    void visit(const Goal* goal);
+    void visit(const ExpressionNewId* expr);
+    void visit(const ExpressionNewIntArray* expr);
+    void visit(const ExpressionCallFunction* expr);
+    void visit(const StatementArrayAssign* statement);
+    void visit(const StatementPrint* statement);
+    void visit(const StatementWhile* statement);
+    void visit(const StatementIf* statement);
+    void visit(const Statements* statement);
+
+    std::shared_ptr<irt::IVisitable> retrieveIrt() {
+        return last_result_;
     }
 
-    const std::vector<FuncInfo>& getIrtTrees(){
-        return irtTrees;
-    }
-
-    int Visit(ExpressionBinOp* node);
-    int Visit(ExpressionBool* node);
-    int Visit(ExpressionFunctionCall* node);
-    int Visit(ExpressionGetLength* node);
-    int Visit(ExpressionIdentifier* node);
-    int Visit(ExpressionIndex* node);
-    int Visit(ExpressionInt* node);
-    int Visit(ExpressionNegation* node);
-    int Visit(ExpressionNewIdentifier* node);
-    int Visit(ExpressionNewIntArray* node);
-    int Visit(ExpressionThis* node);
-
-    int Visit(StatementIf* node);
-    int Visit(StatementWhile* node);
-    int Visit(StatementAssign* node);
-    int Visit(StatementAssignContainerElement* node);
-    int Visit(StatementPrint* node);
-    int Visit(StatementSequence* node);
-
-    int Visit(Type* node);
-    int Visit(VarDeclaration* node);
-    int Visit(MethodBody* node);
-    int Visit(MethodDeclaration* node);
-    int Visit(ClassDeclaration* node);
-    int Visit(MainClass* node);
-    int Visit(Goal* node);
+private:
+    std::shared_ptr<symtable::TableGlobal> symbol_table_;
+    std::shared_ptr<irt::IVisitable> last_result_;
 };
+
+} // namespace ast

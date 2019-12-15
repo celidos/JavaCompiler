@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+
+echo "This script is probably outdated!"
 echo "Running FLEX..."
 cd src
 flex lexer.l

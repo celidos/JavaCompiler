@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <map>
 #include <vector>
@@ -5,7 +7,6 @@
 using std::string;
 using std::vector;
 using std::map;
-
 
 namespace Graphs
 {

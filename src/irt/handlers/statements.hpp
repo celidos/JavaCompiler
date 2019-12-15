@@ -1,6 +1,6 @@
 #pragma once
 
-#include <src/ast/visitors/visitable.hpp>
+#include <../irt/visitors/visitable.hpp>
 
 namespace irt
 {

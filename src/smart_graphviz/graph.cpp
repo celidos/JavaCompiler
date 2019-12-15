@@ -87,17 +87,14 @@ namespace Graphs
         graph.getAllEdges(edges);
         graph.getAllNodes(nodes);
 
-
         std::stringstream ss;
         ss << "graph " << graph.getName() << " {\n";
 
-        for (auto node : nodes)
-        {
+        for (auto node : nodes) {
             ss << node->name << '\t' << "[ label = \"" << node->label << "\"];" << '\n';
         }
 
-        for (auto edge : edges)
-        {
+        for (auto edge : edges) {
             ss << '\t' << edge->from << " -- " << edge->to << ";\n";
         }
         ss << "}\n";

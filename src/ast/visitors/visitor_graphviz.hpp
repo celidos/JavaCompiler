@@ -12,9 +12,9 @@
 #include "handlers/var_declaration.hpp"
 #include "handlers/method_body.hpp"
 #include "handlers/method_declaration.hpp"
-#include <handlers/main_class.hpp>
-#include <handlers/class.hpp>
-#include <handlers/goal.hpp>
+#include "handlers/main_class.hpp"
+#include "handlers/class.hpp"
+#include "handlers/goal.hpp"
 #include "yyltype.hpp"
 #include "../smart_graphviz/graph.h"
 

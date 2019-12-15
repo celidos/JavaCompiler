@@ -6,8 +6,8 @@
 #include <cassert>
 
 #include <yyltype.hpp>
-#include <src/ast/visitors/visitable.hpp>
-#include <src/ast/visitors/ivisitor.hpp>
+#include <visitors/visitable.hpp>
+#include <visitors/ivisitor.hpp>
 
 #include <handlers/var_declaration.hpp>
 #include <handlers/statements.hpp>

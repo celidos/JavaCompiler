@@ -3,8 +3,9 @@
 #include <iostream>
 #include <string>
 #include <stack>
+#include <memory>
 
-#include <src/ast/visitors/ivisitor.hpp>
+#include "ivisitor.hpp"
 #include <handlers/expressions.hpp>
 #include <handlers/statements.hpp>
 #include <handlers/types.hpp>
@@ -21,9 +22,14 @@ namespace ast {
 
 class VisitorSymtableBuilder : public IVisitor {
 public:
-    VisitorSymtableBuilder() = default;
+    VisitorSymtableBuilder() : table_(std::make_shared<symtable::TableGlobal>())
+    {}
+
+    std::shared_ptr<symtable::TableGlobal> getTable() {
+        return table_;
+    };
 private:
-    TableGlobal table_;
+    std::shared_ptr<symtable::TableGlobal> table_;
 
     void visit(const ExpressionInt* expr);
     void visit(const ExpressionBinaryOp* expr);
@@ -35,13 +41,23 @@ private:
     void visit(const ExpressionThis* expr);
     void visit(const StatementAssign* statement);
     void visit(const TypeInt* type);
+    void visit(const TypeBoolean* type);
+    void visit(const TypeArray* type);
+    void visit(const TypeClass* type);
     void visit(const VarDeclaration* var_declaration);
     void visit(const MethodBody* method_body);
     void visit(const MethodDeclaration* method_declaration);
+    void visit(const Class* class_var);
     void visit(const MainClass* main_class);
     void visit(const Goal* goal);
     void visit(const ExpressionNewId* expr);
     void visit(const ExpressionNewIntArray* expr);
+    void visit(const ExpressionCallFunction* expr);
+    void visit(const StatementArrayAssign* statement);
+    void visit(const StatementPrint* statement);
+    void visit(const StatementWhile* statement);
+    void visit(const StatementIf* statement);
+    void visit(const Statements* statement);
 };
 
 } // namespace ast;

@@ -7,27 +7,39 @@ MC::MC_Driver::~MC_Driver() {
     parser = nullptr;
 }
 
-void MC::MC_Driver::parse(const char * const input_filename, const char * const output_filename) {
+void MC::MC_Driver::parse(const char * const input_filename,
+                          const char * const ast_dot_output_filename,
+                          const char * const irt_dot_output_filename) {
     assert(input_filename != nullptr);
     std::ifstream in_file(input_filename);
     if (!in_file.good()) {
         exit(EXIT_FAILURE);
     }
 
-    assert(output_filename != nullptr);
-    std::ofstream out_file(output_filename);
-    if (!out_file.good()) {
+    assert(ast_dot_output_filename != nullptr);
+    std::ofstream ast_out_file(ast_dot_output_filename);
+    if (!ast_out_file.good()) {
         exit(EXIT_FAILURE);
     }
 
-    parse_helper(in_file, out_file);
+    assert(irt_dot_output_filename != nullptr);
+    std::ofstream irt_out_file(irt_dot_output_filename);
+    if (!irt_out_file.good()) {
+        exit(EXIT_FAILURE);
+    }
+
+    parse_helper(in_file, ast_out_file, irt_out_file);
 }
 
-void MC::MC_Driver::parse_helper(std::istream &i_stream, std::ofstream &o_stream) {
-    ast::PGoal root;
+void MC::MC_Driver::parse_helper(std::istream &input_stream,
+                                 std::ofstream &ast_dot_output_stream,
+                                 std::ofstream &irt_dot_output_stream) {
+    ast::PExpression root;
+
+    std::cerr << std::endl;
 
     delete(scanner);
-    scanner = new MC::MC_Scanner(&i_stream);
+    scanner = new MC::MC_Scanner(&input_stream);
 
     delete(parser);
     parser = new MC::MC_Parser(*scanner, *this, &root);
@@ -37,21 +49,35 @@ void MC::MC_Driver::parse_helper(std::istream &i_stream, std::ofstream &o_stream
     } else {
         std::cerr << "Parsing OK" << std::endl;
     }
+
+    // TODO: разбить на более мелкие функции, это уже не просто парсинг, тут вообще
+    // весь пайплайн
+
+    std::cerr << "Running PrettyPrinter..." << std::endl;
     ast::VisitorPrettyPrinter visit_pretty_printer;
     root->accept(&visit_pretty_printer);
 
-    ast::VisitorGraphviz visit_graphviz("my_graph");
-    root->accept(&visit_graphviz);
+    std::cerr << std::endl << "Running AST Graphviz..." << std::endl;
+    ast::VisitorGraphviz visit_ast_graphviz("ast_graph");
+    root->accept(&visit_ast_graphviz);
 
+    std::cerr << "Running Symtable building..." << std::endl;
+    ast::VisitorSymtableBuilder visit_build_symtable;
+    root->accept(&visit_build_symtable);
 
-    // TODO:: передавать путь до файла для текстового представления графа
-    // std::ofstream outFile("output/graphviz_output.dot");
-    // ./run_ast_graphviz.sh tests/samples/simple.java output/graphviz_output.dot output/output.svg
+    std::cerr << "Running IRT building..." << std::endl;
+    ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
+    root->accept(&visit_build_irt);
 
-    Graphs::UndirectedGraphSerializer::serialize(visit_graphviz.GetGraph(), o_stream);
-}
+    std::cerr << "Running IRT Graphviz..." << std::endl;
+    irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
+    visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
 
+    std::cerr << "Serializing AST..." << std::endl;
+    Graphs::UndirectedGraphSerializer::serialize(visit_ast_graphviz.GetGraph(),
+                                                 ast_dot_output_stream);
 
-void MC::MC_Driver::parse_tree(PExpression new_root) {
-
+    std::cerr << "Serializing IRT..." << std::endl;
+    Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
+                                                 irt_dot_output_stream);
 }
