@@ -65,6 +65,12 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     ast::VisitorSymtableBuilder visit_build_symtable;
     root->accept(&visit_build_symtable);
 
+
+    std::cerr << "Running Typechecker building..." << std::endl;
+    ast::VisitorTypecheckerBuilder visit_build_typechecker;
+    root->accept(&visit_build_typechecker);
+
+    
     // std::cerr << "Running IRT building..." << std::endl;
     // ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
     // root->accept(&visit_build_irt);
@@ -80,4 +86,6 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     // std::cerr << "Serializing IRT..." << std::endl;
     // Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
     //                                             irt_dot_output_stream);
+
+
 }

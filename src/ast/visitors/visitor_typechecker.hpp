@@ -20,9 +20,9 @@
 
 namespace ast {
 
-    class VisitorSymtableBuilder : public IVisitor {
+    class VisitorTypecheckerBuilder : public IVisitor {
     public:
-        VisitorSymtableBuilder() : table_(std::make_shared<symtable::TableGlobal>())
+        VisitorTypecheckerBuilder() : table_(std::make_shared<symtable::TableGlobal>())
         {}
 
         std::shared_ptr<symtable::TableGlobal> getTable() {
