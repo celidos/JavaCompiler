@@ -19,6 +19,8 @@ install:
   - sudo ./configure
   - sudo make
   - sudo make install
+  - cd ..
+  - ls
 
 script:
   - sh ./make_all.sh
