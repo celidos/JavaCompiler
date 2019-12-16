@@ -67,7 +67,7 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
 
 
     std::cerr << "Running Typechecker building..." << std::endl;
-    ast::VisitorTypecheckerBuilder visit_build_typechecker;
+    ast::VisitorTypecheckerBuilder visit_build_typechecker(visit_build_symtable.getTable());
     root->accept(&visit_build_typechecker);
 
 

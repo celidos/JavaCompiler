@@ -18,12 +18,9 @@ class TV {
 }
 
 
-class Visitor extends A {
+class Visitor{
 }
 
 
-class A extends MyVisitor {
-}
-
-class MyVisitor extends Visitor {
+class Visitor {
 }

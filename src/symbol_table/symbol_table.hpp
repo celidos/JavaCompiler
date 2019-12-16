@@ -63,6 +63,10 @@ public:
         return return_type_;
     }
 
+    int getArgsNum() const {
+        return static_cast<int>(param_types_.size());
+    }
+
     bool hasVar(const std::string& name) const {
         return table_vars_.find(name) != table_vars_.end();
     }
@@ -130,6 +134,10 @@ public:
         return parent_;
     }
 
+    bool HasPublicFunc(const std::string& name) const {
+        return table_method_.find(name) != table_method_.end();
+    }
+
     void Print() const {
         std::cout <<" Parent: " << parent_ <<"\n";
         std::cout <<" Methods:\n";
@@ -166,8 +174,8 @@ public:
         return table_[name];
     }
 
-    const std::vector<std::string>& getChilds(const std::string& name) const {
-        return class_graph_.at(name);
+    const std::unordered_map<std::string, std::vector<std::string> >& getGraph() const {
+        return class_graph_;
     }
 
     void Print() const {

@@ -14,6 +14,8 @@
 #include <handlers/method_declaration.hpp>
 #include <handlers/main_class.hpp>
 #include <handlers/goal.hpp>
+#include <unordered_map>
+#include <vector>
 #include <yyltype.hpp>
 
 #include <../symbol_table/symbol_table.hpp>
@@ -22,12 +24,47 @@ namespace ast {
 
     class VisitorTypecheckerBuilder : public IVisitor {
     public:
-        VisitorTypecheckerBuilder() : table_(std::make_shared<symtable::TableGlobal>())
-        {}
+        VisitorTypecheckerBuilder(symtable::PTableGlobal symb_table) : table_(symb_table) {}
 
-        std::shared_ptr<symtable::TableGlobal> getTable() {
-            return table_;
-        };
+        bool DFScheckCycle(const std::unordered_map<std::string, std::vector<std::string> >& graph,  const std::string& vert,
+                           std::unordered_map<std::string, int>& used) const {
+            used[vert] = 1;
+            if (graph.find(vert) == graph.end()) {
+                used[vert] = 2;
+                return true;
+            }
+            for (const auto& chld: graph.at(vert)) {
+                if (used[chld] == 2) {
+                  continue;
+                }
+                if (used[chld] == 1) {
+                  std::cout << "Error: cycle in dependecies: " <<chld <<" -> " << vert;
+                  return false;
+                }
+                if (!DFScheckCycle(graph, chld, used)) {
+                  std::cout <<" -> "<< vert;
+                  return false;
+                }
+            }
+            used[vert] = 2;
+            return true;
+        }
+
+        bool checkCycle() const {
+            std::unordered_map<std::string, int> used;
+            const std::unordered_map<std::string, std::vector<std::string> >& graph = table_->getGraph();
+            for (const auto& vert: graph) {
+                if (used[vert.first] == 0) {
+                  std::cout << vert.first <<"\n";
+                  if (!DFScheckCycle(graph, vert.first, used)) {
+                      std::cout <<"\n";
+                      return false;
+                  }
+                }
+            }
+            return true;
+        }
+
     private:
         std::shared_ptr<symtable::TableGlobal> table_;
 

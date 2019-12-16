@@ -31,7 +31,7 @@ void VisitorSymtableBuilder::visit(const Goal* goal) {
     for(const auto& pclass: goal->getClasses()) {
       pclass->accept(this);
     }
-    table_->Print();
+    // table_->Print();
 }
 void VisitorSymtableBuilder::visit(const ExpressionNewId* expr) { }
 void VisitorSymtableBuilder::visit(const ExpressionNewIntArray* expr) { }

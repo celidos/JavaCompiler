@@ -1,7 +1,30 @@
 #include "visitor_typechecker.hpp"
+#include <unordered_map>
+#include <vector>
+#include <string>
+#include <unordered_set>
+#include <cassert>
 
 namespace ast {
 
+    void VisitorTypecheckerBuilder::visit(const Goal* goal) {
+        // table_->Print();
+        assert(checkCycle());
+        std::unordered_set<std::string> class_names;
+        for (const auto& pclass: goal->getClasses()) {
+            if (class_names.find(pclass->getIdentifier()) == class_names.end()) {
+                // pclass->accept(this);
+                class_names.insert(pclass->getIdentifier());
+            }
+            else {
+                std::cout << "Error: Redifinition of class " << pclass->getIdentifier()
+                  <<" (in line "<<pclass->getPos().first_line <<" and in position "<< pclass->getPos().first_column<<")\n";
+                assert(false);
+            }
+        }
+    }
+    void VisitorTypecheckerBuilder::visit(const Class* class_var) {
+    }
     void VisitorTypecheckerBuilder::visit(const ExpressionInt* expr) { }
     void VisitorTypecheckerBuilder::visit(const ExpressionBinaryOp* expr) { }
     void VisitorTypecheckerBuilder::visit(const ExpressionLogical* expr) { }
@@ -16,16 +39,13 @@ namespace ast {
     void VisitorTypecheckerBuilder::visit(const MethodBody* method_body) { }
     void VisitorTypecheckerBuilder::visit(const MethodDeclaration* method_declaration) { }
     void VisitorTypecheckerBuilder::visit(const MainClass* main_class) { }
-    void VisitorTypecheckerBuilder::visit(const Goal* goal) {
-        goal->getMainClass()->accept(this);
-    }
+
     void VisitorTypecheckerBuilder::visit(const ExpressionNewId* expr) { }
     void VisitorTypecheckerBuilder::visit(const ExpressionNewIntArray* expr) { }
 
     void VisitorTypecheckerBuilder::visit(const TypeBoolean* type) { };
     void VisitorTypecheckerBuilder::visit(const TypeArray* type) { };
     void VisitorTypecheckerBuilder::visit(const TypeClass* type) { };
-    void VisitorTypecheckerBuilder::visit(const Class* class_var) { };
 
     void VisitorTypecheckerBuilder::visit(const ExpressionCallFunction* expr) { };
     void VisitorTypecheckerBuilder::visit(const StatementArrayAssign* statement) { };
