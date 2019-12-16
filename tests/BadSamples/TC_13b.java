@@ -9,7 +9,7 @@ class QuickSort{
 // methods to initialize, print and sort the array
 // using Quicksort
 class QS{
-    
+
     int[] number ;
     int size ;
 
@@ -26,7 +26,7 @@ class QS{
 	return 0 ;
     }
 
- 
+
     // Sort array of integers using Quicksort method
     public int Sort(int left, int right){
 	int v ;
@@ -77,7 +77,7 @@ class QS{
 	return 0 ;
     }
 
-    
+
     // Print array of integers
     public int Print(){
 	int j ;
@@ -88,25 +88,25 @@ class QS{
 	}
 	return 0 ;
     }
-    
+
 
     // Initialize array of integers
     public int Init(int sz){
 	size = sz ;
 	number = new int[sz] ;
-	
+
 	number[0] = 20 ;
-	number[1] = 7  ; 
+	number[1] = 7  ;
 	number[2] = 12 ;
 	number[3] = 18 ;
-	number[4] = 2  ; 
+	number[4] = 2  ;
 	number[5] = 11 ;
-	number[6] = 6  ; 
-	number[7] = 9  ; 
-	number[8] = 19 ; 
+	number[6] = 6  ;
+	number[7] = 9  ;
+	number[8] = 19 ;
 	number[9] = 5  ;
-	
-	return 0 ;	
+
+	return 0 ;
     }
 
 }

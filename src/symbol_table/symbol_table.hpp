@@ -48,10 +48,6 @@ public:
         return param_types_[param_id];
     }
 
-    const std::string& getResultType() const {
-        return return_type_;
-    }
-
     const std::string& getName() const {
         return name_;
     }
@@ -63,8 +59,8 @@ public:
         return return_type_;
     }
 
-    int getArgsNum() const {
-        return static_cast<int>(param_types_.size());
+    size_t getArgsNum() const {
+        return param_types_.size();
     }
 
     bool hasVar(const std::string& name) const {
@@ -118,6 +114,13 @@ public:
         table_method_[method->getName()] = method;
     }
 
+    void addParamFromParentClass(const std::string& name, const std::string& type) {
+        table_var_[name] = type;
+        for (auto& method: table_method_) {
+             method.second->addVar(name, type);
+        }
+    }
+
     const std::string& getVariableType(const std::string& name) const {
         return table_var_.at(name);
     }
@@ -135,7 +138,16 @@ public:
     }
 
     bool HasPublicFunc(const std::string& name) const {
-        return table_method_.find(name) != table_method_.end();
+        return table_method_.find(name) != table_method_.end() &&
+                table_method_.at(name)->getPrivacy() == "public";
+    }
+
+    const std::unordered_map<std::string, std::string>& getAllVars() const {
+        return table_var_;
+    }
+
+    const std::unordered_map<std::string, PMethodInfo>& getAllMethods() const {
+        return table_method_;
     }
 
     void Print() const {
@@ -176,6 +188,10 @@ public:
 
     const std::unordered_map<std::string, std::vector<std::string> >& getGraph() const {
         return class_graph_;
+    }
+
+    const std::unordered_map<std::string, PClassInfo>& getClasses() const {
+        return table_;
     }
 
     void Print() const {

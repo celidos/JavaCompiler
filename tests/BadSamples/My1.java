@@ -4,23 +4,29 @@
 
 class TreeVisitor{
     public static void main(String[] a){
-	System.out.println(new TV().Start());
+	System.out.println(new TV().Start(true, 1));
     }
 }
 
 class TV {
 
-    public int Start(){
-
-	return 0 ;
+      Visitor ok;
+    public int[] Start(boolean fg, int fgf) {
+	    boolean aaa;
+      int[] cc;
+      fgf = cc.length;
+      aaa = !true;
+      cc[aaa] = cc;
+      return new Visitor().answer(100 + 9 * 7);
     }
 
 }
 
 
-class Visitor{
-}
-
-
-class Visitor {
+class Visitor extends TV{
+  int a;
+  boolean bbb;
+  public int[] answer(int ok) {
+      return new int[a];
+  }
 }
