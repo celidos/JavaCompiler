@@ -45,8 +45,13 @@ void VisitorIrtGraphviz::visit(const ExpressionBinaryOp *expr) {
 
 void VisitorIrtGraphviz::visit(const ExpressionName *expr) {
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
+    graph_.addNode(node_name, "Function:");
+
+    std::string label_name = "label" + std::to_string(reinterpret_cast<int64_t>(expr));
     std::string label = expr->getName();
-    graph_.addNode(node_name, label);
+    graph_.addNode(label_name, label);
+
+    graph_.addEdge(node_name, label_name);
     node_names_.push(node_name);
 }
 
