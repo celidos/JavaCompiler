@@ -9,11 +9,11 @@
 #include "statements.hpp"
 
 #include "../irt/visitors/ivisitor.hpp"
+#include "memory_address.hpp"
+#include "expression_list.hpp"
 
 
 namespace irt {
-
-/// TODO TO REFACTOR REFACTOR
 
 class Expression : public IVisitable {
 public:
@@ -73,37 +73,87 @@ typedef std::shared_ptr<ExpressionBinaryOp> PExpressionBinaryOp;
  *  Function argument
  */
 
-// TODO: недоделано
-class ExpressionArg : public Expression {
-public:
-    ExpressionArg(const PExpression &argument) : argument_(argument) {}
+//// TODO: недоделано
+//class ExpressionArg : public Expression {
+//public:
+//    ExpressionArg(const PExpression &argument) : argument_(argument) {}
+//
+//    PExpression getArgument() {
+//        return argument_;
+//    }
+//
+//    void accept(IVisitor *visitor) const { visitor->visit(this); }
+//
+//private:
+//    PExpression argument_;
+//};
 
-    PExpression getArgument() {
-        return argument_;
-    }
-
-private:
-    PExpression argument_;
-};
-
-typedef std::shared_ptr<ExpressionArg> PExpressionArg;
+//typedef std::shared_ptr<ExpressionArg> PExpressionArg;
 
 /***************************************************************************************************
  *  Local variable
  */
+//
+//class ExpressionLocal : public Expression {
+//public:
+//    ExpressionLocal(const std::string &id) : id_(id) {}
+//
+//    std::string getId() const {
+//        return id_;
+//    }
+//
+//    void accept(IVisitor *visitor) const { visitor->visit(this); }
+//
+//private:
+//    std::string id_;
+//};
+//
+//typedef std::shared_ptr<ExpressionLocal> PExpressionLocal;
 
-class ExpressionLocal : public Expression {
+/***************************************************************************************************
+ *  Object name
+ */
+
+class ExpressionName : public Expression {
 public:
-    ExpressionLocal(const std::string& id) : id_(id) {}
+    ExpressionName(const std::string &name) : name_(name) {};
 
-    std::string getId() {
-        return id_;
+    std::string getName() const {
+        return name_;
     }
 
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
+
 private:
-    std::string id_;
+    std::string name_;
 };
 
-typedef std::shared_ptr<ExpressionLocal> PExpressionLocal;
+typedef std::shared_ptr<ExpressionName> PExpressionName;
+
+/***************************************************************************************************
+ *  Function call
+ */
+
+class ExpressionCall : public Expression {
+public:
+    ExpressionCall(irt::PExpression function, irt::PExpressionList arguments)
+        : function_(function), arguments_(arguments) {};
+
+    irt::PExpression getFunction() const {
+        return function_;
+    }
+
+    irt::PExpressionList getArguments() const {
+        return arguments_;
+    }
+
+    void accept(IVisitor *visitor) const { visitor->visit(this); }
+
+private:
+    irt::PExpression function_;
+    irt::PExpressionList arguments_;
+};
+
+typedef std::shared_ptr<ExpressionCall> PExpressionCall;
 
 } // namespace irt

@@ -42,7 +42,7 @@
 
 %parse-param { MC_Scanner  &scanner  }
 %parse-param { MC_Driver  &driver  }
-%parse-param { ast::PExpression * root }
+%parse-param { ast::PGoal * root }
 
 %code{
    #include <memory>
@@ -103,7 +103,7 @@
 %type<ast::PMethodDeclaration> method_declaration
 %type<ast::PMainClass> main_class
 %type<ast::PClass> class
-%type<ast::PExpressionBinaryOp> goal  /* IF YOU WANT TO CHANGE GOAL, YOU HAVE TO REPLACE THIS */
+%type<ast::PGoal> goal  /* IF YOU WANT TO CHANGE GOAL, YOU HAVE TO REPLACE THIS */
 
 %type <std::vector<ast::PExpression>> expressions
 %type <std::vector<ast::PStatement>> statements
@@ -137,7 +137,7 @@
 
 /* IF YOU WANT TO CHANGE GOAL, YOU HAVE TO REPLACE THIS */
 goal
-      : expr OPERATION_LITERAL expr {$$ = std::make_shared<ast::ExpressionBinaryOp>($1, $3, $2, LLCAST(@$)); *root = $$;}
+      : main_class classes {$$ = std::make_shared<ast::Goal>($1, $2, LLCAST(@$)); *root = $$;}
 
 main_class
       : CLASS IDENTIFIER LBRACE PRIVACY STATIC VOID MAIN LBRACKET STRING LSQUAREBRACKET RSQUAREBRACKET IDENTIFIER RBRACKET LBRACE statement RBRACE RBRACE

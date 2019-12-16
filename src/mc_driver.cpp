@@ -34,7 +34,7 @@ void MC::MC_Driver::parse(const char * const input_filename,
 void MC::MC_Driver::parse_helper(std::istream &input_stream,
                                  std::ofstream &ast_dot_output_stream,
                                  std::ofstream &irt_dot_output_stream) {
-    ast::PExpression root;
+    ast::PGoal root;
 
     std::cerr << std::endl;
 

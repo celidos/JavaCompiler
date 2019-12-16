@@ -6,7 +6,7 @@ class MemoryAddress {
 public:
     MemoryAddress() : address_("memory_address_" + std::to_string(counter_++)) {}
 
-    std::string getAddress() const{
+    operator std::string() const{
         return address_;
     }
 

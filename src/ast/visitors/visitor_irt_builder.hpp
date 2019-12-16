@@ -8,6 +8,7 @@
 
 #include <../irt/handlers/statements.hpp>
 #include <../irt/handlers/expressions.hpp>
+#include <../irt/handlers/expression_list.hpp>
 #include <../irt/wrappers/wrappers.hpp>
 
 #include "handlers/expressions.hpp"
