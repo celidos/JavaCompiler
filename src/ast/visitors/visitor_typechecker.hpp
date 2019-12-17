@@ -142,20 +142,17 @@ namespace ast {
             return false;
         }
 
-        void AddVarsFromParents() {
-            const std::unordered_map<std::string, std::vector<std::string> >& graph = table_->getGraph();
-            for (const auto& vert: graph) {
-                if (vert.first == "") {
-                    continue;
-                }
-                for (const auto& chld_name: vert.second) {
-                    auto args = table_->getClass(vert.first)->getAllVars();
-                    for (auto& arg: args) {
-                        table_->getClass(chld_name)->addParamFromParentClass(arg.first, arg.second);
-                    }
-                }
+        void AddParentClassesForClass(symtable::PClassInfo& pclass) {
+            if (pclass->getParent() != "") {
+                AddParentClassesForClass(table_->getClass(pclass->getParent()));
+                pclass->addParentClass(table_->getClass(pclass->getParent()));
             }
+        }
 
+        void AddParentClasses() {
+            for (auto& pclass : table_->getClasses()) {
+                AddParentClassesForClass(table_->getClass(pclass.first));
+            }
         }
         bool CompareTypes(const std::string& const_type, const std::string& type_may_be_casted) const {
             if (const_type == type_may_be_casted) {
