@@ -16,7 +16,9 @@
 
 #include "ast/visitors/visitor_symbol_table_builder.hpp"
 #include "ast/visitors/visitor_irt_builder.hpp"
+#include "ast/visitors/visitor_typechecker.hpp"
 #include "irt/visitors/visitor_graphviz.hpp"
+
 
 namespace MC {
 

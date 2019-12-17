@@ -13,7 +13,6 @@ void VisitorGraphviz::visit(const ExpressionInt* expr) {
 }
 
 void VisitorGraphviz::visit(const ExpressionBinaryOp* expr) {
-    // Graphviz не может распарсить названия вершин, содержащие +
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
     graph.addNode(node_name, expr->getOp());
 
@@ -373,7 +372,7 @@ void VisitorGraphviz::visit(const MethodDeclaration* method_declaration) {
         graph.addEdge(args_name, one_arg_name);
 
         auto arg_type = "type" + std::to_string(reinterpret_cast<int64_t>(&arg));
-        graph.addNode(arg_type, "Type" + type->getType());
+        graph.addNode(arg_type, "Type: " + type->getType());
         graph.addEdge(one_arg_name, arg_type);
 
         auto arg_name_name = "argname" + std::to_string(reinterpret_cast<int64_t>(&arg));
