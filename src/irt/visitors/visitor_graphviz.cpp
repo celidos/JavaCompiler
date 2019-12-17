@@ -1,5 +1,6 @@
 #include "visitor_graphviz.hpp"
 
+
 namespace irt {
 
 void VisitorIrtGraphviz::visit(const ExpressionLoadConst *loader) {
@@ -31,6 +32,56 @@ void VisitorIrtGraphviz::visit(const ExpressionBinaryOp *expr) {
     std::string right_child = node_names_.top();
     graph_.addEdge(right, right_child);
     node_names_.pop();
+
+    node_names_.push(node_name);
+}
+
+//void VisitorIrtGraphviz::visit(const ExpressionLocal* expr){
+//    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
+//    std::string label = std::to_string(expr->getId());
+//    graph_.addNode(node_name, label);
+//    node_names_.push(node_name);
+//}
+
+void VisitorIrtGraphviz::visit(const ExpressionName *expr) {
+    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
+    graph_.addNode(node_name, "Function:");
+
+    std::string label_name = "label" + std::to_string(reinterpret_cast<int64_t>(expr));
+    std::string label = expr->getName();
+    graph_.addNode(label_name, label);
+
+    graph_.addEdge(node_name, label_name);
+    node_names_.push(node_name);
+}
+
+void VisitorIrtGraphviz::visit(const ExpressionCall *expr) {
+    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
+    graph_.addNode(node_name, "call");
+
+    expr->getFunction()->accept(this);
+    std::string func_node = node_names_.top();
+    graph_.addEdge(node_name, func_node);
+    node_names_.pop();
+
+    expr->getArguments()->accept(this);
+    std::string arg_node = node_names_.top();
+    graph_.addEdge(node_name, arg_node);
+    node_names_.pop();
+
+    node_names_.push(node_name);
+}
+
+void VisitorIrtGraphviz::visit(const ExpressionList* expressions){
+    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expressions));
+    graph_.addNode(node_name, "Arguments:");
+
+    for(auto expr: expressions->getExpressions()){
+        expr->accept(this);
+        std::string func_node = node_names_.top();
+        graph_.addEdge(node_name, func_node);
+        node_names_.pop();
+    }
 
     node_names_.push(node_name);
 }
