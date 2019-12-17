@@ -3,9 +3,12 @@ add_executable(
     example_add.cpp
     )
 
+target_include_directories(unit_tests PRIVATE ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
 target_link_libraries(
     unit_tests
     gtest_main
+    ast
+    driver
     )
 
 add_test(

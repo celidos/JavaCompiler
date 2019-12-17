@@ -49,22 +49,21 @@ ADD_FLEX_BISON_DEPENDENCY(mc_lexer mc_parser)
 
 add_executable(javacompiler
     src/main.cpp
-    src/mc_driver.cpp
+)
 
+add_library(driver STATIC
+    src/mc_driver.cpp
     ${FLEX_mc_lexer_OUTPUTS}
     ${BISON_mc_parser_OUTPUTS}
 )
+target_include_directories(driver PUBLIC ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} )
 
-target_link_libraries(javacompiler
-    PUBLIC irt
+target_link_libraries(driver
+    PUBLIC ast irt smart_graphviz
 )
 
 target_link_libraries(javacompiler
-    PUBLIC ast
-)
-
-target_link_libraries(javacompiler
-    PUBLIC smart_graphviz
+    PUBLIC driver
 )
 
 target_include_directories(javacompiler
@@ -84,8 +83,7 @@ fetch_googletest(
 
 include(CTest)
 
-# enable_testing()
-# include(CTest)
+enable_testing()
 
 add_subdirectory(test)
 # -------------------------------------------------------------------------------------------
