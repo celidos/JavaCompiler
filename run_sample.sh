@@ -25,7 +25,7 @@ if [ ! -f "$OUTPUT_IRT_GRAPH_DOT_FILENAME" ]; then
 fi
 
 echo "[run] Starting program..."
-./build/javacompiler ${INPUT_FILENAME} ${OUTPUT_AST_GRAPH_DOT_FILENAME} ${OUTPUT_IRT_GRAPH_DOT_FILENAME}
+./build/bin/javacompiler ${INPUT_FILENAME} ${OUTPUT_AST_GRAPH_DOT_FILENAME} ${OUTPUT_IRT_GRAPH_DOT_FILENAME}
 
 echo "[run] Running AST graphviz..."
 dot -Tsvg ${OUTPUT_AST_GRAPH_DOT_FILENAME} -o ${OUTPUT_AST_GRAPH_IMG_FILENAME}

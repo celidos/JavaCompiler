@@ -17,7 +17,7 @@ else()
     set(CMAKE_CXX_COMPILER  "/usr/bin/clang++") # Dima, that's your place
 endif()
 
-SET (CMAKE_CXX_COMPILER  "/usr/bin/clang++")
+# SET (CMAKE_CXX_COMPILER  "/usr/bin/clang++")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wno-deprecated-register")
 
 project(javacompiler CXX)
