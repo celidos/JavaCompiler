@@ -42,7 +42,7 @@
 
 %parse-param { MC_Scanner  &scanner  }
 %parse-param { MC_Driver  &driver  }
-%parse-param { ast::PGoal * root }
+%parse-param { ast::PGoal* root }
 
 %code{
    #include <memory>
@@ -117,7 +117,6 @@
 
 %left OPERATION_LITERAL
 %right UNARY_NEGATION
-%right NEW
 
 %right LBRACKET
 %right LBRACE
@@ -157,8 +156,8 @@ class
 
 
 method_args
-      : type IDENTIFIER COMMA method_args
-          {$4.push_back(std::make_pair($1, $2)); $$ = $4;}
+      : method_args COMMA type IDENTIFIER
+          {$1.push_back(std::make_pair($3, $4)); $$ = $1;}
       | type IDENTIFIER
           {std::vector<std::pair<ast::PType, std::string>> array; array.push_back(std::make_pair($1, $2)); $$ = array;}
 
