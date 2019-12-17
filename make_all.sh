@@ -2,7 +2,7 @@
 #!/usr/bin/env bash
 
 echo "[run] Cleaning..."
-rm -rf ./build
+# rm -rf ./build
 
 echo "[run] Creating build directory..."
 mkdir build
@@ -13,4 +13,5 @@ cmake ..
 
 echo "[run] Starting make..."
 pwd
-make
+# make
+cmake --build .

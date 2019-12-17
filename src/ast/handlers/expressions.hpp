@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include <vector>
-#include <yyltype.hpp>
+#include "yyltype.hpp"
 #include "../ast/visitors/visitable.hpp"
 #include "../ast/visitors/ivisitor.hpp"
 

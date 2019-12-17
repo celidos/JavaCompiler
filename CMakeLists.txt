@@ -5,6 +5,7 @@ if (UNIX AND NOT APPLE)
 endif()
 
 # SET (CMAKE_CXX_COMPILER "/Library/Developer/CommandLineTools/usr/bin/clang++")
+
 if(LINUX)
     message("")
     message(STATUS "LINUX DETECTED, choosing g++ compiler. If that's not true, please, check out CMakeLists.txt")
@@ -21,6 +22,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wno-deprecated-registe
 
 project(javacompiler CXX)
 
+
+
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
@@ -31,6 +34,15 @@ FLEX_TARGET (mc_lexer
              src/mc_lexer.l
              ${CMAKE_CURRENT_BINARY_DIR}/mc_lexer.yy.cc)
 
+
+
+# TEST TEST -----------------------------------------------------------------
+include(GNUInstallDirs)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
+# TEST TEST -----------------------------------------------------------------
+
 add_subdirectory(src/ast)
 add_subdirectory(src/irt)
 add_subdirectory(src/smart_graphviz)
@@ -39,22 +51,21 @@ ADD_FLEX_BISON_DEPENDENCY(mc_lexer mc_parser)
 
 add_executable(javacompiler
     src/main.cpp
-    src/mc_driver.cpp
+)
 
+add_library(driver STATIC
+    src/mc_driver.cpp
     ${FLEX_mc_lexer_OUTPUTS}
     ${BISON_mc_parser_OUTPUTS}
 )
+target_include_directories(driver PUBLIC ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} )
 
-target_link_libraries(javacompiler
-    PUBLIC irt
+target_link_libraries(driver
+    PUBLIC ast irt smart_graphviz
 )
 
 target_link_libraries(javacompiler
-    PUBLIC ast
-)
-
-target_link_libraries(javacompiler
-    PUBLIC smart_graphviz
+    PUBLIC driver
 )
 
 target_include_directories(javacompiler
@@ -65,7 +76,17 @@ set_property(TARGET javacompiler
 
 message("Current binary dir: " ${CMAKE_CURRENT_BINARY_DIR})
 
-# enable_testing()
-# add_test(NAME basic
-#         COMMAND ${CMAKE_SOURCE_DIR}/test/test0.pl
-#         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+include(cmake/googletest.cmake)
+fetch_googletest(
+    ${PROJECT_SOURCE_DIR}/cmake
+    ${PROJECT_BINARY_DIR}/googletest
+    )
+
+
+include(CTest)
+
+enable_testing()
+
+add_subdirectory(test)
+# -------------------------------------------------------------------------------------------
+

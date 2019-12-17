@@ -36,6 +36,8 @@ public:
    void parse(const char * input_filename,
               const char * ast_dot_output_filename,
               const char * irt_dot_output_filename);
+
+   int __return_five() const { return 5; }
 private:
 
    void parse_helper(std::istream &input_stream,
