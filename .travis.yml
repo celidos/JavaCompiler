@@ -26,4 +26,4 @@ install:
 script:
   - ./make_all.sh
   - cd build
-  - ctest .
+  - ctest . --verbose
