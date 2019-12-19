@@ -15,7 +15,7 @@ namespace ast {
         }
         initTypes();
         AddParentClasses();
-        // table_->Print();
+        //table_->Print();
         goal->getMainClass()->accept(this);
         std::unordered_set<std::string> class_names;
         for (const auto& pclass: goal->getClasses()) {

@@ -53,9 +53,9 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     // TODO: разбить на более мелкие функции, это уже не просто парсинг, тут вообще
     // весь пайплайн
 
-    std::cerr << "Running PrettyPrinter..." << std::endl;
-    ast::VisitorPrettyPrinter visit_pretty_printer;
-    root->accept(&visit_pretty_printer);
+    // std::cerr << "Running PrettyPrinter..." << std::endl;
+    // ast::VisitorPrettyPrinter visit_pretty_printer;
+    // root->accept(&visit_pretty_printer);
 
     std::cerr << std::endl << "Running AST Graphviz..." << std::endl;
     ast::VisitorGraphviz visit_ast_graphviz("ast_graph");
