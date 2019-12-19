@@ -21,6 +21,7 @@ namespace symtable
 class MethodInfo
 {
 public:
+    explicit MethodInfo() = default;
     MethodInfo(const std::string& name, const std::string& privacy, const std::string& type) :
         name_(name),
         privacy_(privacy),
@@ -111,6 +112,7 @@ typedef std::shared_ptr<MethodInfo> PMethodInfo;
 class ClassInfo
 {
 public:
+    explicit ClassInfo() = default;
     ClassInfo(const std::string& name): name_(name) {}
     ClassInfo(const std::string& name, const std::string& parent): name_(name), parent_(parent) {}
 

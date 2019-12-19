@@ -29,6 +29,7 @@ namespace ast {
     }
 
     void VisitorTypecheckerBuilder::visit(const MainClass* main_class) {
+        curr_method_info_ = std::make_shared<symtable::MethodInfo>();
         main_class->getStatement()->accept(this);
     }
 
@@ -149,7 +150,7 @@ namespace ast {
             check_and_print_invalid_type(right_type, "Boolean", expr->getRight()->getPos());
             check_and_print_invalid_type(left_type, "Boolean", expr->getLeft()->getPos());
             type_stack_.push_back("Boolean");
-        } else if (expr->getOp() == "<") {
+        } else if (expr->getOp() == "<" || expr->getOp() == "==") {
             check_and_print_invalid_type(right_type, "INT", expr->getRight()->getPos());
             check_and_print_invalid_type(left_type, "INT", expr->getLeft()->getPos());
             type_stack_.push_back("Boolean");
