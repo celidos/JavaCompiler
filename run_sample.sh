@@ -18,19 +18,21 @@ OUTPUT_AST_GRAPH_DOT_FILENAME=$2.dot
 OUTPUT_IRT_GRAPH_IMG_FILENAME=$3.svg
 OUTPUT_IRT_GRAPH_DOT_FILENAME=$3.dot
 
-if [ ! -f "$OUTPUT_AST_GRAPH_DOT_FILENAME" ]; then
-  touch "$OUTPUT_AST_GRAPH_DOT_FILENAME"
-fi
 
-if [ ! -f "$OUTPUT_IRT_GRAPH_DOT_FILENAME" ]; then
-  touch "$OUTPUT_IRT_GRAPH_DOT_FILENAME"
-fi
 
 echo "[run] Starting program..."
 ./build/bin/javacompiler ${INPUT_FILENAME} ${OUTPUT_AST_GRAPH_DOT_FILENAME} ${OUTPUT_IRT_GRAPH_DOT_FILENAME}
 
 status=$?
 if [ "$status" == "0" ]; then
+    if [ ! -f "$OUTPUT_AST_GRAPH_DOT_FILENAME" ]; then
+      touch "$OUTPUT_AST_GRAPH_DOT_FILENAME"
+    fi
+
+    if [ ! -f "$OUTPUT_IRT_GRAPH_DOT_FILENAME" ]; then
+      touch "$OUTPUT_IRT_GRAPH_DOT_FILENAME"
+    fi
+    
     echo "[run] Running AST graphviz..."
     dot -Tsvg ${OUTPUT_AST_GRAPH_DOT_FILENAME} -o ${OUTPUT_AST_GRAPH_IMG_FILENAME}
     echo "[run] Running IRT graphviz..."
