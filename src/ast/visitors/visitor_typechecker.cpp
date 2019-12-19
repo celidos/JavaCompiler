@@ -6,8 +6,6 @@
 #include <cassert>
 
 namespace ast {
-
-
     void VisitorTypecheckerBuilder::visit(const Goal* goal) {
         // table_->Print();
         if (!checkCycle()) {

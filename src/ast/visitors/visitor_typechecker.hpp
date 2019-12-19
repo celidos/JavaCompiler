@@ -28,8 +28,9 @@ namespace ast {
         VisitorTypecheckerBuilder(symtable::PTableGlobal symb_table) : table_(symb_table) {}
 
         void print_error_place(const MC::YYLTYPE& place) {
-            std::cout <<  " (in line "<<place.first_line <<" and in position "<< place.first_column<<")\n";
-            no_mistakes = false;
+            std::cout <<  " (in line "<<place.first_line << " and in position "
+                << place.first_column << ")\n";
+            no_mistakes_ = false;
         }
 
         void check_and_print_invalid_type(const std::string& curr_type,
@@ -41,8 +42,9 @@ namespace ast {
             }
         }
 
+        bool check_errors() const { return no_mistakes_; }
     private:
-        bool no_mistakes = true;
+        bool no_mistakes_ = true;
         bool curr_expr_may_be_lvalue = false;
         std::shared_ptr<symtable::TableGlobal> table_;
         std::unordered_set<std::string> types_;
@@ -108,7 +110,7 @@ namespace ast {
                 if (used[vert.first] == 0) {
                   if (!DFScheckCycle(graph, vert.first, used)) {
                       std::cout << "\n";
-                      no_mistakes = false;
+                      no_mistakes_ = false;
                       return false;
                   }
                 }

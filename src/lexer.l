@@ -157,5 +157,8 @@ LEX_UNARY_NEGATION "!"
 
 {LEX_OPERATORS} { handleToken(std::string(1, yytext[0]), lexem_iterator); }
 
-.  { std::cout << std::endl << "UNKNOWN  " << yytext << std::endl; }
+.  {
+    std::cout << std::endl << "UNKNOWN  " << yytext << std::endl;
+    exit(-1);
+}
 %%

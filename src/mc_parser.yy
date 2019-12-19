@@ -257,6 +257,6 @@ expr
 void
 MC::MC_Parser::error( const location_type &l, const std::string &err_message )
 {
-   std::cerr << "Error: " << err_message << " at " << l << "\n";
-   exit(0);
+   std::cerr << "Syntax error: " << err_message << " at " << l << "\n";
+   exit(-1);
 }

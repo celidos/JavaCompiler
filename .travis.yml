@@ -23,4 +23,6 @@ install:
   - ls
 
 script:
-  - sh ./make_all.sh
+  - ./make_all.sh
+  - cd build
+  - ctest .

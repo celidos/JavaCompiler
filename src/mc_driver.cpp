@@ -46,6 +46,7 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     const int accept = 0;
     if (parser->parse() != accept) {
         std::cerr << "Parsing failed!" << std::endl;
+        exit(-1);
     } else {
         std::cerr << "Parsing OK" << std::endl;
     }
@@ -69,6 +70,11 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     std::cerr << "Running Typechecker building..." << std::endl;
     ast::VisitorTypecheckerBuilder visit_build_typechecker(visit_build_symtable.getTable());
     root->accept(&visit_build_typechecker);
+
+
+    if (!visit_build_typechecker.check_errors()) {
+        exit(-1);
+    }
 
 
     // std::cerr << "Running IRT building..." << std::endl;

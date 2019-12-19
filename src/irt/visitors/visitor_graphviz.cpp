@@ -1,6 +1,5 @@
 #include "visitor_graphviz.hpp"
 
-
 namespace irt {
 
 void VisitorIrtGraphviz::visit(const ExpressionLoadConst *loader) {
