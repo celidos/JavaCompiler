@@ -1,15 +1,16 @@
 #include "mc_driver.hpp"
 
+
 MC::MC_Driver::~MC_Driver() {
-    delete(scanner);
+    delete (scanner);
     scanner = nullptr;
-    delete(parser);
+    delete (parser);
     parser = nullptr;
 }
 
-void MC::MC_Driver::parse(const char * const input_filename,
-                          const char * const ast_dot_output_filename,
-                          const char * const irt_dot_output_filename) {
+void MC::MC_Driver::parse(const char *const input_filename,
+                          const char *const ast_dot_output_filename,
+                          const char *const irt_dot_output_filename) {
     assert(input_filename != nullptr);
     std::ifstream in_file(input_filename);
     if (!in_file.good()) {
@@ -38,10 +39,10 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
 
     std::cerr << std::endl;
 
-    delete(scanner);
+    delete (scanner);
     scanner = new MC::MC_Scanner(&input_stream);
 
-    delete(parser);
+    delete (parser);
     parser = new MC::MC_Parser(*scanner, *this, &root);
     const int accept = 0;
     if (parser->parse() != accept) {
@@ -65,27 +66,24 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     ast::VisitorSymtableBuilder visit_build_symtable;
     root->accept(&visit_build_symtable);
 
+//    std::cerr << "Running Typechecker building..." << std::endl;
+//    ast::VisitorTypecheckerBuilder visit_build_typechecker(visit_build_symtable.getTable());
+//    root->accept(&visit_build_typechecker);
 
-    std::cerr << "Running Typechecker building..." << std::endl;
-    ast::VisitorTypecheckerBuilder visit_build_typechecker(visit_build_symtable.getTable());
-    root->accept(&visit_build_typechecker);
+    std::cerr << "Running IRT building..." << std::endl;
+    ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
+    root->accept(&visit_build_irt);
 
-
-    // std::cerr << "Running IRT building..." << std::endl;
-    // ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
-    // root->accept(&visit_build_irt);
-
-    // std::cerr << "Running IRT Graphviz..." << std::endl;
-    // irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
-    // visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
+    std::cerr << "Running IRT Graphviz..." << std::endl;
+    irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
+    visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
 
     std::cerr << "Serializing AST..." << std::endl;
     Graphs::UndirectedGraphSerializer::serialize(visit_ast_graphviz.GetGraph(),
                                                  ast_dot_output_stream);
 
-    // std::cerr << "Serializing IRT..." << std::endl;
-    // Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
-    //                                             irt_dot_output_stream);
-
+    std::cerr << "Serializing IRT..." << std::endl;
+    Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
+                                                 irt_dot_output_stream);
 
 }

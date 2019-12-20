@@ -28,6 +28,7 @@ public:
         return statement_;
     }
 
+    // return
     const PExpression& getExpression() const {
         return expr_;
     }
