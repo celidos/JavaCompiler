@@ -89,7 +89,7 @@ public:
         }
     }
 private:
-    bool is_public;
+    bool is_public = false;
     int curr_arg = 0;
     std::string name_;
     std::string return_type_;

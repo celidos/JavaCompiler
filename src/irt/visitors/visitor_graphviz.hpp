@@ -15,7 +15,7 @@ namespace irt {
 
 class VisitorIrtGraphviz : public IVisitor {
 public:
-    explicit VisitorIrtGraphviz(std::string graph_name) : graph_(graph_name) { };
+    explicit VisitorIrtGraphviz(const std::string& graph_name) : graph_(graph_name) { };
 
     const Graphs::UndirectedGraph& GetGraph() {
         return graph_;

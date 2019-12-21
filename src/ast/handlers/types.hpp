@@ -30,7 +30,7 @@ typedef std::shared_ptr<Type> PType;
 
 class TypeInt : public Type {
 public:
-    TypeInt(MC::YYLTYPE pos) { setPos(pos); }
+    explicit TypeInt(MC::YYLTYPE pos) { setPos(pos); }
 
     std::string getType() const { return "INT"; }
     void accept(IVisitor *visitor) const { visitor->visit(this); }
@@ -40,7 +40,7 @@ typedef std::shared_ptr<TypeInt> PTypeInt;
 
 class TypeBoolean : public Type {
 public:
-    TypeBoolean(MC::YYLTYPE pos) { setPos(pos); }
+    explicit TypeBoolean(MC::YYLTYPE pos) { setPos(pos); }
 
     std::string getType() const { return "Boolean"; }
     void accept(IVisitor *visitor) const { visitor->visit(this); }
@@ -51,7 +51,7 @@ typedef std::shared_ptr<TypeBoolean> PTypeBoolean;
 
 class TypeArray : public Type {
 public:
-    TypeArray(MC::YYLTYPE pos) { setPos(pos); }
+    explicit TypeArray(MC::YYLTYPE pos) { setPos(pos); }
 
     std::string getType() const { return "Array"; }
     void accept(IVisitor *visitor) const { visitor->visit(this); }

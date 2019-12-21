@@ -3,7 +3,7 @@
 
 pwd
 cd ..
-./run_sample.sh $1 $2 $3
+./run_sample.sh "$1" "$2" "$3"
 status=$?
 
 VALGRIND_MEMCHECK_FAIL_CODE=100
@@ -15,15 +15,15 @@ VALGRIND_MEMCHECK_FAIL_CODE=100
 #   100 valgrid memory leaks
 
 if [[ $4 == 0 && $status != 0 || $4 != 1 && $status != $4 || $4 == 1 && $status == 0 ]]; then
-    echo -e "test " $1 " " $2 " " $3 ", expected " $4 ", got " $status
+    echo -e "test " "$1" " " "$2" " " "$3" ", expected " "$4" ", got " "$status"
     exit 1
 fi
 
-./run_sample.sh $1 $2 $3 mem_check
+./run_sample.sh "$1" "$2" "$3" mem_check
 status=$?
 echo "Memcheck status" "$status"
 if [ $status -eq $VALGRIND_MEMCHECK_FAIL_CODE ]; then
-    echo -e "test " $1 " " $2 " " $3 " - Memory check failed"
+    echo -e "test " "$1" " " "$2" " " "$3" " - Memory check failed"
     exit 1
 fi
 

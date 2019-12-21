@@ -25,7 +25,9 @@ namespace ast {
 
     class VisitorTypecheckerBuilder : public IVisitor {
     public:
-        VisitorTypecheckerBuilder(symtable::PTableGlobal symb_table) : table_(symb_table) {}
+        explicit VisitorTypecheckerBuilder(symtable::PTableGlobal symb_table) :
+            table_(symb_table)
+        { }
 
         void print_error_place(const MC::YYLTYPE& place) {
             std::cout <<  " (in line "<<place.first_line << " and in position "

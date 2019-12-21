@@ -12,7 +12,7 @@ typedef std::shared_ptr<Statement> PStatement;
 
 class StatementList : public IVisitable {
 public:
-    StatementList(const std::vector<PStatement> &statements) : statements_(statements) { }
+    explicit StatementList(const std::vector<PStatement> &statements) : statements_(statements) { }
 
     StatementList(PStatement statement) {
         addStatement(statement);

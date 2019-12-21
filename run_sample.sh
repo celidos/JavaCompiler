@@ -8,7 +8,7 @@ if ! [[ $# -eq 3 || $# -eq 4 ]]
     exit 0
 fi
 
-echo "[run] Running sample" $1 $2 $3 $4 "..."
+echo "[run] Running sample" "$1" "$2" "$3" "$4" "..."
 pwd
 
 INPUT_FILENAME=$1
@@ -23,12 +23,13 @@ echo "[run] Starting program..."
 if [ "$MEMORY_CHECK" = "mem_check" ]; then
     echo "[run] MEMORY_CHECK flag found, running via valgrind"
     
-    valgrind --leak-check=full --error-exitcode=${VALGRIND_MEMCHECK_FAIL_CODE} \
-        ./build/bin/javacompiler ${INPUT_FILENAME} ${OUTPUT_AST_GRAPH_DOT_FILENAME} ${OUTPUT_IRT_GRAPH_DOT_FILENAME} > valgrind.log 2>&1
+    valgrind --leak-check=full --error-exitcode="${VALGRIND_MEMCHECK_FAIL_CODE}" \
+        ./build/bin/javacompiler "${INPUT_FILENAME}" \
+        "${OUTPUT_AST_GRAPH_DOT_FILENAME}" "${OUTPUT_IRT_GRAPH_DOT_FILENAME}" > valgrind.log 2>&1
     status=$?
     
 else
-    ./build/bin/javacompiler ${INPUT_FILENAME} ${OUTPUT_AST_GRAPH_DOT_FILENAME} ${OUTPUT_IRT_GRAPH_DOT_FILENAME}
+    ./build/bin/javacompiler "${INPUT_FILENAME}" "${OUTPUT_AST_GRAPH_DOT_FILENAME}" "${OUTPUT_IRT_GRAPH_DOT_FILENAME}"
     status=$?
 fi
 
@@ -42,9 +43,9 @@ if [ "$status" == "0" ]; then
     fi
     
     echo "[run] Running AST graphviz..."
-    dot -Tsvg ${OUTPUT_AST_GRAPH_DOT_FILENAME} -o ${OUTPUT_AST_GRAPH_IMG_FILENAME}
+    dot -Tsvg "${OUTPUT_AST_GRAPH_DOT_FILENAME}" -o "${OUTPUT_AST_GRAPH_IMG_FILENAME}"
     echo "[run] Running IRT graphviz..."
-    dot -Tsvg ${OUTPUT_IRT_GRAPH_DOT_FILENAME} -o ${OUTPUT_IRT_GRAPH_IMG_FILENAME}
+    dot -Tsvg "${OUTPUT_IRT_GRAPH_DOT_FILENAME}" -o "${OUTPUT_IRT_GRAPH_IMG_FILENAME}"
     
     exit ${status}
 else

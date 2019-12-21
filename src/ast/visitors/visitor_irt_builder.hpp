@@ -29,7 +29,7 @@ namespace ast {
 
 class VisitorIrtBuilder : public IVisitor {
 public:
-    VisitorIrtBuilder(std::shared_ptr<symtable::TableGlobal> symbolTable) :
+    explicit VisitorIrtBuilder(std::shared_ptr<symtable::TableGlobal> symbolTable) :
         symbol_table_(symbolTable)
     {  }
 

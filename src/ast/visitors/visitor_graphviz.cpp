@@ -2,7 +2,7 @@
 
 namespace ast {
 
-VisitorGraphviz::VisitorGraphviz(std::string graph_name): graph(graph_name){
+VisitorGraphviz::VisitorGraphviz(const std::string& graph_name): graph(graph_name){
 }
 
 void VisitorGraphviz::visit(const ExpressionInt* expr) {

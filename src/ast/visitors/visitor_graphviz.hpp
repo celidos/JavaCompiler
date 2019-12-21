@@ -24,7 +24,7 @@ class VisitorGraphviz : public IVisitor {
 public:
     VisitorGraphviz() = default;
 
-    VisitorGraphviz(std::string graph_name);
+    explicit VisitorGraphviz(const std::string& graph_name);
 
     const Graphs::UndirectedGraph& GetGraph(){
     	return graph;

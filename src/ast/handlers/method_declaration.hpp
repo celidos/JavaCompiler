@@ -18,7 +18,7 @@ public:
     MethodDeclaration(const std::string &privacy,
                 const PType &type,
                 const std::string &identifier,
-                const std::vector<std::pair<PType, std::string>> args,
+                const std::vector<std::pair<PType, std::string>>& args,
                 const PMethodBody &method_body,
                 MC::YYLTYPE pos) :
         identifier_(identifier), args_(args), type_(type), method_body_(method_body),  \

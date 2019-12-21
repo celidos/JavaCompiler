@@ -12,8 +12,8 @@ typedef std::shared_ptr<Expression> PExpression;
 
 class ExpressionList : public IVisitable {
 public:
-    ExpressionList(){}
-    ExpressionList(PExpression expression) {
+    ExpressionList() {}
+    explicit ExpressionList(PExpression expression) {
         addExpression(expression);
     }
 

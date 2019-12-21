@@ -5,4 +5,4 @@ VERBOSE=${1:-}
 
 cd build
 
-ctest . ${VERBOSE}
+ctest . "${VERBOSE}"

@@ -30,7 +30,7 @@ typedef std::shared_ptr<Expression> PExpression;
  */
 class ExpressionLoadConst : public Expression {
 public:
-    ExpressionLoadConst(int value) : value_(value) {};
+    explicit ExpressionLoadConst(int value) : value_(value) {};
 
     int getValue() const {
         return value_;
@@ -50,7 +50,7 @@ typedef std::shared_ptr<ExpressionLoadConst> PExpressionLoadConst;
 
 class ExpressionBinaryOp : public Expression {
 public:
-    ExpressionBinaryOp(std::string operation_type,
+    ExpressionBinaryOp(const std::string& operation_type,
                        const PExpression &left, const PExpression &right) :
         operation_(operation_type),
         left_(left),
@@ -119,7 +119,7 @@ typedef std::shared_ptr<ExpressionBinaryOp> PExpressionBinaryOp;
 
 class ExpressionName : public Expression {
 public:
-    ExpressionName(const std::string &name) : name_(name) {}
+    explicit ExpressionName(const std::string &name) : name_(name) {}
 
     std::string getName() const {
         return name_;
@@ -165,7 +165,7 @@ typedef std::shared_ptr<ExpressionCall> PExpressionCall;
 
 class ExpressionTemp : public Expression {
 public:
-    ExpressionTemp(const Register &memory_) : register_(memory_) {}
+    explicit ExpressionTemp(const Register &memory_) : register_(memory_) {}
 
     Register getRegister() const { return register_; }
 

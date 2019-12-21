@@ -91,7 +91,7 @@ void VisitorIrtBuilder::visit(const MethodBody *method_body) {
             auto seq = std::make_shared<irt::StatementSeq>(statement1->toStatement(),
                                                            statement2->toStatement());
 
-            for (int i = 2; i < statement_array.size(); i++) {
+            for (int i = 2; i < static_cast<int>(statement_array.size()); i++) {
                 statement_array[i]->accept(this);
                 auto statement = tree_;
                 seq = std::make_shared<irt::StatementSeq>(seq, statement->toStatement());
