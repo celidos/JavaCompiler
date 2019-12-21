@@ -9,9 +9,6 @@ public:
     IVisitable() = default;
     virtual ~IVisitable() = default;
     virtual void accept(IVisitor *visitor) const = 0;
-
-protected:
-    // TODO: add required fields
 };
 
 } // namespace irt

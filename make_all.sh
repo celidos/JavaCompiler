@@ -14,3 +14,4 @@ cmake ..
 echo "[run] Starting make..."
 pwd
 make
+cmake --build .

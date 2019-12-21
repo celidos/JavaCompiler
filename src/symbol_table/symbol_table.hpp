@@ -12,8 +12,6 @@
 namespace symtable
 {
 
-/// TODO REFACTOR ADD MORE REFACTOR ADD MORE REFACTOR ADD MORE
-
 /***************************************************************************************************
  * Method info
  */

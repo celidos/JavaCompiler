@@ -30,5 +30,5 @@ echo "[run] Starting program..."
 echo "[run] Running AST graphviz..."
 dot -Tsvg ${OUTPUT_AST_GRAPH_DOT_FILENAME} -o ${OUTPUT_AST_GRAPH_IMG_FILENAME}
 
-#echo "[run] Running IRT graphviz..."
-#dot -Tsvg ${OUTPUT_IRT_GRAPH_DOT_FILENAME} -o ${OUTPUT_IRT_GRAPH_IMG_FILENAME}
+echo "[run] Running IRT graphviz..."
+dot -Tsvg ${OUTPUT_IRT_GRAPH_DOT_FILENAME} -o ${OUTPUT_IRT_GRAPH_IMG_FILENAME}
