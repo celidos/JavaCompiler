@@ -18,10 +18,10 @@ void VisitorPrettyPrinter::visit(const ExpressionInt* expr) {
 }
 
 void VisitorPrettyPrinter::visit(const ExpressionBinaryOp* expr) {
-	YYLTYPE pos = expr->getPos();
+	// YYLTYPE pos = expr->getPos();
 	// std::cout << pos;
 	// std::cout << pos.first_line << ':' << pos.first_column << " - "
- //       << pos.last_line  << ':' << pos.last_column;
+    //     << pos.last_line  << ':' << pos.last_column;
     std::cout << "BinaryOp(";
     expr->getLeft()->accept(this);
     std::cout << ", ";

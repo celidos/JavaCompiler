@@ -52,7 +52,7 @@ public:
         std::string &operation,
         const MC::YYLTYPE pos
     ) :
-        left_(left), right_(right), operation_(operation) {
+        operation_(operation), left_(left), right_(right) {
             setPos(pos);
         }
 

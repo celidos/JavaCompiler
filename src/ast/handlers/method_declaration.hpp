@@ -20,7 +20,12 @@ public:
                 const std::string &identifier,
                 const std::vector<std::pair<PType, std::string>> args,
                 const PMethodBody &method_body,
-            MC::YYLTYPE pos) : privacy_(privacy), type_(type), identifier_(identifier), args_(args), method_body_(method_body) { setPos(pos); }
+                MC::YYLTYPE pos) :
+        identifier_(identifier), args_(args), type_(type), method_body_(method_body),  \
+        privacy_(privacy)
+    {
+        setPos(pos);
+    }
 
     const PType &getType() const {
         return type_;

@@ -74,23 +74,21 @@ target_include_directories(javacompiler
 set_property(TARGET javacompiler
     PROPERTY CXX_STANDARD 11)
 
-#message("Current binary dir: " ${CMAKE_CURRENT_BINARY_DIR})
-
 include(cmake/googletest.cmake)
 fetch_googletest(
     ${PROJECT_SOURCE_DIR}/cmake
     ${PROJECT_BINARY_DIR}/googletest
     )
 
+# -----------------------------------------------------------------------
+
 include(CTest)
 
 enable_testing()
- 
-#add_subdirectory(tests)
 
 # -----------------------------------------------------------------------
 
-add_test(NAME test_two_plus_two COMMAND         "./../run_test.sh" 
+add_test(NAME test_two_plus_two COMMAND  "./../run_test.sh"
                                          "./samples/good_samples/two_plus_two.java"
                                          "./output/ast_graphs/tmp_ast"
                                          "./output/irt_graphs/tmp_ast"
@@ -275,15 +273,16 @@ add_test(NAME test_tc_bonus COMMAND "./../run_test.sh"
                                  "." 
                                  1)
 
-
-#add_executable(
+# INSTRUCTION: if you will add some google tests in future, just uncomment this example
+#
+# add_executable(
 #    unit_tests
 #    main.cpp
 #    )
 #
 #
-#target_include_directories(unit_tests PRIVATE ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
-#target_link_libraries(
+# target_include_directories(unit_tests PRIVATE ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
+# target_link_libraries(
 #    unit_tests
 #    gtest_main
 #    ast
@@ -291,7 +290,7 @@ add_test(NAME test_tc_bonus COMMAND "./../run_test.sh"
 #    )
 #
 #
-#add_test(
+# add_test(
 #  NAME
 #    test_example
 #  COMMAND

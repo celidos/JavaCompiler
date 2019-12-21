@@ -19,8 +19,12 @@ namespace ast {
 class Goal : public IVisitable {
 public:
     Goal(const PMainClass& main_class,
-        const std::vector<PClass>& classes,
-            MC::YYLTYPE pos) : main_class_(main_class), classes_(classes)  { setPos(pos);}
+         const std::vector<PClass>& classes,
+         MC::YYLTYPE pos) :
+        classes_(classes), main_class_(main_class)
+    {
+        setPos(pos);
+    }
 
     const PMainClass& getMainClass() const {
         return main_class_;

@@ -4,6 +4,7 @@
 
 /* Implementation of yyFlexScanner */
 #include "src/mc_scanner.hpp"
+#include "src/errors.hpp"
 #undef  YY_DECL
 #define YY_DECL int MC::MC_Scanner::yylex( MC::MC_Parser::semantic_type * const lval, MC::MC_Parser::location_type *loc )
 
@@ -153,7 +154,6 @@ LEX_UNARY_NEGATION "!"
 
 
 {LEX_INTEGER_LITERAL} {
-	//std::cout << " LEX_INTEGER_LITERAL ";
     yylval->build<int>(atoi(yytext));
     return token::INTEGER_LITERAL;
 }
@@ -181,7 +181,7 @@ LEX_UNARY_NEGATION "!"
 }
 
 {LEX_COMMENT} {
-
+    // do nothing because we are ignoring comments
 }
 
 {LEX_SPACE} {
@@ -190,7 +190,6 @@ LEX_UNARY_NEGATION "!"
 }
 
 {LEX_OPERATORS} {
-	//std::cout << " LEX_OPERATORS ";
 	yylval->build<std::string>(yytext);
     return token::OPERATION_LITERAL;
 }
@@ -233,6 +232,9 @@ LEX_UNARY_NEGATION "!"
     return 0;
 }
 
-.  { std::cout << std::endl << "UNKNOWN  " << yytext << std::endl; }
+.  {
+    std::cout << std::endl << "UNKNOWN  " << yytext << std::endl;
+    exit(javacompiler::JC_EXIT_COMP_FAILURE_SYNTERR);
+}
 %%
 

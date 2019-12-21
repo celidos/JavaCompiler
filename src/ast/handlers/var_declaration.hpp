@@ -13,7 +13,11 @@ namespace ast {
 
 class VarDeclaration : public IVisitable {
 public:
-    VarDeclaration(const PType &type, const std::string &identifier, MC::YYLTYPE pos) : type_(type), identifier_(identifier) { setPos(pos); }
+    VarDeclaration(const PType &type, const std::string &identifier, MC::YYLTYPE pos) :
+        type_(type), identifier_(identifier)
+    {
+        setPos(pos);
+    }
 
     const PType &getType() const {
         return type_;
@@ -25,8 +29,8 @@ public:
 
     void accept(IVisitor *visitor) const { visitor->visit(this); }
 private:
-    std::string identifier_;
     PType type_;
+    std::string identifier_;
 
     void setPos(const MC::YYLTYPE pos) { pos_ = pos; }
 };

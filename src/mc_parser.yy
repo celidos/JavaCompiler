@@ -9,25 +9,27 @@
 // %code requires { #include "src/ast/yyltype.hhp" }
 
 %code requires{
-   #include <iostream>
-   #include <cstdlib>
-   #include <fstream>
-   #include <string>
 
-   #include "src/ast/handlers/expressions.hpp"
-   #include "src/ast/handlers/statements.hpp"
-   #include "src/ast/handlers/types.hpp"
-   #include "src/ast/handlers/var_declaration.hpp"
-   #include "src/ast/handlers/method_body.hpp"
-   #include "src/ast/handlers/method_declaration.hpp"
-   #include "src/ast/handlers/main_class.hpp"
-   #include "src/ast/handlers/class.hpp"
-   #include "src/ast/handlers/goal.hpp"
+#include <iostream>
+#include <cstdlib>
+#include <fstream>
+#include <string>
 
-   namespace MC {
-      class MC_Driver;
-      class MC_Scanner;
-   }
+#include "src/ast/handlers/expressions.hpp"
+#include "src/ast/handlers/statements.hpp"
+#include "src/ast/handlers/types.hpp"
+#include "src/ast/handlers/var_declaration.hpp"
+#include "src/ast/handlers/method_body.hpp"
+#include "src/ast/handlers/method_declaration.hpp"
+#include "src/ast/handlers/main_class.hpp"
+#include "src/ast/handlers/class.hpp"
+#include "src/ast/handlers/goal.hpp"
+#include "src/errors.hpp"
+
+namespace MC {
+    class MC_Driver;
+    class MC_Scanner;
+}
 
 // The following definitions is missing when %locations isn't used
 # ifndef YY_NULLPTR
@@ -45,12 +47,12 @@
 %parse-param { ast::PGoal* root }
 
 %code{
-   #include <memory>
+    #include <memory>
 
    /* include for all driver functions */
-   #include "src/mc_driver.hpp"
+    #include "src/mc_driver.hpp"
 
-   MC::YYLTYPE LLCAST(MC::location x) { return MC::YYLTYPE({(x.begin.line), (x.begin.column), (x.end.line), (x.end.column)} ); }
+    MC::YYLTYPE LLCAST(MC::location x) { return MC::YYLTYPE({(x.begin.line), (x.begin.column), (x.end.line), (x.end.column)} ); }
 
 #undef yylex
 #define yylex scanner.yylex
@@ -136,84 +138,86 @@
 
 /* IF YOU WANT TO CHANGE GOAL, YOU HAVE TO REPLACE THIS */
 goal
-      : main_class classes {$$ = std::make_shared<ast::Goal>($1, $2, LLCAST(@$)); *root = $$;}
+    : main_class classes {$$ = std::make_shared<ast::Goal>($1, $2, LLCAST(@$)); *root = $$;}
 
 main_class
-      : CLASS IDENTIFIER LBRACE PRIVACY STATIC VOID MAIN LBRACKET STRING LSQUAREBRACKET RSQUAREBRACKET IDENTIFIER RBRACKET LBRACE statement RBRACE RBRACE
+    : CLASS IDENTIFIER LBRACE PRIVACY STATIC VOID MAIN LBRACKET STRING LSQUAREBRACKET RSQUAREBRACKET IDENTIFIER RBRACKET LBRACE statement RBRACE RBRACE
         {$$ = std::make_shared<ast::MainClass>($2, $4, $12, $15, LLCAST(@$));}
 
 
 classes
-      : classes class { $1.push_back($2); $$ = $1; }
-      | { std::vector<ast::PClass> array; $$ = array; }
+    : classes class { $1.push_back($2); $$ = $1; }
+    |
+        { std::vector<ast::PClass> array; $$ = array; }
 
 
 class
-      : CLASS IDENTIFIER LBRACE var_declarations method_declarations RBRACE
-          {$$ = std::make_shared<ast::Class>($2, $4, $5, LLCAST(@$));}
-      | CLASS IDENTIFIER EXTENDS IDENTIFIER LBRACE var_declarations method_declarations RBRACE
-          {$$ = std::make_shared<ast::Class>($2, $4, $6, $7, LLCAST(@$));}
+    : CLASS IDENTIFIER LBRACE var_declarations method_declarations RBRACE
+        {$$ = std::make_shared<ast::Class>($2, $4, $5, LLCAST(@$));}
+    | CLASS IDENTIFIER EXTENDS IDENTIFIER LBRACE var_declarations method_declarations RBRACE
+        {$$ = std::make_shared<ast::Class>($2, $4, $6, $7, LLCAST(@$));}
 
 
 method_args
-      : method_args COMMA type IDENTIFIER
-          {$1.push_back(std::make_pair($3, $4)); $$ = $1;}
-      | type IDENTIFIER
-          {std::vector<std::pair<ast::PType, std::string>> array; array.push_back(std::make_pair($1, $2)); $$ = array;}
+    : method_args COMMA type IDENTIFIER
+        {$1.push_back(std::make_pair($3, $4)); $$ = $1;}
+    | type IDENTIFIER
+        {std::vector<std::pair<ast::PType, std::string>> array; array.push_back(std::make_pair($1, $2)); $$ = array;}
 
 
 method_declarations
-      : method_declarations method_declaration
-          { $1.push_back($2); $$ = $1; }
-      | {std::vector<ast::PMethodDeclaration> array; $$ = array;}
+    : method_declarations method_declaration
+        { $1.push_back($2); $$ = $1; }
+    | {std::vector<ast::PMethodDeclaration> array; $$ = array;}
 
 
 method_declaration
-      : PRIVACY type IDENTIFIER LBRACKET method_args RBRACKET method_body
-          {$$ = std::make_shared<ast::MethodDeclaration>($1, $2, $3, $5, $7, LLCAST(@$));}
-      | PRIVACY type IDENTIFIER LBRACKET RBRACKET method_body
-          {$$ = std::make_shared<ast::MethodDeclaration>($1, $2, $3, std::vector<std::pair<ast::PType, std::string>>(), $6, LLCAST(@$));}
+    : PRIVACY type IDENTIFIER LBRACKET method_args RBRACKET method_body
+        {$$ = std::make_shared<ast::MethodDeclaration>($1, $2, $3, $5, $7, LLCAST(@$));}
+    | PRIVACY type IDENTIFIER LBRACKET RBRACKET method_body
+        {$$ = std::make_shared<ast::MethodDeclaration>($1, $2, $3, std::vector<std::pair<ast::PType, std::string>>(), $6, LLCAST(@$));}
 
 
 method_body
-      : LBRACE var_declarations statements RETURN expr DOT_COMMA RBRACE
-          {$$ = std::make_shared<ast::MethodBody>($2, $3, $5, LLCAST(@$));}
+    : LBRACE var_declarations statements RETURN expr DOT_COMMA RBRACE
+        {$$ = std::make_shared<ast::MethodBody>($2, $3, $5, LLCAST(@$));}
 
 var_declaration
-      : type IDENTIFIER DOT_COMMA {$$ = std::make_shared<ast::VarDeclaration>($1, $2, LLCAST(@$));}
+    : type IDENTIFIER DOT_COMMA {$$ = std::make_shared<ast::VarDeclaration>($1, $2, LLCAST(@$));}
 
 var_declarations
-      : var_declarations var_declaration { $1.push_back($2); $$ = $1; }
-      | { std::vector<ast::PVarDeclaration> array; $$ = array; }
+    : var_declarations var_declaration { $1.push_back($2); $$ = $1; }
+    |
+        { std::vector<ast::PVarDeclaration> array; $$ = array; }
 
 type
-      : INT {$$ = std::make_shared<ast::TypeInt>(LLCAST(@$)); }
-      | BOOLEAN {$$ = std::make_shared<ast::TypeBoolean>(LLCAST(@$)); }
-      | INT LSQUAREBRACKET RSQUAREBRACKET {$$ = std::make_shared<ast::TypeArray>(LLCAST(@$)); }
-      | IDENTIFIER {$$ = std::make_shared<ast::TypeClass>($1, LLCAST(@$)); }
+    : INT {$$ = std::make_shared<ast::TypeInt>(LLCAST(@$)); }
+    | BOOLEAN {$$ = std::make_shared<ast::TypeBoolean>(LLCAST(@$)); }
+    | INT LSQUAREBRACKET RSQUAREBRACKET {$$ = std::make_shared<ast::TypeArray>(LLCAST(@$)); }
+    | IDENTIFIER {$$ = std::make_shared<ast::TypeClass>($1, LLCAST(@$)); }
 
 statements
-      : statement statements{ $2.push_back($1); $$ = $2; }
-      | {std::vector<ast::PStatement> array; $$ = array;}
+    : statement statements{ $2.push_back($1); $$ = $2; }
+    | {std::vector<ast::PStatement> array; $$ = array;}
 
 statement
-      : IDENTIFIER ASSIGN expr DOT_COMMA
-          {$$ = std::make_shared<ast::StatementAssign>($1, $3, LLCAST(@$));}
+    : IDENTIFIER ASSIGN expr DOT_COMMA
+        {$$ = std::make_shared<ast::StatementAssign>($1, $3, LLCAST(@$));}
 
-      | LBRACE statements RBRACE
-          {$$ = std::make_shared<ast::Statements>($2, LLCAST(@$));}
+    | LBRACE statements RBRACE
+        {$$ = std::make_shared<ast::Statements>($2, LLCAST(@$));}
 
-      | IF LBRACKET expr RBRACKET statement ELSE statement
-          {$$ = std::make_shared<ast::StatementIf>($3, $5, $7, LLCAST(@$));}
+    | IF LBRACKET expr RBRACKET statement ELSE statement
+        {$$ = std::make_shared<ast::StatementIf>($3, $5, $7, LLCAST(@$));}
 
-      | WHILE LBRACKET expr RBRACKET statement
-          {$$ = std::make_shared<ast::StatementWhile>($3, $5, LLCAST(@$));}
+    | WHILE LBRACKET expr RBRACKET statement
+        {$$ = std::make_shared<ast::StatementWhile>($3, $5, LLCAST(@$));}
 
-      | PRINT LBRACKET expr RBRACKET DOT_COMMA
-          {$$ = std::make_shared<ast::StatementPrint>($3, LLCAST(@$));}
+    | PRINT LBRACKET expr RBRACKET DOT_COMMA
+        {$$ = std::make_shared<ast::StatementPrint>($3, LLCAST(@$));}
 
-      | IDENTIFIER LSQUAREBRACKET expr RSQUAREBRACKET ASSIGN expr DOT_COMMA
-          {$$ = std::make_shared<ast::StatementArrayAssign>($1, $3, $6, LLCAST(@$));}
+    | IDENTIFIER LSQUAREBRACKET expr RSQUAREBRACKET ASSIGN expr DOT_COMMA
+        {$$ = std::make_shared<ast::StatementArrayAssign>($1, $3, $6, LLCAST(@$));}
 
 
 expressions
@@ -258,5 +262,5 @@ void
 MC::MC_Parser::error( const location_type &l, const std::string &err_message )
 {
    std::cerr << "Syntax error: " << err_message << " at " << l << "\n";
-   exit(-1);
+   exit(javacompiler::JC_EXIT_COMP_FAILURE_SYNTERR);
 }

@@ -4,4 +4,7 @@ target
 **.yy.cc
 **/.idea/**
 Testing/
-
+*.dot
+*.svg
+*.txt~
+*.log

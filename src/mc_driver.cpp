@@ -13,19 +13,19 @@ void MC::MC_Driver::parse(const char * const input_filename,
     assert(input_filename != nullptr);
     std::ifstream in_file(input_filename);
     if (!in_file.good()) {
-        exit(EXIT_FAILURE);
+        exit(javacompiler::JC_EXIT_BAD_INPUT);
     }
 
     assert(ast_dot_output_filename != nullptr);
     std::ofstream ast_out_file(ast_dot_output_filename);
     if (!ast_out_file.good()) {
-        exit(EXIT_FAILURE);
+        exit(javacompiler::JC_EXIT_BAD_INPUT);
     }
 
     assert(irt_dot_output_filename != nullptr);
     std::ofstream irt_out_file(irt_dot_output_filename);
     if (!irt_out_file.good()) {
-        exit(EXIT_FAILURE);
+        exit(javacompiler::JC_EXIT_BAD_INPUT);
     }
 
     parse_helper(in_file, ast_out_file, irt_out_file);
@@ -46,7 +46,7 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     const int accept = 0;
     if (parser->parse() != accept) {
         std::cerr << "Parsing failed!" << std::endl;
-        exit(-1);
+        exit(javacompiler::JC_EXIT_COMP_FAILURE_SYNTERR);
     } else {
         std::cerr << "Parsing OK" << std::endl;
     }
@@ -54,9 +54,9 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     // TODO: разбить на более мелкие функции, это уже не просто парсинг, тут вообще
     // весь пайплайн
 
-    std::cerr << "Running PrettyPrinter..." << std::endl;
-    ast::VisitorPrettyPrinter visit_pretty_printer;
-    root->accept(&visit_pretty_printer);
+    //std::cerr << "Running PrettyPrinter..." << std::endl;
+    //ast::VisitorPrettyPrinter visit_pretty_printer;
+    //root->accept(&visit_pretty_printer);
 
     std::cerr << std::endl << "Running AST Graphviz..." << std::endl;
     ast::VisitorGraphviz visit_ast_graphviz("ast_graph");
@@ -73,8 +73,9 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
 
 
     if (!visit_build_typechecker.check_errors()) {
-        exit(-1);
+        exit(javacompiler::JC_EXIT_COMP_FAILURE_TYPEERR);
     }
+
 
 
     // std::cerr << "Running IRT building..." << std::endl;
