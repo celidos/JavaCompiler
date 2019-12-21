@@ -75,8 +75,7 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     if (!visit_build_typechecker.check_errors()) {
         exit(-1);
     }
-
-
+    
     // std::cerr << "Running IRT building..." << std::endl;
     // ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
     // root->accept(&visit_build_irt);
