@@ -56,7 +56,9 @@ void VisitorIrtGraphviz::visit(const ExpressionTemp* expr){
 
 // TODO: fill other classes for irt graphviz ------------------------------------------------------
 
-void VisitorIrtGraphviz::visit(const ExpressionMem* expr){};
+void VisitorIrtGraphviz::visit(const ExpressionMem* expr){
+
+};
 
 
 void VisitorIrtGraphviz::visit(const ExpressionCall *expr) {
@@ -81,9 +83,19 @@ void VisitorIrtGraphviz::visit(const ExpressionCall *expr) {
 
 void VisitorIrtGraphviz::visit(const ExpressionSeq* expr){};
 
-void VisitorIrtGraphviz::visit(const ExpressionArg* expr) {};
+void VisitorIrtGraphviz::visit(const ExpressionArg* expr) {
+    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
+    std::string label = "ARG " + expr->getArgument();
+    graph_.addNode(node_name, label);
+    node_names_.push(node_name);
+};  // TODO
 
-void VisitorIrtGraphviz::visit(const ExpressionLocal* expr) {};
+void VisitorIrtGraphviz::visit(const ExpressionLocal* expr) {
+    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
+    std::string label = "LOCAL " + expr->getId();
+    graph_.addNode(node_name, label);
+    node_names_.push(node_name);
+};  // TODO
 
 void VisitorIrtGraphviz::visit(const StatementMove* statement){
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement));

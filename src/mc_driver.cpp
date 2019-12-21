@@ -39,10 +39,10 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
 
     std::cerr << std::endl;
 
-    delete(scanner);
+    delete (scanner);
     scanner = new MC::MC_Scanner(&input_stream);
 
-    delete(parser);
+    delete (parser);
     parser = new MC::MC_Parser(*scanner, *this, &root);
     const int accept = 0;
     if (parser->parse() != accept) {
@@ -67,31 +67,31 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     ast::VisitorSymtableBuilder visit_build_symtable;
     root->accept(&visit_build_symtable);
 
+//    std::cerr << "Running Typechecker building..." << std::endl;
+//    ast::VisitorTypecheckerBuilder visit_build_typechecker(visit_build_symtable.getTable());
+//    root->accept(&visit_build_typechecker);
 
-    std::cerr << "Running Typechecker building..." << std::endl;
-    ast::VisitorTypecheckerBuilder visit_build_typechecker(visit_build_symtable.getTable());
-    root->accept(&visit_build_typechecker);
+//    if (!visit_build_typechecker.check_errors()) {
+//        exit(javacompiler::JC_EXIT_COMP_FAILURE_TYPEERR);
+//    }
 
+    std::cerr << "Running IRT building..." << std::endl;
+    ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
+    root->accept(&visit_build_irt);
 
-    if (!visit_build_typechecker.check_errors()) {
-        exit(javacompiler::JC_EXIT_COMP_FAILURE_TYPEERR);
-    }
+    std::cerr << "Running IRT Graphviz..." << std::endl;
+    irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
+//    visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
 
-
-
-    // std::cerr << "Running IRT building..." << std::endl;
-    // ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
-    // root->accept(&visit_build_irt);
-
-    // std::cerr << "Running IRT Graphviz..." << std::endl;
-    // irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
-    // visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
+    // TODO сделать разные файлы для вывода, выводить в цикле
+    auto irt_method_trees = visit_build_irt.getIrtMethodTrees();
+    irt_method_trees["main"]->accept(&visit_irt_graphviz);
 
     std::cerr << "Serializing AST..." << std::endl;
     Graphs::UndirectedGraphSerializer::serialize(visit_ast_graphviz.GetGraph(),
                                                  ast_dot_output_stream);
 
-    // std::cerr << "Serializing IRT..." << std::endl;
-    // Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
-    //                                             irt_dot_output_stream);
+    std::cerr << "Serializing IRT..." << std::endl;
+    Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
+                                                 irt_dot_output_stream);
 }

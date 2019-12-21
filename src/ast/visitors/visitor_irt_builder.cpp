@@ -62,17 +62,58 @@ void VisitorIrtBuilder::visit(const ExpressionUnaryNegation *expr) {
 
 void VisitorIrtBuilder::visit(const ExpressionThis *expr) {};
 
-void VisitorIrtBuilder::visit(const StatementAssign *statement) {};
+void VisitorIrtBuilder::visit(const StatementAssign *statement) {
+    statement->getExpression()->accept(this);
 
-void VisitorIrtBuilder::visit(const TypeInt *type) {};
+    auto memory_node = tree_->toExpression();
 
-void VisitorIrtBuilder::visit(const TypeBoolean *type) {};
+    // если константа, то мы не должны выделять память
+    if (!std::dynamic_pointer_cast<irt::ExpressionLocal>(tree_->toExpression()) &&
+        !std::dynamic_pointer_cast<irt::ExpressionLoadConst>(tree_->toExpression()) &&
+        !std::dynamic_pointer_cast<irt::ExpressionBinaryOp>(tree_->toExpression())) {
+        memory_node = std::make_shared<irt::ExpressionMem>(memory_node);
+    }
 
-void VisitorIrtBuilder::visit(const TypeArray *type) {};
+    auto var_name = statement->getIdentifier();
+    auto var_address = current_method_table_->getAddress(var_name);
 
-void VisitorIrtBuilder::visit(const TypeClass *type) {};
+    if (current_method_table_->hasVar(var_name)) {
+        auto var_address_node = std::make_shared<irt::ExpressionLocal>(var_address);
 
-void VisitorIrtBuilder::visit(const VarDeclaration *var_declaration) {};
+        auto move_node = std::make_shared<irt::StatementMove>(var_address_node, memory_node);
+        tree_ = std::make_shared<irt::StatementWrapper>(move_node);
+    } else {
+        auto var_address_node = std::make_shared<irt::ExpressionArg>(var_address);
+
+        auto move_node = std::make_shared<irt::StatementMove>(var_address_node, memory_node);
+        tree_ = std::make_shared<irt::StatementWrapper>(move_node);
+    }
+};
+
+void VisitorIrtBuilder::visit(const TypeInt *type) {
+    // не должно быть в irt tree
+    assert(false);
+};
+
+void VisitorIrtBuilder::visit(const TypeBoolean *type) {
+    // не должно быть в irt tree
+    assert(false);
+};
+
+void VisitorIrtBuilder::visit(const TypeArray *type) {
+    // не должно быть в irt tree
+    assert(false);
+};
+
+void VisitorIrtBuilder::visit(const TypeClass *type) {
+    // не должно быть в irt tree
+    assert(false);
+};
+
+void VisitorIrtBuilder::visit(const VarDeclaration *var_declaration) {
+    // не должно быть в irt tree
+    assert(false);
+};
 
 void VisitorIrtBuilder::visit(const MethodBody *method_body) {
 
@@ -98,8 +139,8 @@ void VisitorIrtBuilder::visit(const MethodBody *method_body) {
             }
             tree_ = std::make_shared<irt::StatementWrapper>(seq);
         }
-    }else{
-        tree_ =  std::make_shared<irt::StatementWrapper>(std::make_shared<irt::StatementNan>());
+    } else {
+        tree_ = std::make_shared<irt::StatementWrapper>(std::make_shared<irt::StatementNan>());
     }
 
     auto body = tree_;
@@ -130,6 +171,8 @@ void VisitorIrtBuilder::visit(const Class *class_var) {
 
     for (auto &method: class_var->getMethodDeclaration()) {
         method->accept(this);
+        std::string method_name = class_var->getIdentifier() + '$' + method->getIdentifier();
+        irt_method_trees_[method_name] = tree_->toStatement();
     }
     std::cerr << "End Class\n";
 };
@@ -139,21 +182,17 @@ void VisitorIrtBuilder::visit(const MainClass *main_class) {
     current_class_table_ = symbol_table_->getClass(main_class->getIdentifier());
 
     main_class->getStatement()->accept(this);
+    irt_method_trees_["main"] = tree_->toStatement();
     std::cerr << "End MainClass\n";
 };
 
 void VisitorIrtBuilder::visit(const Goal *goal) {
     std::cerr << "Begin Goal\n";
     goal->getMainClass()->accept(this);
-
-    auto goal_seq_ = tree_->toStatement();
-
     for (auto &class_ : goal->getClasses()) {
         std::cerr << "classes\n";
         class_->accept(this);
-        goal_seq_ = std::make_shared<irt::StatementSeq>(goal_seq_, tree_->toStatement());
     }
-    tree_ = std::make_shared<irt::StatementWrapper>(goal_seq_);
     std::cerr << "End Goal\n";
 };
 
