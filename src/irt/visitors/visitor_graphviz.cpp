@@ -4,7 +4,7 @@ namespace irt {
 
 void VisitorIrtGraphviz::visit(const ExpressionLoadConst *loader) {
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(loader));
-    std::string label = std::to_string(loader->getValue());
+    std::string label = "CONST " + std::to_string(loader->getValue());
     graph_.addNode(node_name, label);
     node_names_.push(node_name);
 }
@@ -35,13 +35,6 @@ void VisitorIrtGraphviz::visit(const ExpressionBinaryOp *expr) {
     node_names_.push(node_name);
 }
 
-//void VisitorIrtGraphviz::visit(const ExpressionLocal* expr){
-//    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
-//    std::string label = std::to_string(expr->getId());
-//    graph_.addNode(node_name, label);
-//    node_names_.push(node_name);
-//}
-
 void VisitorIrtGraphviz::visit(const ExpressionName *expr) {
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
     graph_.addNode(node_name, "Function:");
@@ -54,9 +47,22 @@ void VisitorIrtGraphviz::visit(const ExpressionName *expr) {
     node_names_.push(node_name);
 }
 
+void VisitorIrtGraphviz::visit(const ExpressionTemp* expr){
+    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
+    std::string label = "TEMP " + static_cast<std::string>(expr->getRegister());
+    graph_.addNode(node_name, label);
+    node_names_.push(node_name);
+}
+
+// TODO: fill other classes for irt graphviz ------------------------------------------------------
+
+void VisitorIrtGraphviz::visit(const ExpressionMem* expr){};
+
+
 void VisitorIrtGraphviz::visit(const ExpressionCall *expr) {
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
-    graph_.addNode(node_name, "call");
+    graph_.addNode(node_name, "CALL");
+    graph_.addNode(node_name, "CALL");
 
     expr->getFunction()->accept(this);
     std::string func_node = node_names_.top();
@@ -71,6 +77,72 @@ void VisitorIrtGraphviz::visit(const ExpressionCall *expr) {
     node_names_.push(node_name);
 }
 
+// TODO: fill other classes for irt graphviz ------------------------------------------------------
+
+void VisitorIrtGraphviz::visit(const ExpressionSeq* expr){};
+
+void VisitorIrtGraphviz::visit(const ExpressionArg* expr) {};
+
+void VisitorIrtGraphviz::visit(const ExpressionLocal* expr) {};
+
+void VisitorIrtGraphviz::visit(const StatementMove* statement){
+    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement));
+    graph_.addNode(node_name, "Move:");
+
+    std::string destination_node = "destination" + std::to_string(reinterpret_cast<int64_t>(statement));
+    graph_.addNode(destination_node, "Destination:");
+    graph_.addEdge(node_name, destination_node);
+
+    std::string source_node = "source" + std::to_string(reinterpret_cast<int64_t>(statement));
+    graph_.addNode(source_node, "Source:");
+    graph_.addEdge(node_name, source_node);
+
+    statement->getDestination()->accept(this);
+    graph_.addEdge(destination_node, node_names_.top());
+    node_names_.pop();
+
+    statement->getSource()->accept(this);
+    graph_.addEdge(source_node, node_names_.top());
+    node_names_.pop();
+
+    node_names_.push(node_name);
+}
+
+void VisitorIrtGraphviz::visit(const StatementExp* statement){
+    statement->getExpression()->accept(this);
+}
+
+// TODO: fill other classes for irt graphviz ------------------------------------------------------
+
+void VisitorIrtGraphviz::visit(const StatementJump* statement){};
+
+void VisitorIrtGraphviz::visit(const StatementCJump* statement){};
+
+void VisitorIrtGraphviz::visit(const StatementSeq* statement){
+    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement));
+    graph_.addNode(node_name, "SEQ");
+
+    statement->getLeftStatement()->accept(this);
+    graph_.addEdge(node_name, node_names_.top());
+    node_names_.pop();
+
+    statement->getRightStatement()->accept(this);
+    graph_.addEdge(node_name, node_names_.top());
+    node_names_.pop();
+
+    node_names_.push(node_name);
+};
+
+// TODO: fill other classes for irt graphviz ------------------------------------------------------
+
+void VisitorIrtGraphviz::visit(const StatementLabel* statement){};
+
+void VisitorIrtGraphviz::visit(const StatementNan* statement){
+    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement));
+    graph_.addNode(node_name, "NaN");
+    node_names_.push(node_name);
+};
+
 void VisitorIrtGraphviz::visit(const ExpressionList* expressions){
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expressions));
     graph_.addNode(node_name, "Arguments:");
@@ -84,7 +156,5 @@ void VisitorIrtGraphviz::visit(const ExpressionList* expressions){
 
     node_names_.push(node_name);
 }
-
-// TODO: fill in
 
 } // namespace irt

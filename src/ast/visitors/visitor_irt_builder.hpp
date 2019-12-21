@@ -1,11 +1,15 @@
 #pragma once
 
+#include <cassert>
+
 #include <../ast/handlers/expressions.hpp>
 
 #include "ivisitor.hpp"
 
+#include "../../symbol_table/symbol_table.hpp"
 #include "visitor_symbol_table_builder.hpp"
 
+#include <../irt/handlers/memory.hpp>
 #include <../irt/handlers/statements.hpp>
 #include <../irt/handlers/expressions.hpp>
 #include <../irt/handlers/expression_list.hpp>
@@ -58,12 +62,15 @@ public:
     void visit(const Statements* statement);
 
     std::shared_ptr<irt::IVisitable> retrieveIrt() {
-        return tree_->toExpression();
+        return tree_->toStatement();
     }
 
 private:
     std::shared_ptr<symtable::TableGlobal> symbol_table_;
     std::shared_ptr<irt::ISubtreeWrapper> tree_;
+
+    symtable::PClassInfo current_class_table_;
+    symtable::PMethodInfo current_method_table_;
 };
 
 } // namespace ast

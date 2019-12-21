@@ -134,11 +134,6 @@ add_test(NAME test_tree_visitor COMMAND "./../run_test.sh"
                                        "./output/irt_graphs/TreeVisitor" 
                                        0)
 
-add_test(NAME test_simple COMMAND "./../run_test.sh" 
-                                       "./samples/good_samples/simple.java" 
-                                       "./output/ast_graphs/simple" 
-                                       "./output/irt_graphs/simple" 
-                                       0)
 add_test(NAME test_my_test COMMAND "./../run_test.sh" 
                                        "./samples/good_samples/my_test.java" 
                                        "./output/ast_graphs/LinearSearch" 
@@ -146,6 +141,12 @@ add_test(NAME test_my_test COMMAND "./../run_test.sh"
                                        0)
 
 # tests which cannot compile ----------------------------------------------------------------------
+
+add_test(NAME test_simple COMMAND "./../run_test.sh" 
+                                       "./samples/good_samples/simple.java" 
+                                       "./output/ast_graphs/simple" 
+                                       "./output/irt_graphs/simple" 
+                                       2)
 
 add_test(NAME test_lc_1 COMMAND "./../run_test.sh" 
                                  "./samples/bad_samples/LC_1.java" 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "../irt/visitors/ivisitor.hpp"
 #include "expressions.hpp"
 
@@ -10,12 +12,13 @@ typedef std::shared_ptr<Expression> PExpression;
 
 class ExpressionList : public IVisitable {
 public:
+    ExpressionList(){}
     ExpressionList(PExpression expression) {
         addExpression(expression);
     }
 
     void addExpression(PExpression expression) {
-        expressions_.push_back(expression);
+        expressions_.push_back(std::move(expression));
     }
     const std::vector<PExpression>& getExpressions() const {
         return expressions_;

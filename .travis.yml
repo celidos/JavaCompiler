@@ -11,6 +11,7 @@ before_install:
   - sudo apt-get install graphviz
   - sudo apt-get install cmake
   - chmod +x run_test.sh
+  - chmod +x run_all_tests.sh
 
 install:
   - sudo apt-get install flex

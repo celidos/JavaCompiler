@@ -1,15 +1,16 @@
 #include "mc_driver.hpp"
 
+
 MC::MC_Driver::~MC_Driver() {
-    delete(scanner);
+    delete (scanner);
     scanner = nullptr;
-    delete(parser);
+    delete (parser);
     parser = nullptr;
 }
 
-void MC::MC_Driver::parse(const char * const input_filename,
-                          const char * const ast_dot_output_filename,
-                          const char * const irt_dot_output_filename) {
+void MC::MC_Driver::parse(const char *const input_filename,
+                          const char *const ast_dot_output_filename,
+                          const char *const irt_dot_output_filename) {
     assert(input_filename != nullptr);
     std::ifstream in_file(input_filename);
     if (!in_file.good()) {
@@ -93,6 +94,5 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     // std::cerr << "Serializing IRT..." << std::endl;
     // Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
     //                                             irt_dot_output_stream);
-
 
 }
