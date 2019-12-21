@@ -25,5 +25,4 @@ install:
 
 script:
   - ./make_all.sh
-  - cd build
-  - ctest . --verbose
+  - ./run_all_tests.sh

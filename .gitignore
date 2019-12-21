@@ -6,3 +6,5 @@ target
 Testing/
 *.dot
 *.svg
+*.txt~
+*.log

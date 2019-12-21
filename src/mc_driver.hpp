@@ -9,6 +9,7 @@
 
 #include "mc_scanner.hpp"
 #include "mc_parser.tab.hh"
+#include "errors.hpp"
 #include "ast/handlers/expressions.hpp"
 #include "ast/handlers/statements.hpp"
 #include "ast/visitors/visitor_pretty_printer.hpp"
