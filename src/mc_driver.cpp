@@ -81,11 +81,11 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
 
     std::cerr << "Running IRT Graphviz..." << std::endl;
     irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
-//    visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
+    visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
 
-    // TODO сделать разные файлы для вывода, выводить в цикле
-    auto irt_method_trees = visit_build_irt.getIrtMethodTrees();
-    irt_method_trees["main"]->accept(&visit_irt_graphviz);
+//    // TODO сделать разные файлы для вывода, выводить в цикле
+//    auto irt_method_trees = visit_build_irt.getIrtMethodTrees();
+//    irt_method_trees["main"]->accept(&visit_irt_graphviz);
 
     std::cerr << "Serializing AST..." << std::endl;
     Graphs::UndirectedGraphSerializer::serialize(visit_ast_graphviz.GetGraph(),

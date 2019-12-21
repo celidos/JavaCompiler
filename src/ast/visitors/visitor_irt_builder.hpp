@@ -77,6 +77,8 @@ private:
     symtable::PMethodInfo current_method_table_;
 
     std::unordered_map<std::string, irt::PStatement> irt_method_trees_;
+
+    irt::PExpression getVariableScope(std::string var_name);
 };
 
 } // namespace ast
