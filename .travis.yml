@@ -12,6 +12,7 @@ before_install:
   - sudo apt-get install cmake
   - chmod +x run_test.sh
   - chmod +x run_all_tests.sh
+  - chmod +x run_sca.sh
 
 install:
   - sudo apt-get install flex
@@ -26,4 +27,5 @@ install:
 
 script:
   - ./make_all.sh
+  - ./run_sca.sh
   - ./run_all_tests.sh

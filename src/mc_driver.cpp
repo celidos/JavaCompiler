@@ -94,5 +94,4 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     // std::cerr << "Serializing IRT..." << std::endl;
     // Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
     //                                             irt_dot_output_stream);
-
 }
