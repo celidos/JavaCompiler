@@ -10,6 +10,7 @@ git:
 before_install:
   - sudo apt-get install graphviz
   - sudo apt-get install cmake
+  - sudo apt install cppcheck
   - chmod +x run_test.sh
   - chmod +x run_all_tests.sh
   - chmod +x run_sca.sh
