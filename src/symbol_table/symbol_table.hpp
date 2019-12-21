@@ -109,7 +109,7 @@ class ClassInfo
 {
 public:
     explicit ClassInfo() = default;
-    ClassInfo(const std::string& name): name_(name) { };
+    explicit ClassInfo(const std::string& name): name_(name) { };
     ClassInfo(const std::string& name, const std::string& parent): name_(name), parent_(parent) { };
 
     void addVar(const ast::PVarDecalartion& variable) {

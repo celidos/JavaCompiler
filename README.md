@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/celidos/JavaCompiler.svg?branch=master)](https://travis-ci.org/celidos/JavaCompiler)
+[![Build Status](https://travis-ci.org/celidos/JavaCompiler.svg?branch=master)](https://travis-ci.org/celidos/JavaCompiler) 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c3a2927bff314215b3f04867965570b2)](https://www.codacy.com/manual/celidos/JavaCompiler?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=celidos/JavaCompiler&amp;utm_campaign=Badge_Grade)
 
 Зависимости:
 

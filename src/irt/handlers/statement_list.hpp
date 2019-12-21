@@ -14,7 +14,7 @@ class StatementList : public IVisitable {
 public:
     explicit StatementList(const std::vector<PStatement> &statements) : statements_(statements) { }
 
-    StatementList(PStatement statement) {
+    explicit StatementList(PStatement statement) {
         addStatement(statement);
     }
 
