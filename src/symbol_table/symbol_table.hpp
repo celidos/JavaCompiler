@@ -23,9 +23,7 @@ class MethodInfo
 public:
     explicit MethodInfo() = default;
     MethodInfo(const std::string& name, const std::string& privacy, const std::string& type) :
-        name_(name),
-        privacy_(privacy),
-        return_type_(type)
+        name_(name), return_type_(type), privacy_(privacy)
     { }
 
     void addParam(const std::string& name, const std::string& type) {
@@ -113,8 +111,8 @@ class ClassInfo
 {
 public:
     explicit ClassInfo() = default;
-    ClassInfo(const std::string& name): name_(name) {}
-    ClassInfo(const std::string& name, const std::string& parent): name_(name), parent_(parent) {}
+    ClassInfo(const std::string& name): name_(name) { };
+    ClassInfo(const std::string& name, const std::string& parent): name_(name), parent_(parent) { };
 
     void addVar(const ast::PVarDecalartion& variable) {
         table_var_[variable->getIdentifier()] = variable->getType()->getType();

@@ -124,10 +124,13 @@ typedef std::shared_ptr<StatementPrint> PStatementPrint;
 class StatementArrayAssign : public Statement {
 public:
     StatementArrayAssign(const std::string& identifier,
-                        const PExpression& index,
-                        const PExpression& expr,
-                                    MC::YYLTYPE pos) : identifier_(identifier), index_(index),
-                                                        expr_(expr) { setPos(pos); }
+                         const PExpression& index,
+                         const PExpression& expr,
+                         MC::YYLTYPE pos) :
+        identifier_(identifier), expr_(expr), index_(index)
+    {
+        setPos(pos);
+    }
 
     const std::string& getIdentifier() const { return identifier_; }
     const PExpression& getExpression() const { return expr_; }

@@ -21,14 +21,23 @@ public:
           const std::string &parent,
           const std::vector<PVarDeclaration>& var_declarations,
           const std::vector<PMethodDeclaration>& methods,
-            MC::YYLTYPE pos) : identifier_(name), parent_(parent),
-                              var_declarations_(var_declarations), method_declarations_(methods) { setPos(pos); }
+          MC::YYLTYPE pos) :
+        parent_(parent), identifier_(name), var_declarations_(var_declarations),
+        method_declarations_(methods)
+    {
+        setPos(pos);
+    }
 
 
     Class(const std::string &name,
-                const std::vector<PVarDeclaration>& var_declarations,
-                const std::vector<PMethodDeclaration>& methods,
-            MC::YYLTYPE pos) : identifier_(name), var_declarations_(var_declarations), method_declarations_(methods) { setPos(pos); }
+          const std::vector<PVarDeclaration>& var_declarations,
+          const std::vector<PMethodDeclaration>& methods,
+          MC::YYLTYPE pos) :
+        identifier_(name), var_declarations_(var_declarations),
+        method_declarations_(methods)
+    {
+        setPos(pos);
+    }
 
     const std::string& getParent() const {
         return parent_;
