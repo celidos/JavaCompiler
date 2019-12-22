@@ -217,37 +217,70 @@ void VisitorIrtBuilder::visit(const StatementPrint *statement) {
 void VisitorIrtBuilder::visit(const StatementWhile *statement) {};
 
 void VisitorIrtBuilder::visit(const StatementIf *statement) {
+    /*
+                                                     root
+                                                  /        \
+                                              seq4         LABEL_FINAL
+                                      _______/    \
+                             _______/               \
+                           /                          \
+                     seq3                               \
+                  __/    \                                \
+              __/          \                                \
+            /                \                                \
+         cjump                 seq1                          seq2
+    && 1; LABEL_IF;         _/      \                    _/       \
+       LABEL_ELSE        _/        jump               _/         jump
+                       /        LABEL_FINAL         /         LABEL_FINAL
+                    seq                          seq
+                 /        \                    /      \
+            LABEL_IF   Statement        LABEL_ELSE  Statement
+                        if body                     else body
+
+     */
+
+    // cond
+
+    std::cerr << "Begin StatementIf\n";
     statement->getCond()->accept(this);
+    irt::PISubtreeWrapper cond_wrap = tree_;
 
-    irt::PISubtreeWrapper cond = root_;
-    auto expr = std::dynamic_pointer_cast<irt::PExpression>(cond->toExpression());
 
+
+    irt::PExpression expr = cond_wrap->toExpression();
+    std::cout << "ANUS\nANUS" << std::endl;
     auto label_final = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
     auto label_if_body = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
     auto label_else_body = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
 
-    irt::PISubtreeWrapper
     statement->getIfBody()->accept(this);
-    statement->getElseBody()->accept(this);
+    irt::PISubtreeWrapper if_body_wrap = tree_;
 
+    statement->getElseBody()->accept(this);
+    irt::PISubtreeWrapper else_body_wrap = tree_;
+
+    // if
     auto seq1 = std::make_shared<irt::StatementSeq>(label_if_body,
-        std::dynamic_pointer_cast<Statement>(root_));
-    seq1 = std::make_shared<irt::StatementSeq>(ifStatement,
+        std::dynamic_pointer_cast<irt::Statement>(if_body_wrap->toStatement()));
+    seq1 = std::make_shared<irt::StatementSeq>(seq1,
         std::make_shared<irt::StatementJump>(label_final));
 
+    // else
     auto seq2 = std::make_shared<irt::StatementSeq>(label_else_body,
-        std::dynamic_pointer_cast<irt::Statement>(root_));
+        std::dynamic_pointer_cast<irt::Statement>(else_body_wrap->toStatement()));
     seq2 = std::make_shared<irt::StatementSeq>(seq2,
         std::make_shared<irt::StatementJump>(label_final));
 
     auto cjmp = std::make_shared<irt::StatementCJump>("&&", expr,
-        std::make_shared<irt::ExpressionLoadConst>(1), label_if_body, label_else_body);
+        std::make_shared<irt::ExpressionLoadConst>(1),
+        label_if_body->getLabel(), label_else_body->getLabel());
 
-    auto seq3 = std::make_shared<irt::StatementSeq>(cjmp, seq2);
-    auto seq4 = std::make_shared<irt::StatementSeq>(seq3, seq1);
-    auto seq4 = std::make_shared<irt::StatementSeq>(seq3, seq1);
+    auto seq3 = std::make_shared<irt::StatementSeq>(cjmp, seq1);
+    auto seq4 = std::make_shared<irt::StatementSeq>(seq3, seq2);
 
-    auto root_ = std::make_shared<irt::StatementSeq>(seq4, label_final);
+    auto res = std::make_shared<irt::StatementSeq>(seq4, label_final);
+    tree_ = std::make_shared<irt::StatementWrapper>(res);
+    std::cerr << "End StatementIf\n";
 };
 
 void VisitorIrtBuilder::visit(const Statements *statement) {};

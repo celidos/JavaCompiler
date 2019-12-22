@@ -72,24 +72,23 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     ast::VisitorTypecheckerBuilder visit_build_typechecker(visit_build_symtable.getTable());
     root->accept(&visit_build_typechecker);
 
-
     if (!visit_build_typechecker.check_errors()) {
         exit(javacompiler::JC_EXIT_COMP_FAILURE_TYPEERR);
     }
 
-    // std::cerr << "Running IRT building..." << std::endl;
-    // ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
-    // root->accept(&visit_build_irt);
+     std::cerr << "Running IRT building..." << std::endl;
+     ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
+     root->accept(&visit_build_irt);
 
-    // std::cerr << "Running IRT Graphviz..." << std::endl;
-    // irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
-    // visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
+     std::cerr << "Running IRT Graphviz..." << std::endl;
+     irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
+     visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
 
-    std::cerr << "Serializing AST..." << std::endl;
-    Graphs::UndirectedGraphSerializer::serialize(visit_ast_graphviz.GetGraph(),
+     std::cerr << "Serializing AST..." << std::endl;
+     Graphs::UndirectedGraphSerializer::serialize(visit_ast_graphviz.GetGraph(),
                                                  ast_dot_output_stream);
 
-    // std::cerr << "Serializing IRT..." << std::endl;
-    // Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
-    //                                             irt_dot_output_stream);
+     std::cerr << "Serializing IRT..." << std::endl;
+     Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
+                                                 irt_dot_output_stream);
 }

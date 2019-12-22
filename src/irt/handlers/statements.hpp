@@ -107,9 +107,9 @@ typedef std::shared_ptr<StatementSeq> PStatementSeq;
 
 class StatementLabel : public Statement {
 public:
-    explicit StatementLabel(const std::string& label_) : label_(label) { };
+    explicit StatementLabel(const std::string& label) : label_(label) { };
     const std::string& getLabel() const { return label_; }
-    int accept(IVisitor* visitor) const { visitor->visit(this); };
+    void accept(IVisitor* visitor) const { visitor->visit(this); };
 
 private:
     std::string label_;
@@ -126,7 +126,7 @@ typedef std::shared_ptr<StatementLabel> PStatementLabel;
 class StatementJump : public Statement {
 public:
     explicit StatementJump(const std::string& target) : target_(target) { };
-    explicit StatementJump(const StatementLabel& target) : target_(target.getLabel()) { };
+    explicit StatementJump(const PStatementLabel target) : target_(target->getLabel()) { };
     ~StatementJump() = default;
 
     const std::string& getTarget() const { return target_; }
@@ -156,18 +156,18 @@ public:
         label_true_(label_true),
         label_false_(label_false)
     {};
-    ~JumpConditionalStatement() = default;
+    ~StatementCJump() = default;
 
-    PExpression getLeft() const { return left_.get(); }
-    PExpression getRight() const { return right_.get(); }
+    PExpression getLeft() const { return left_; }
+    PExpression getRight() const { return right_; }
     const std::string& getTrueLabel() const { return label_true_; }
     const std::string& getFalseLabel() const { return label_false_; }
-    const std::string& Operation() const { return operation_; }
+    const std::string& getOperation() const { return operation_; }
 
     void accept(IVisitor* visitor) const { visitor->visit(this); }
 
 private:
-    LogicOperatorTypes operation_;
+    const std::string& operation_;
     PExpression left_;
     PExpression right_;
     const std::string& label_true_;

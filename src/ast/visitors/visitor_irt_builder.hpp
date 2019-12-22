@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <iostream>
 
 #include <../ast/handlers/expressions.hpp>
 
@@ -25,7 +26,7 @@
 #include "handlers/class.hpp"
 #include "handlers/goal.hpp"
 
-#include <../utils.hpp>
+#include "../../irt/utils.hpp"
 
 namespace ast {
 
@@ -74,7 +75,7 @@ private:
     symtable::PClassInfo current_class_table_;
     symtable::PMethodInfo current_method_table_;
 
-    AddressGenerator addr_gen_;
+    irt::AddressGenerator addr_gen_;
 };
 
 } // namespace ast

@@ -12,14 +12,21 @@ echo "[run] Running sample" "$1" "$2" "$3" "$4" "..."
 pwd
 
 INPUT_FILENAME=$1
-OUTPUT_AST_GRAPH_IMG_FILENAME=$2.svg
-OUTPUT_AST_GRAPH_DOT_FILENAME=$2.dot
-OUTPUT_IRT_GRAPH_IMG_FILENAME=$3.svg
-OUTPUT_IRT_GRAPH_DOT_FILENAME=$3.dot
+OUTPUT_AST_GRAPH_IMG_FILENAME="$2.svg"
+OUTPUT_AST_GRAPH_DOT_FILENAME="$2.dot"
+OUTPUT_IRT_GRAPH_IMG_FILENAME="$3.svg"
+OUTPUT_IRT_GRAPH_DOT_FILENAME="$3.dot"
 MEMORY_CHECK=${4:-no_mem_check}
 VALGRIND_MEMCHECK_FAIL_CODE=100
 
-echo "[run] Starting program..."
+echo "[run] Starting program..."    
+if [ ! -f "$OUTPUT_AST_GRAPH_DOT_FILENAME" ]; then
+    touch "$OUTPUT_AST_GRAPH_DOT_FILENAME"
+fi
+
+if [ ! -f "$OUTPUT_IRT_GRAPH_DOT_FILENAME" ]; then
+    touch "$OUTPUT_IRT_GRAPH_DOT_FILENAME"
+fi
 if [ "$MEMORY_CHECK" = "mem_check" ]; then
     echo "[run] MEMORY_CHECK flag found, running via valgrind"
     
@@ -34,14 +41,7 @@ else
 fi
 
 if [ "$status" == "0" ]; then
-    if [ ! -f "$OUTPUT_AST_GRAPH_DOT_FILENAME" ]; then
-        touch "$OUTPUT_AST_GRAPH_DOT_FILENAME"
-    fi
 
-    if [ ! -f "$OUTPUT_IRT_GRAPH_DOT_FILENAME" ]; then
-        touch "$OUTPUT_IRT_GRAPH_DOT_FILENAME"
-    fi
-    
     echo "[run] Running AST graphviz..."
     dot -Tsvg "${OUTPUT_AST_GRAPH_DOT_FILENAME}" -o "${OUTPUT_AST_GRAPH_IMG_FILENAME}"
     echo "[run] Running IRT graphviz..."

@@ -1,38 +1,21 @@
-class MySleep {
-  public static void main(String[] curr) {
-    if (curr == true) {
-      while (1 < 2) {
-        curr = curr - 1 - 11;
-      }
-    } else {
-      System.out.println(Next.curr(1, 2));
+// class HelloWorld{
+//     public static void main(String[] a){
+// 	System.out.println(2+2);
+//     }
+// }
+
+class Factorial{
+    public static void main(String[] a){
+        System.out.println(new Fac().ComputeFac());
     }
-  }
 }
 
-class Next extends Sec {
-  int dd;
-  int[] as;
+class Fac {
 
-  public int curr(int a, int[] b) {
-    return true;
-  }
-  private int next() {
-    int a;
-    int[] b;
-    boolean c;
-    b = new int[64];
-    c = 3 + 2;
-    return a + 10;
-  }
-}
+    public int ComputeFac(){
+        int i ;
+        i = 1000500 ;
+        return 0;
+    }
 
-class Sec {
-
-  int pp;
-
-  public int rrr() {
-    pp = 11;
-    return pp;
-  }
 }
