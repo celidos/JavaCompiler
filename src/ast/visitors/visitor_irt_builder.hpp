@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <iostream>
 
 #include <../ast/handlers/expressions.hpp>
 
@@ -24,6 +25,8 @@
 #include "handlers/main_class.hpp"
 #include "handlers/class.hpp"
 #include "handlers/goal.hpp"
+
+#include "../../irt/utils.hpp"
 
 namespace ast {
 
@@ -65,12 +68,21 @@ public:
         return tree_->toStatement();
     }
 
+    const std::unordered_map<std::string, irt::PStatement>& getIrtMethodTrees() const {
+        return irt_method_trees_;
+    }
+
 private:
     std::shared_ptr<symtable::TableGlobal> symbol_table_;
     std::shared_ptr<irt::ISubtreeWrapper> tree_;
 
     symtable::PClassInfo current_class_table_;
     symtable::PMethodInfo current_method_table_;
+
+    irt::AddressGenerator addr_gen_;
+    std::unordered_map<std::string, irt::PStatement> irt_method_trees_;
+
+    irt::PExpression getVariableScope(std::string var_name);
 };
 
 } // namespace ast

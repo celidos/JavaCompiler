@@ -14,6 +14,14 @@ void VisitorIrtBuilder::visit(const ExpressionBinaryOp *expr) {
     expr->getRight()->accept(this);
     irt::PISubtreeWrapper right = tree_;
 
+    if(!std::dynamic_pointer_cast<irt::ExpressionLoadConst>(left->toExpression())){
+        left = std::make_shared<irt::ExpressionWrapper>(std::make_shared<irt::ExpressionMem>(left->toExpression()));
+    }
+
+    if(!std::dynamic_pointer_cast<irt::ExpressionLoadConst>(right->toExpression())){
+        right = std::make_shared<irt::ExpressionWrapper>(std::make_shared<irt::ExpressionMem>(right->toExpression()));
+    }
+
     irt::PExpressionBinaryOp res =
         std::make_shared<irt::ExpressionBinaryOp>(expr->getOp(),
                                                   left->toExpression(),
@@ -39,7 +47,22 @@ void VisitorIrtBuilder::visit(const ExpressionLogical *expr) {
 
 // TODO: fill other classes for irt ---------------------------------------------------------------
 
-void VisitorIrtBuilder::visit(const ExpressionId *expr) {};
+irt::PExpression VisitorIrtBuilder::getVariableScope(std::string var_name){
+    auto var_address = current_method_table_->getAddress(var_name);
+
+    if (current_method_table_->hasVar(var_name)) {
+        return std::make_shared<irt::ExpressionLocal>(var_address);
+    } else {
+        return std::make_shared<irt::ExpressionArg>(var_address);
+    }
+}
+
+void VisitorIrtBuilder::visit(const ExpressionId *expr) {
+    auto var_name = expr->getId();
+    tree_ = std::make_shared<irt::ExpressionWrapper>(getVariableScope(var_name));
+    std::cerr << "var_namevar_namevar_namevar_namevar_namevar_namevar_namevar_namevar_namevar_name  " << var_name << "\n";
+
+};
 
 void VisitorIrtBuilder::visit(const ExpressionSquareBracket *expr) {};
 
@@ -58,21 +81,64 @@ void VisitorIrtBuilder::visit(const ExpressionUnaryNegation *expr) {
     std::cerr << "End ExpressionUnaryNegation\n";
 };
 
-// TODO: fill other classes for irt ---------------------------------------------------------------
+// TODO: currently working on
 
-void VisitorIrtBuilder::visit(const ExpressionThis *expr) {};
+void VisitorIrtBuilder::visit(const ExpressionThis *expr) {
+    std::cerr << "Begin ExpressionThis\n";
+    // this - нулевой аргумент
+    auto expression_this = std::make_shared<irt::ExpressionArg>("argument_this");
+    tree_ =  std::make_shared<irt::ExpressionWrapper>(expression_this);
+    std::cerr << "End ExpressionThis\n";
+};
 
-void VisitorIrtBuilder::visit(const StatementAssign *statement) {};
+void VisitorIrtBuilder::visit(const StatementAssign *statement) {
+    std::cerr << "Begin StatementAssign\n";
+    statement->getExpression()->accept(this);
 
-void VisitorIrtBuilder::visit(const TypeInt *type) {};
+    auto memory_node = tree_->toExpression();
 
-void VisitorIrtBuilder::visit(const TypeBoolean *type) {};
+    // если константа, то мы не должны выделять память
+    if (!std::dynamic_pointer_cast<irt::ExpressionLocal>(tree_->toExpression()) &&
+        !std::dynamic_pointer_cast<irt::ExpressionLoadConst>(tree_->toExpression()) &&
+        !std::dynamic_pointer_cast<irt::ExpressionBinaryOp>(tree_->toExpression())) {
+        memory_node = std::make_shared<irt::ExpressionMem>(memory_node);
+    }
 
-void VisitorIrtBuilder::visit(const TypeArray *type) {};
+    auto var_name = statement->getIdentifier();
 
-void VisitorIrtBuilder::visit(const TypeClass *type) {};
+    std::cerr << "Begin getVariableScope\n";
+    auto var_address_node = getVariableScope(var_name);
+    std::cerr << "End getVariableScope\n";
+    auto move_node = std::make_shared<irt::StatementMove>(var_address_node, memory_node);
+    tree_ = std::make_shared<irt::StatementWrapper>(move_node);
 
-void VisitorIrtBuilder::visit(const VarDeclaration *var_declaration) {};
+    std::cerr << "End StatementAssign\n";
+};
+
+void VisitorIrtBuilder::visit(const TypeInt *type) {
+    // не должно быть в irt tree
+    assert(false);
+};
+
+void VisitorIrtBuilder::visit(const TypeBoolean *type) {
+    // не должно быть в irt tree
+    assert(false);
+};
+
+void VisitorIrtBuilder::visit(const TypeArray *type) {
+    // не должно быть в irt tree
+    assert(false);
+};
+
+void VisitorIrtBuilder::visit(const TypeClass *type) {
+    // не должно быть в irt tree
+    assert(false);
+};
+
+void VisitorIrtBuilder::visit(const VarDeclaration *var_declaration) {
+    // не должно быть в irt tree
+    assert(false);
+};
 
 void VisitorIrtBuilder::visit(const MethodBody *method_body) {
 
@@ -80,26 +146,33 @@ void VisitorIrtBuilder::visit(const MethodBody *method_body) {
 
     auto statement_array = method_body->getStatement();
 
+    for (int i = 0; i < static_cast<int>(statement_array.size()); ++i) {
+        std::cerr << "\n\n--------------------------\n";
+        statement_array[i]->accept(this);
+        std::cerr << "--------------------------\n";
+    }
+
+    /*
+     *    REVERSED ORDER OF STATEMENTS. ATTENTION
+     */
+
+    int nnn = static_cast<int>(statement_array.size());
+
     if (!statement_array.empty()) {
-        statement_array[0]->accept(this);
-        auto statement1 = tree_;
-        if (statement_array.size() > 1) {
+        statement_array[nnn - 1]->accept(this);    // TODO
 
-            statement_array[1]->accept(this);
-            auto statement2 = tree_;
-
-            auto seq = std::make_shared<irt::StatementSeq>(statement1->toStatement(),
-                                                           statement2->toStatement());
-
-            for (int i = 2; i < static_cast<int>(statement_array.size()); i++) {
+        auto statement = tree_;
+        auto seq = std::make_shared<irt::StatementSeq>(std::make_shared<irt::StatementNan>(),
+                                                       statement->toStatement());
+            for (int i = nnn - 2; i >= 0; --i) {
                 statement_array[i]->accept(this);
                 auto statement = tree_;
                 seq = std::make_shared<irt::StatementSeq>(seq, statement->toStatement());
             }
             tree_ = std::make_shared<irt::StatementWrapper>(seq);
-        }
-    }else{
-        tree_ =  std::make_shared<irt::StatementWrapper>(std::make_shared<irt::StatementNan>());
+
+    } else {
+        tree_ = std::make_shared<irt::StatementWrapper>(std::make_shared<irt::StatementNan>());
     }
 
     auto body = tree_;
@@ -130,6 +203,8 @@ void VisitorIrtBuilder::visit(const Class *class_var) {
 
     for (auto &method: class_var->getMethodDeclaration()) {
         method->accept(this);
+        std::string method_name = class_var->getIdentifier() + '$' + method->getIdentifier();
+        irt_method_trees_[method_name] = tree_->toStatement();
     }
     std::cerr << "End Class\n";
 };
@@ -139,21 +214,17 @@ void VisitorIrtBuilder::visit(const MainClass *main_class) {
     current_class_table_ = symbol_table_->getClass(main_class->getIdentifier());
 
     main_class->getStatement()->accept(this);
+    irt_method_trees_["main"] = tree_->toStatement();
     std::cerr << "End MainClass\n";
 };
 
 void VisitorIrtBuilder::visit(const Goal *goal) {
     std::cerr << "Begin Goal\n";
     goal->getMainClass()->accept(this);
-
-    auto goal_seq_ = tree_->toStatement();
-
     for (auto &class_ : goal->getClasses()) {
         std::cerr << "classes\n";
         class_->accept(this);
-        goal_seq_ = std::make_shared<irt::StatementSeq>(goal_seq_, tree_->toStatement());
     }
-    tree_ = std::make_shared<irt::StatementWrapper>(goal_seq_);
     std::cerr << "End Goal\n";
 };
 
@@ -179,15 +250,17 @@ void VisitorIrtBuilder::visit(const ExpressionNewIntArray *expr) {};
 
 void VisitorIrtBuilder::visit(const ExpressionCallFunction *expr) {
     std::cerr << "Begin ExpressionCallFunction\n";
-    expr->getExpr()->accept(this);  // return
+    expr->getExpr()->accept(this);  // this
 
     // this будем хранить первым аргументом
     irt::ExpressionList parsed_arguments(tree_->toExpression());
 
     auto arguments = expr->getArgs();
     for (auto &argument: arguments) {
+        std::cerr << "!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
         argument->accept(this);
         parsed_arguments.addExpression(tree_->toExpression());
+        std::cerr << "!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
     }
     auto function_call =
         std::make_shared<irt::ExpressionCall>(std::make_shared<irt::ExpressionName>(expr->getFuncName()),
@@ -214,9 +287,110 @@ void VisitorIrtBuilder::visit(const StatementPrint *statement) {
 
 // TODO: fill other classes for irt ---------------------------------------------------------------
 
-void VisitorIrtBuilder::visit(const StatementWhile *statement) {};
+void VisitorIrtBuilder::visit(const StatementWhile *statement) {
+    /*
 
-void VisitorIrtBuilder::visit(const StatementIf *statement) {};
+
+
+
+
+
+    */
+
+
+    statement->getCond()->accept(this);
+    irt::PISubtreeWrapper cond = tree_;
+
+    auto label_cond = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
+    auto label_body = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
+    auto label_final = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
+
+    statement->getBody()->accept(this);
+    irt::PISubtreeWrapper body_wrapped = tree_;
+
+    auto cjmp = std::make_shared<irt::StatementCJump>(
+        "&&",
+        cond->toExpression(),
+        std::make_shared<irt::ExpressionLoadConst>(1),
+        label_body->getLabel(),
+        label_final->getLabel()
+    );
+
+    auto seq = std::make_shared<irt::StatementSeq>(label_body, body_wrapped->toStatement());
+    auto seq2 = std::make_shared<irt::StatementSeq>(label_cond, cjmp);
+    seq2 = std::make_shared<irt::StatementSeq>(seq2, seq);
+    seq2 = std::make_shared<irt::StatementSeq>(seq2, std::make_shared<irt::StatementJump>(label_cond));
+    seq2 = std::make_shared<irt::StatementSeq>(seq2, label_final);
+
+    tree_ = std::make_shared<irt::StatementWrapper>(seq2);
+};
+
+void VisitorIrtBuilder::visit(const StatementIf *statement) {
+    /*
+                                                     root
+                                                  /        \
+                                              seq4         LABEL_FINAL
+                                      _______/    \
+                             _______/               \
+                           /                          \
+                     seq3                               \
+                  __/    \                                \
+              __/          \                                \
+            /                \                                \
+         cjump                 seq1                          seq2
+    && 1; LABEL_IF;         _/      \                    _/       \
+       LABEL_ELSE        _/        jump               _/         jump
+                       /        LABEL_FINAL         /         LABEL_FINAL
+                    seq                          seq
+                 /        \                    /      \
+            LABEL_IF   Statement        LABEL_ELSE  Statement
+                        if body                     else body
+
+    */
+
+    // cond
+
+    std::cerr << "Begin StatementIf\n";
+    statement->getCond()->accept(this);
+    irt::PISubtreeWrapper cond_wrap = tree_;
+    irt::PExpression expr = cond_wrap->toExpression();
+
+    std::cerr << "ok we are here ... " << std::endl;
+    auto label_final = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
+    auto label_if_body = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
+    auto label_else_body = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
+
+    std::cerr << "passed this ... " << std::endl;
+
+    statement->getIfBody()->accept(this);
+    irt::PISubtreeWrapper if_body_wrap = tree_;
+
+    statement->getElseBody()->accept(this);
+    irt::PISubtreeWrapper else_body_wrap = tree_;
+
+    // if
+    auto seq1 = std::make_shared<irt::StatementSeq>(label_if_body,
+        std::dynamic_pointer_cast<irt::Statement>(if_body_wrap->toStatement()));
+    seq1 = std::make_shared<irt::StatementSeq>(seq1,
+        std::make_shared<irt::StatementJump>(label_final));
+
+    // else
+    auto seq2 = std::make_shared<irt::StatementSeq>(label_else_body,
+        std::dynamic_pointer_cast<irt::Statement>(else_body_wrap->toStatement()));
+    seq2 = std::make_shared<irt::StatementSeq>(seq2,
+        std::make_shared<irt::StatementJump>(label_final));
+
+    auto cjmp = std::make_shared<irt::StatementCJump>("&&", expr,
+        std::make_shared<irt::ExpressionLoadConst>(1),
+        label_if_body->getLabel(), label_else_body->getLabel());
+
+    auto seq3 = std::make_shared<irt::StatementSeq>(cjmp, seq1);
+    auto seq4 = std::make_shared<irt::StatementSeq>(seq3, seq2);
+
+    auto res = std::make_shared<irt::StatementSeq>(seq4, label_final);
+    tree_ = std::make_shared<irt::StatementWrapper>(res);
+    std::cerr << "End StatementIf\n";
+};
 
 void VisitorIrtBuilder::visit(const Statements *statement) {};
 

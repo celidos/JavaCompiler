@@ -26,6 +26,7 @@ protected:
 typedef std::shared_ptr<Type> PType;
 
 /***************************************************************************************************
+ * int
  * */
 
 class TypeInt : public Type {
@@ -38,6 +39,10 @@ public:
 
 typedef std::shared_ptr<TypeInt> PTypeInt;
 
+/***************************************************************************************************
+ * boolean
+ */
+
 class TypeBoolean : public Type {
 public:
     explicit TypeBoolean(MC::YYLTYPE pos) { setPos(pos); }
@@ -48,6 +53,9 @@ public:
 
 typedef std::shared_ptr<TypeBoolean> PTypeBoolean;
 
+/***************************************************************************************************
+ * array
+ */
 
 class TypeArray : public Type {
 public:
@@ -58,6 +66,10 @@ public:
 };
 
 typedef std::shared_ptr<TypeArray> PTypeArray;
+
+/***************************************************************************************************
+ * class
+ */
 
 class TypeClass : public Type {
 public:
