@@ -45,8 +45,6 @@ void VisitorIrtBuilder::visit(const ExpressionLogical *expr) {
     std::cerr << "End ExpressionLogical\n";
 };
 
-// TODO: fill other classes for irt ---------------------------------------------------------------
-
 irt::PExpression VisitorIrtBuilder::getVariableScope(std::string var_name){
     auto var_address = current_method_table_->getAddress(var_name);
 
@@ -60,13 +58,45 @@ irt::PExpression VisitorIrtBuilder::getVariableScope(std::string var_name){
 void VisitorIrtBuilder::visit(const ExpressionId *expr) {
     auto var_name = expr->getId();
     tree_ = std::make_shared<irt::ExpressionWrapper>(getVariableScope(var_name));
-    std::cerr << "var_namevar_namevar_namevar_namevar_namevar_namevar_namevar_namevar_namevar_name  " << var_name << "\n";
 
 };
 
-void VisitorIrtBuilder::visit(const ExpressionSquareBracket *expr) {};
 
-void VisitorIrtBuilder::visit(const ExpressionLen *expr) {};
+void VisitorIrtBuilder::visit(const ExpressionSquareBracket *expr) {
+    std::cerr << "Begin ExpressionSquareBracket\n";
+
+    expr->getEntity()->accept(this);
+    irt::PISubtreeWrapper entity = tree_;
+    expr->getIndex()->accept(this);
+    irt::PISubtreeWrapper index = tree_;
+
+    if(!std::dynamic_pointer_cast<irt::ExpressionLoadConst>(index->toExpression())){
+        index = std::make_shared<irt::ExpressionWrapper>(std::make_shared<irt::ExpressionMem>(index->toExpression()));
+    }
+
+    irt::PExpressionBinaryOp res =
+        std::make_shared<irt::ExpressionBinaryOp>("+",
+                                                  entity->toExpression(),
+                                                  index->toExpression());
+    tree_ = std::make_shared<irt::ExpressionWrapper>(std::make_shared<irt::ExpressionMem>(res));
+    std::cerr << "End ExpressionSquareBracket\n";
+};
+
+
+// TODO: fill other classes for irt ---------------------------------------------------------------
+
+void VisitorIrtBuilder::visit(const ExpressionLen *expr) {
+
+    expr->getArg()->accept(this);
+    irt::ExpressionList arguments(tree_->toExpression());
+
+    auto length = std::make_shared<irt::ExpressionName>("length");
+    auto call_length = std::make_shared<irt::ExpressionCall>(length,
+                                                             std::make_shared<irt::ExpressionList>(
+                                                                 arguments));
+
+    tree_ = std::make_shared<irt::ExpressionWrapper>(call_length);
+};
 
 void VisitorIrtBuilder::visit(const ExpressionUnaryNegation *expr) {
     std::cerr << "Begin ExpressionUnaryNegation\n";
@@ -80,8 +110,6 @@ void VisitorIrtBuilder::visit(const ExpressionUnaryNegation *expr) {
     tree_ = std::make_shared<irt::ExpressionWrapper>(res);
     std::cerr << "End ExpressionUnaryNegation\n";
 };
-
-// TODO: currently working on
 
 void VisitorIrtBuilder::visit(const ExpressionThis *expr) {
     std::cerr << "Begin ExpressionThis\n";
@@ -100,7 +128,8 @@ void VisitorIrtBuilder::visit(const StatementAssign *statement) {
     // если константа, то мы не должны выделять память
     if (!std::dynamic_pointer_cast<irt::ExpressionLocal>(tree_->toExpression()) &&
         !std::dynamic_pointer_cast<irt::ExpressionLoadConst>(tree_->toExpression()) &&
-        !std::dynamic_pointer_cast<irt::ExpressionBinaryOp>(tree_->toExpression())) {
+        !std::dynamic_pointer_cast<irt::ExpressionBinaryOp>(tree_->toExpression()) &&
+        !std::dynamic_pointer_cast<irt::ExpressionMem>(tree_->toExpression())) {
         memory_node = std::make_shared<irt::ExpressionMem>(memory_node);
     }
 
@@ -244,9 +273,32 @@ void VisitorIrtBuilder::visit(const ExpressionNewId *expr) {
     std::cerr << "End ExpressionNewId\n";
 };
 
-// TODO: fill other classes for irt ---------------------------------------------------------------
+void VisitorIrtBuilder::visit(const ExpressionNewIntArray *expr) {
+    std::cerr << "Begin ExpressionNewIntArray\n";
+    expr->getCounter()->accept(this);
 
-void VisitorIrtBuilder::visit(const ExpressionNewIntArray *expr) {};
+    irt::ExpressionList arguments(tree_->toExpression());
+
+    auto malloc = std::make_shared<irt::ExpressionName>("new int[]");
+    auto call_malloc = std::make_shared<irt::ExpressionCall>(malloc,
+                                                             std::make_shared<irt::ExpressionList>(
+                                                                 arguments));
+
+    tree_ = std::make_shared<irt::ExpressionWrapper>(call_malloc);
+
+    Register memory_;
+
+    auto move_statement =
+        std::make_shared<irt::StatementMove>(std::make_shared<irt::ExpressionTemp>(memory_),
+                                             call_malloc);
+
+    auto return_register = std::make_shared<irt::ExpressionTemp>(memory_);
+
+    auto res = std::make_shared<irt::ExpressionSeq>(move_statement, return_register);
+    tree_ = std::make_shared<irt::ExpressionWrapper>(res);
+
+    std::cerr << "End ExpressionNewIntArray\n";
+};
 
 void VisitorIrtBuilder::visit(const ExpressionCallFunction *expr) {
     std::cerr << "Begin ExpressionCallFunction\n";
@@ -272,15 +324,34 @@ void VisitorIrtBuilder::visit(const ExpressionCallFunction *expr) {
 
 // TODO: fill other classes for irt ---------------------------------------------------------------
 
-void VisitorIrtBuilder::visit(const StatementArrayAssign *statement) {};
+void VisitorIrtBuilder::visit(const StatementArrayAssign *statement) {
+    std::cerr << "Begin StatementArrayAssign\n";
+    statement->getIndex()->accept(this);
+    auto index = tree_;
+    statement->getExpression()->accept(this);
+    auto expression = tree_;
+
+    auto array_node = getVariableScope(statement->getIdentifier());
+
+
+    auto array_with_id_node =
+        std::make_shared<irt::ExpressionBinaryOp>("+",
+                                                  array_node,
+                                                  index->toExpression());
+
+    auto move_node = std::make_shared<irt::StatementMove>(array_with_id_node, expression->toExpression());
+    tree_ = std::make_shared<irt::StatementWrapper>(move_node);
+
+    std::cerr << "End StatementArrayAssign\n";
+};
 
 void VisitorIrtBuilder::visit(const StatementPrint *statement) {
     std::cerr << "Begin StatementPrint\n";
     statement->getExpression()->accept(this);
 
-    auto expression_list = std::make_shared<irt::ExpressionList>(tree_->toExpression());
+    irt::ExpressionList expression_list(tree_->toExpression());
     auto res = std::make_shared<irt::ExpressionCall>(std::make_shared<irt::ExpressionName>("print"),
-                                                     expression_list);
+                                                     std::make_shared<irt::ExpressionList>(expression_list));
     tree_ = std::make_shared<irt::ExpressionWrapper>(res);
     std::cerr << "End StatementPrint\n";
 };
