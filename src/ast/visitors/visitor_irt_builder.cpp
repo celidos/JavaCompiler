@@ -160,24 +160,32 @@ void VisitorIrtBuilder::visit(const MethodBody *method_body) {
     int nnn = static_cast<int>(statement_array.size());
 
     if (!statement_array.empty()) {
-        statement_array[0]->accept(this);    // TODO
-        auto statement1 = tree_;
-        if (statement_array.size() > 1) {
+        statement_array[nnn - 1]->accept(this);    // TODO
 
-            std::cerr << "We got statement array > 1" << std::endl;
-            statement_array[1]->accept(this);
-            auto statement2 = tree_;
+        auto statement = tree_;
+        auto seq = std::make_shared<irt::StatementSeq>(std::make_shared<irt::StatementNan>(),
+                                                       statement->toStatement());
 
-            auto seq = std::make_shared<irt::StatementSeq>(statement1->toStatement(),
-                                                           statement2->toStatement());
+//        if (statement_array.size() > 1) {
 
-            for (int i = 2; i < static_cast<int>(statement_array.size()); ++i) {
+//            std::cerr << "We got statement array > 1" << std::endl;
+//            statement_array[nnn - 2]->accept(this);
+//            auto statement2 = tree_;
+//
+//            auto seq = std::make_shared<irt::StatementSeq>(statement1->toStatement(),
+//                                                           statement2->toStatement());
+
+            for (int i = nnn - 2; i >= 0; --i) {
                 statement_array[i]->accept(this);
                 auto statement = tree_;
                 seq = std::make_shared<irt::StatementSeq>(seq, statement->toStatement());
             }
             tree_ = std::make_shared<irt::StatementWrapper>(seq);
-        }
+
+
+//        }
+
+
     } else {
         tree_ = std::make_shared<irt::StatementWrapper>(std::make_shared<irt::StatementNan>());
     }
@@ -324,13 +332,14 @@ void VisitorIrtBuilder::visit(const StatementIf *statement) {
     std::cerr << "Begin StatementIf\n";
     statement->getCond()->accept(this);
     irt::PISubtreeWrapper cond_wrap = tree_;
-
-
-
     irt::PExpression expr = cond_wrap->toExpression();
+
+    std::cerr << "ok we are here ... " << std::endl;
     auto label_final = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
     auto label_if_body = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
     auto label_else_body = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
+
+    std::cerr << "passed this ... " << std::endl;
 
     statement->getIfBody()->accept(this);
     irt::PISubtreeWrapper if_body_wrap = tree_;

@@ -3,7 +3,7 @@
 namespace irt {
 
 void VisitorIrtGraphviz::visit(const ExpressionLoadConst *loader) {
-    std::cerr << "Begin ExpressionLoadConst\n";
+    std::cerr << "Begin ExpressionLoadConst (" << std::to_string(loader->getValue()) << "\n";
 
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(loader));
     std::string label = "CONST " + std::to_string(loader->getValue());
@@ -170,13 +170,21 @@ void VisitorIrtGraphviz::visit(const StatementCJump* statement) {
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement));
     graph_.addNode(node_name, "CJUMP");
 
+    std::cerr << "we are in cjump graphviz..." << std::endl;
+
     statement->getLeft()->accept(this);
+    std::cerr << "nice!!!!" << std::endl;
     graph_.addEdge(node_name, node_names_.top());
     node_names_.pop();
 
-    std::string op_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement)) + "_op";
-    graph_.addNode(op_name, statement->getOperation());
+    std::cerr << "nice!!!!" << std::endl;
+    std::string op_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement)) + "op";
+    std::cerr << "nice!!!!" << std::endl;
+    graph_.addNode(op_name, "OPERATION");
     graph_.addEdge(node_name, op_name);
+
+    std::cerr << "nice!!!!" << std::endl;
+
 
     statement->getRight()->accept(this);
     graph_.addEdge(node_name, node_names_.top());
@@ -196,7 +204,6 @@ void VisitorIrtGraphviz::visit(const StatementCJump* statement) {
 void VisitorIrtGraphviz::visit(const StatementSeq* statement){
     std::cerr << "Begin StatementSeq\n";
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement));
-    std::cerr << "ANUS ZHOPA\n";
     graph_.addNode(node_name, "SEQ");
 
     std::cerr << "still kok" << std::endl;
