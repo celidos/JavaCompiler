@@ -153,8 +153,7 @@ void VisitorIrtBuilder::visit(const MethodBody *method_body) {
     }
 
     /*
-     *    REVERSED ORDER OF STATEMENTS. I DONT KNOW WHY. NEED SOME FIX
-     *
+     *    REVERSED ORDER OF STATEMENTS. ATTENTION
      */
 
     int nnn = static_cast<int>(statement_array.size());
@@ -165,26 +164,12 @@ void VisitorIrtBuilder::visit(const MethodBody *method_body) {
         auto statement = tree_;
         auto seq = std::make_shared<irt::StatementSeq>(std::make_shared<irt::StatementNan>(),
                                                        statement->toStatement());
-
-//        if (statement_array.size() > 1) {
-
-//            std::cerr << "We got statement array > 1" << std::endl;
-//            statement_array[nnn - 2]->accept(this);
-//            auto statement2 = tree_;
-//
-//            auto seq = std::make_shared<irt::StatementSeq>(statement1->toStatement(),
-//                                                           statement2->toStatement());
-
             for (int i = nnn - 2; i >= 0; --i) {
                 statement_array[i]->accept(this);
                 auto statement = tree_;
                 seq = std::make_shared<irt::StatementSeq>(seq, statement->toStatement());
             }
             tree_ = std::make_shared<irt::StatementWrapper>(seq);
-
-
-//        }
-
 
     } else {
         tree_ = std::make_shared<irt::StatementWrapper>(std::make_shared<irt::StatementNan>());
@@ -302,7 +287,43 @@ void VisitorIrtBuilder::visit(const StatementPrint *statement) {
 
 // TODO: fill other classes for irt ---------------------------------------------------------------
 
-void VisitorIrtBuilder::visit(const StatementWhile *statement) {};
+void VisitorIrtBuilder::visit(const StatementWhile *statement) {
+    /*
+
+
+
+
+
+
+    */
+
+
+    statement->getCond()->accept(this);
+    irt::PISubtreeWrapper cond = tree_;
+
+    auto label_cond = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
+    auto label_body = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
+    auto label_final = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
+
+    statement->getBody()->accept(this);
+    irt::PISubtreeWrapper body_wrapped = tree_;
+
+    auto cjmp = std::make_shared<irt::StatementCJump>(
+        "&&",
+        cond->toExpression(),
+        std::make_shared<irt::ExpressionLoadConst>(1),
+        label_body->getLabel(),
+        label_final->getLabel()
+    );
+
+    auto seq = std::make_shared<irt::StatementSeq>(label_body, body_wrapped->toStatement());
+    auto seq2 = std::make_shared<irt::StatementSeq>(label_cond, cjmp);
+    seq2 = std::make_shared<irt::StatementSeq>(seq2, seq);
+    seq2 = std::make_shared<irt::StatementSeq>(seq2, std::make_shared<irt::StatementJump>(label_cond));
+    seq2 = std::make_shared<irt::StatementSeq>(seq2, label_final);
+
+    tree_ = std::make_shared<irt::StatementWrapper>(seq2);
+};
 
 void VisitorIrtBuilder::visit(const StatementIf *statement) {
     /*
@@ -325,7 +346,7 @@ void VisitorIrtBuilder::visit(const StatementIf *statement) {
             LABEL_IF   Statement        LABEL_ELSE  Statement
                         if body                     else body
 
-     */
+    */
 
     // cond
 

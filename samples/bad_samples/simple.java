@@ -14,14 +14,10 @@ class Fac {
 
     public int ComputeFac(){
         int i ;
-        i = 1000500 ;
-        if ( 2 < 3 )
-            i = 777;
-        else
-            i = 888;
-
-        i = 14881488;
-        i = 1500150;
+        i = 0 ;
+        
+        while (i < 1000)
+            i = i + 1;
 
         return 0;
     }

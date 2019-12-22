@@ -82,7 +82,6 @@ void VisitorIrtGraphviz::visit(const ExpressionMem* expr){
     std::cerr << "End ExpressionMem\n";
 };
 
-
 void VisitorIrtGraphviz::visit(const ExpressionCall *expr) {
     std::cerr << "Begin ExpressionCall\n";
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
