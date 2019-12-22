@@ -92,151 +92,151 @@ add_test(NAME test_two_plus_two COMMAND  "./../run_test.sh"
                                          "./samples/good_samples/two_plus_two.java"
                                          "./output/two_plus_two"
                                          0)
-add_test(NAME test_binary_search COMMAND "./../run_test.sh" 
-                                         "./samples/good_samples/BinarySearch.java" 
-                                         "./output/BinarySearch" 
+add_test(NAME test_binary_search COMMAND "./../run_test.sh"
+                                         "./samples/good_samples/BinarySearch.java"
+                                         "./output/BinarySearch"
                                          0)
-add_test(NAME test_binary_tree COMMAND "./../run_test.sh" 
-                                       "./samples/good_samples/BinaryTree.java" 
-                                       "./output/BinaryTree" 
+add_test(NAME test_binary_tree COMMAND "./../run_test.sh"
+                                       "./samples/good_samples/BinaryTree.java"
+                                       "./output/BinaryTree"
                                        0)
-add_test(NAME test_bubble_sort COMMAND "./../run_test.sh" 
-                                       "./samples/good_samples/BubbleSort.java" 
-                                       "./output/BubbleSort" 
+add_test(NAME test_bubble_sort COMMAND "./../run_test.sh"
+                                       "./samples/good_samples/BubbleSort.java"
+                                       "./output/BubbleSort"
                                        0)
-add_test(NAME test_factorial COMMAND "./../run_test.sh" 
-                                       "./samples/good_samples/Factorial.java" 
-                                       "./output/Factorial" 
+add_test(NAME test_factorial COMMAND "./../run_test.sh"
+                                       "./samples/good_samples/Factorial.java"
+                                       "./output/Factorial"
                                        0)
-add_test(NAME test_linear_search COMMAND "./../run_test.sh" 
-                                       "./samples/good_samples/LinearSearch.java" 
-                                       "./output/LinearSearch" 
+add_test(NAME test_linear_search COMMAND "./../run_test.sh"
+                                       "./samples/good_samples/LinearSearch.java"
+                                       "./output/LinearSearch"
                                        0)
-add_test(NAME test_linked_list COMMAND "./../run_test.sh" 
-                                       "./samples/good_samples/LinkedList.java" 
-                                       "./output/LinearSearch" 
+add_test(NAME test_linked_list COMMAND "./../run_test.sh"
+                                       "./samples/good_samples/LinkedList.java"
+                                       "./output/LinearSearch"
                                        0)
-add_test(NAME test_quick_sort COMMAND "./../run_test.sh" 
-                                       "./samples/good_samples/QuickSort.java" 
-                                       "./output/QuickSort" 
+add_test(NAME test_quick_sort COMMAND "./../run_test.sh"
+                                       "./samples/good_samples/QuickSort.java"
+                                       "./output/QuickSort"
                                        0)
-add_test(NAME test_tree_visitor COMMAND "./../run_test.sh" 
-                                       "./samples/good_samples/TreeVisitor.java" 
-                                       "./output/TreeVisitor" 
+add_test(NAME test_tree_visitor COMMAND "./../run_test.sh"
+                                       "./samples/good_samples/TreeVisitor.java"
+                                       "./output/TreeVisitor"
                                        0)
 
-add_test(NAME test_my_test COMMAND "./../run_test.sh" 
-                                       "./samples/good_samples/my_test.java" 
-                                       "./output/LinearSearch" 
+add_test(NAME test_my_test COMMAND "./../run_test.sh"
+                                       "./samples/good_samples/my_test.java"
+                                       "./output/LinearSearch"
                                        0)
 
 # tests which cannot compile ----------------------------------------------------------------------
 
-add_test(NAME test_simple COMMAND "./../run_test.sh" 
-                                       "./samples/good_samples/simple.java" 
-                                       "./output/simple" 
+add_test(NAME test_simple COMMAND "./../run_test.sh"
+                                       "./samples/good_samples/simple.java"
+                                       "./output/simple"
                                        2)
 
-add_test(NAME test_lc_1 COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/LC_1.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_my1 COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/My1.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_1a COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_1a.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_2 COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_2.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_2a COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_2a.java" 
+add_test(NAME test_lc_1 COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/LC_1.java"
                                  "."
-                                 1)
-add_test(NAME test_tc_3a COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_3a.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_3a_1 COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_3a_1.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_3a_2 COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_3a_2.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_3b COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_3b.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_4a COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_4a.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_4b COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_4b.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_5a COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_5a.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_6a COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_6a.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_7b COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_7b.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_7c COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_7c.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_8a COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_8a.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_9a COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_9a.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_9a_2 COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_9a_2.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_11a COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_11a.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_12b COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_12b.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_13a COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_13a.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_13b COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_13b.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_13c COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_13c.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_13d_optional COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_13d_optional.java" 
-                                 "." 
-                                 1)
-add_test(NAME test_tc_bonus COMMAND "./../run_test.sh" 
-                                 "./samples/bad_samples/TC_bonus1.java" 
-                                 "." 
-                                 1)
+                                 3)
+add_test(NAME test_my1 COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/My1.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_1a COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_1a.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_2 COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_2.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_2a COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_2a.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_3a COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_3a.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_3a_1 COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_3a_1.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_3a_2 COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_3a_2.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_3b COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_3b.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_4a COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_4a.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_4b COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_4b.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_5a COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_5a.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_6a COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_6a.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_7b COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_7b.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_7c COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_7c.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_8a COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_8a.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_9a COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_9a.java"
+                                 "."
+                                 3)
+add_test(NAME test_tc_9a_2 COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_9a_2.java"
+                                 "."
+                                 3)
+add_test(NAME test_tc_11a COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_11a.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_12b COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_12b.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_13a COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_13a.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_13b COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_13b.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_13c COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_13c.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_13d_optional COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_13d_optional.java"
+                                 "."
+                                 4)
+add_test(NAME test_tc_bonus COMMAND "./../run_test.sh"
+                                 "./samples/bad_samples/TC_bonus1.java"
+                                 "."
+                                 4)
 
 # INSTRUCTION: if you will add some google tests in future, just uncomment this example
 #
