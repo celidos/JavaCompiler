@@ -29,23 +29,20 @@ typedef std::shared_ptr<ast::ExpressionBinaryOp> PExpressionBinaryOp;
 
 class MC_Driver{
 public:
-   MC_Driver() = default;
+    MC_Driver() = default;
 
-   virtual ~MC_Driver();
+    virtual ~MC_Driver();
 
-   // reading from file
-   void parse(const char * input_filename,
-              const char * ast_dot_output_filename,
-              const char * irt_dot_output_filename);
-
-   int __return_five() const { return 5; }
+    void parse(const char * input_filename,
+               const char * output_folder);
 private:
+    void streamTree(const std::string& filename,
+                    const Graphs::UndirectedGraph& graph);
 
-   void parse_helper(std::istream &input_stream,
-                     std::ofstream &ast_dot_output_stream,
-                     std::ofstream &irt_dot_output_stream);
-   MC::MC_Parser  *parser  = nullptr;
-   MC::MC_Scanner *scanner = nullptr;
+    void pipeline(std::istream &input_stream,
+                  const std::string &output_folder);
+    MC::MC_Parser  *parser  = nullptr;
+    MC::MC_Scanner *scanner = nullptr;
 };
 
 }

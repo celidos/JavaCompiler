@@ -185,6 +185,7 @@ void VisitorIrtBuilder::visit(const MethodBody *method_body) {
                                              tree_->toExpression());
 
     auto res = std::make_shared<irt::StatementSeq>(body->toStatement(), result);
+
     tree_ = std::make_shared<irt::StatementWrapper>(res);
 
     std::cerr << "End MethodBody\n";
@@ -203,7 +204,7 @@ void VisitorIrtBuilder::visit(const Class *class_var) {
 
     for (auto &method: class_var->getMethodDeclaration()) {
         method->accept(this);
-        std::string method_name = class_var->getIdentifier() + '$' + method->getIdentifier();
+        std::string method_name = class_var->getIdentifier() + '_' + method->getIdentifier();
         irt_method_trees_[method_name] = tree_->toStatement();
     }
     std::cerr << "End Class\n";
@@ -290,8 +291,8 @@ void VisitorIrtBuilder::visit(const StatementPrint *statement) {
 void VisitorIrtBuilder::visit(const StatementWhile *statement) {
     /*
                                                   seq2
-                                                /     \
-                                              /     LABEL_FINAL
+                                                /      \
+                                              /      LABEL_FINAL
                                           seq
                                        /      \
                                    seq _       jump LABEL_COND

@@ -101,7 +101,7 @@ namespace Graphs
         return ss.str();
     }
 
-    void UndirectedGraphSerializer::serialize(const UndirectedGraph& graph, std::ofstream &out)
+    void UndirectedGraphSerializer::serialize(const UndirectedGraph& graph, std::fstream &out)
     {
         out << UndirectedGraphSerializer::serialize(graph);
     }

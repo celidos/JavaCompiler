@@ -12,7 +12,7 @@ class Factorial{
 
 class Fac {
 
-    public int ComputeFac(){
+    public int ComputeFac() {
         int i ;
         i = 0 ;
         
@@ -23,3 +23,18 @@ class Fac {
     }
 
 }
+
+class Fac2 {
+
+    public int ComputeFac() {
+        int jj ;
+        jj = 123 ;
+        
+        while (jj < 222)
+            jj = jj + 222;
+
+        return 222;
+    }
+
+}
+

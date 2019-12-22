@@ -2,7 +2,7 @@
 #!/usr/bin/env bash
 
 pwd
-# cd ..
+cd ..
 ./run_sample.sh "$1" "$2" "$3"
 status=$?
 
@@ -14,8 +14,11 @@ VALGRIND_MEMCHECK_FAIL_CODE=100
 #   [2 .. 99] javacompiler workflow errors
 #   100 valgrid memory leaks
 
-if [[ $4 == 0 && $status != 0 || $4 != 1 && $status != $4 || $4 == 1 && $status == 0 ]]; then
-    echo -e "test " "$1" " " "$2" " " "$3" ", expected " "$4" ", got " "$status"
+EXPECTED_EXIT_CODE=${3}
+
+if [[ $EXPECTED_EXIT_CODE == 0 && $status != 0 || $EXPECTED_EXIT_CODE != 1 && $status != $EXPECTED_EXIT_CODE \
+    || $EXPECTED_EXIT_CODE == 1 && $status == 0 ]]; then
+    echo -e "\e[96;1m[test]\e[0m Params " "$1" " " "$2" " " "$3" ", expected " "$4" ", got " "$status"
     exit 1
 fi
 

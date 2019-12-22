@@ -9,32 +9,31 @@ MC::MC_Driver::~MC_Driver() {
 }
 
 void MC::MC_Driver::parse(const char *const input_filename,
-                          const char *const ast_dot_output_filename,
-                          const char *const irt_dot_output_filename) {
+                          const char *const output_folder) {
     assert(input_filename != nullptr);
     std::ifstream in_file(input_filename);
     if (!in_file.good()) {
         exit(javacompiler::JC_EXIT_BAD_INPUT);
     }
 
-    assert(ast_dot_output_filename != nullptr);
-    std::ofstream ast_out_file(ast_dot_output_filename);
-    if (!ast_out_file.good()) {
-        exit(javacompiler::JC_EXIT_BAD_INPUT);
-    }
-
-    assert(irt_dot_output_filename != nullptr);
-    std::ofstream irt_out_file(irt_dot_output_filename);
-    if (!irt_out_file.good()) {
-        exit(javacompiler::JC_EXIT_BAD_INPUT);
-    }
-
-    parse_helper(in_file, ast_out_file, irt_out_file);
+    pipeline(in_file, std::string(output_folder));
 }
 
-void MC::MC_Driver::parse_helper(std::istream &input_stream,
-                                 std::ofstream &ast_dot_output_stream,
-                                 std::ofstream &irt_dot_output_stream) {
+void MC::MC_Driver::streamTree(const std::string& filename, const Graphs::UndirectedGraph& graph) {
+    assert(filename != "");
+    std::fstream out_file;
+    out_file.open(filename, std::ios::out);
+    if (!out_file.good()) {
+        exit(javacompiler::JC_EXIT_BAD_INPUT);
+    }
+    Graphs::UndirectedGraphSerializer::serialize(graph, out_file);
+
+    out_file.flush();
+    out_file.close();
+}
+
+void MC::MC_Driver::pipeline(std::istream &input_stream,
+                             const std::string &output_folder) {
     ast::PGoal root;
 
     std::cerr << std::endl;
@@ -59,15 +58,17 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
     //ast::VisitorPrettyPrinter visit_pretty_printer;
     //root->accept(&visit_pretty_printer);
 
-    std::cerr << std::endl << "Running AST Graphviz..." << std::endl;
+    std::string green_text_start = "\033[32m";
+    std::string green_text_end = "\033[0m";
+    std::cerr << std::endl << green_text_start << "Running AST Graphviz..." << green_text_end << std::endl;
     ast::VisitorGraphviz visit_ast_graphviz("ast_graph");
     root->accept(&visit_ast_graphviz);
 
-    std::cerr << "Running Symtable building..." << std::endl;
+    std::cerr << green_text_start << "Running Symtable building..." << green_text_end << std::endl;
     ast::VisitorSymtableBuilder visit_build_symtable;
     root->accept(&visit_build_symtable);
 
-    std::cerr << "Running Typechecker building..." << std::endl;
+    std::cerr << green_text_start << "Running Typechecker building..." << green_text_end << std::endl;
     ast::VisitorTypecheckerBuilder visit_build_typechecker(visit_build_symtable.getTable());
     root->accept(&visit_build_typechecker);
 
@@ -75,23 +76,33 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
         exit(javacompiler::JC_EXIT_COMP_FAILURE_TYPEERR);
     }
 
-    std::cerr << "Running IRT building..." << std::endl;
+    std::cerr << green_text_start << "Running IRT building..." << green_text_end << std::endl;
     ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
     root->accept(&visit_build_irt);
 
-    std::cerr << "Running IRT Graphviz..." << std::endl;
-    irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
-    visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
+    std::cerr << green_text_start << "Creating .dot files..." << green_text_end << std::endl;
+    for (auto const& method : visit_build_irt.getIrtMethodTrees()) {
+        std::cerr << green_text_start << "|   Serializing tree for " <<
+             "'" << method.first << "'" << green_text_end << std::endl;
+        irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph" + method.first);
+        method.second->accept(&visit_irt_graphviz);
+
+        streamTree(output_folder + "/irt" + "_" + method.first + ".dot",
+                   visit_irt_graphviz.GetGraph());
+    }
+//    std::cerr << "Running IRT Graphviz..." << std::endl;
+//    irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
+//    visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
 
 //    // TODO сделать разные файлы для вывода, выводить в цикле
 //    auto irt_method_trees = visit_build_irt.getIrtMethodTrees();
 //    irt_method_trees["main"]->accept(&visit_irt_graphviz);
 
-    std::cerr << "Serializing AST..." << std::endl;
-    Graphs::UndirectedGraphSerializer::serialize(visit_ast_graphviz.GetGraph(),
-                                                 ast_dot_output_stream);
+//    std::cerr << "Serializing AST..." << std::endl;
+//    Graphs::UndirectedGraphSerializer::serialize(visit_ast_graphviz.GetGraph(),
+//                                                 ast_dot_output_stream);
 
-    std::cerr << "Serializing IRT..." << std::endl;
-    Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
-                                                 irt_dot_output_stream);
+//    std::cerr << "Serializing IRT..." << std::endl;
+//    Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
+//                                                 irt_dot_output_stream);
 }
