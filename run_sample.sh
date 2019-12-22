@@ -49,7 +49,7 @@ if [ "$status" == "0" ]; then
     
     for filename in "$OUTPUT_FOLDER"/*.dot; do
         name=${filename##*/}
-        base=${name%.txt}
+        base=${name%.dot}
         dot -Tsvg "${filename}" -o "${OUTPUT_FOLDER}/${base}.svg"
     done
     
