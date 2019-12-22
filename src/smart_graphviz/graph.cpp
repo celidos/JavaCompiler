@@ -48,9 +48,9 @@ namespace Graphs
         nodes[node_name] = node;
     }
 
-    void UndirectedGraph::addEdge(string from, string to)
+    void UndirectedGraph::addEdge(string from, string to, const std::string& label)
     {
-        Edge *edge = new Edge(from, to);
+        Edge *edge = new Edge(from, to, label);
         edges[from].push_back(edge);
     }
 
@@ -95,7 +95,11 @@ namespace Graphs
         }
 
         for (auto edge : edges) {
-            ss << '\t' << edge->from << " -- " << edge->to << ";\n";
+            if (edge->label.empty()) {
+                ss << '\t' << edge->from << " -- " << edge->to << ";\n";
+            } else {
+                ss << '\t' << edge->from << " -- " << edge->to << "[ label=\"" << edge->label << "\" ]" << "; \n";
+            }
         }
         ss << "}\n";
         return ss.str();

@@ -485,7 +485,7 @@ void VisitorIrtBuilder::visit(const Statements *statements) {
 
             std::cerr << "classes\n";
             stats[stat_it]->accept(this);
-            seq = std::make_shared<irt::StatementSeq>(seq, tree_->toStatement());
+            seq = std::make_shared<irt::StatementSeq>(tree_->toStatement(), seq);
         }
 
         tree_ = std::make_shared<irt::StatementWrapper>(seq);

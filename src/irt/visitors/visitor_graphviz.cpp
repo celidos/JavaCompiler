@@ -108,7 +108,7 @@ void VisitorIrtGraphviz::visit(const ExpressionSeq* expr){
     std::cerr << "Begin ExpressionSeq\n";
 
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
-    graph_.addNode(node_name, "SEQ");
+    graph_.addNode(node_name, "ESEQ");
 
     expr->getStatement()->accept(this);
     std::string statement_node_name = "Statement" + std::to_string(reinterpret_cast<int64_t>(expr));
@@ -227,13 +227,13 @@ void VisitorIrtGraphviz::visit(const StatementSeq* statement){
     std::cerr << "still kok" << std::endl;
     statement->getLeftStatement()->accept(this);
     std::cerr << "still now ok" << std::endl;
-    graph_.addEdge(node_name, node_names_.top());
+    graph_.addEdge(node_name, node_names_.top(), "left");
     node_names_.pop();
     std::cerr << "still now now ok" << std::endl;
 
     statement->getRightStatement()->accept(this);
     std::cerr << "still llllok" << std::endl;
-    graph_.addEdge(node_name, node_names_.top());
+    graph_.addEdge(node_name, node_names_.top(), "right");
     node_names_.pop();
 
     std::cerr << "still super lllok" << std::endl;

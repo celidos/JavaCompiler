@@ -26,9 +26,9 @@ namespace Graphs
             to = _to;
         }
 
-        string label;
-        string from;
-        string to;
+        std::string label;
+        std::string from;
+        std::string to;
     };
 
     class UndirectedGraph
@@ -42,7 +42,7 @@ namespace Graphs
         string getName() const;
 
         void addNode(string node_name, string label);
-        void addEdge(string from, string to);
+        void addEdge(string from, string to, const std::string& label = "");
 
     private:
         string name;
