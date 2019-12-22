@@ -25,6 +25,8 @@
 #include "handlers/class.hpp"
 #include "handlers/goal.hpp"
 
+#include <../utils.hpp>
+
 namespace ast {
 
 class VisitorIrtBuilder : public IVisitor {
@@ -71,6 +73,8 @@ private:
 
     symtable::PClassInfo current_class_table_;
     symtable::PMethodInfo current_method_table_;
+
+    AddressGenerator addr_gen_;
 };
 
 } // namespace ast

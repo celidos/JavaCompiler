@@ -77,8 +77,6 @@ void MC::MC_Driver::parse_helper(std::istream &input_stream,
         exit(javacompiler::JC_EXIT_COMP_FAILURE_TYPEERR);
     }
 
-
-
     // std::cerr << "Running IRT building..." << std::endl;
     // ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
     // root->accept(&visit_build_irt);

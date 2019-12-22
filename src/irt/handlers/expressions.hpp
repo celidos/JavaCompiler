@@ -57,9 +57,7 @@ public:
         right_(right) {};
 
     const PExpression &getLeft() const { return left_; };
-
     const PExpression &getRight() const { return right_; };
-
     const std::string getOp() const { return operation_; };
 
     void accept(IVisitor *visitor) const { visitor->visit(this); }
