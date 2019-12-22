@@ -146,18 +146,32 @@ void VisitorIrtBuilder::visit(const MethodBody *method_body) {
 
     auto statement_array = method_body->getStatement();
 
+    for (int i = 0; i < static_cast<int>(statement_array.size()); ++i) {
+        std::cerr << "\n\n--------------------------\n";
+        statement_array[i]->accept(this);
+        std::cerr << "--------------------------\n";
+    }
+
+    /*
+     *    REVERSED ORDER OF STATEMENTS. I DONT KNOW WHY. NEED SOME FIX
+     *
+     */
+
+    int nnn = static_cast<int>(statement_array.size());
+
     if (!statement_array.empty()) {
-        statement_array[0]->accept(this);
+        statement_array[0]->accept(this);    // TODO
         auto statement1 = tree_;
         if (statement_array.size() > 1) {
 
+            std::cerr << "We got statement array > 1" << std::endl;
             statement_array[1]->accept(this);
             auto statement2 = tree_;
 
             auto seq = std::make_shared<irt::StatementSeq>(statement1->toStatement(),
                                                            statement2->toStatement());
 
-            for (int i = 2; i < static_cast<int>(statement_array.size()) ; i++) {
+            for (int i = 2; i < static_cast<int>(statement_array.size()); ++i) {
                 statement_array[i]->accept(this);
                 auto statement = tree_;
                 seq = std::make_shared<irt::StatementSeq>(seq, statement->toStatement());
@@ -314,7 +328,6 @@ void VisitorIrtBuilder::visit(const StatementIf *statement) {
 
 
     irt::PExpression expr = cond_wrap->toExpression();
-    std::cout << "ANUS\nANUS" << std::endl;
     auto label_final = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
     auto label_if_body = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());
     auto label_else_body = std::make_shared<irt::StatementLabel>(this->addr_gen_.genAddress());

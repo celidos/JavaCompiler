@@ -196,15 +196,22 @@ void VisitorIrtGraphviz::visit(const StatementCJump* statement) {
 void VisitorIrtGraphviz::visit(const StatementSeq* statement){
     std::cerr << "Begin StatementSeq\n";
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement));
+    std::cerr << "ANUS ZHOPA\n";
     graph_.addNode(node_name, "SEQ");
 
+    std::cerr << "still kok" << std::endl;
     statement->getLeftStatement()->accept(this);
+    std::cerr << "still now ok" << std::endl;
+    graph_.addEdge(node_name, node_names_.top());
+    node_names_.pop();
+    std::cerr << "still now now ok" << std::endl;
+
+    statement->getRightStatement()->accept(this);
+    std::cerr << "still llllok" << std::endl;
     graph_.addEdge(node_name, node_names_.top());
     node_names_.pop();
 
-    statement->getRightStatement()->accept(this);
-    graph_.addEdge(node_name, node_names_.top());
-    node_names_.pop();
+    std::cerr << "still super lllok" << std::endl;
 
     node_names_.push(node_name);
     std::cerr << "End StatementSeq\n";
