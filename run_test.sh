@@ -26,10 +26,10 @@ fi
 # status=$?
 # echo "Memcheck status" "$status"
 # if [ $status -eq $VALGRIND_MEMCHECK_FAIL_CODE ]; then
-#     echo -e "test " "$1" " " "$2" " " "$3" " - Memory check failed"
+#     echo -e "\e[96;1m[test]\e[0m " "$1" " " "$2" " " "$3" " - \e[96;1mMemory Check Failed\e[0m"
 #    exit 1
 # fi
 
-echo "Test passed!"
+echo -e "\e[96;1m[test]\e[0m Test passed!"
 exit 0
 
