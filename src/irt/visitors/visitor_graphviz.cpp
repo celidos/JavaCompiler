@@ -104,7 +104,34 @@ void VisitorIrtGraphviz::visit(const ExpressionCall *expr) {
 
 // TODO: fill other classes for irt graphviz ------------------------------------------------------
 
-void VisitorIrtGraphviz::visit(const ExpressionSeq* expr){};
+void VisitorIrtGraphviz::visit(const ExpressionSeq* expr){
+    std::cerr << "Begin ExpressionSeq\n";
+
+    std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
+    graph_.addNode(node_name, "SEQ");
+
+    expr->getStatement()->accept(this);
+    std::string statement_node_name = "Statement" + std::to_string(reinterpret_cast<int64_t>(expr));
+    graph_.addNode(statement_node_name, "Statement:");
+    graph_.addEdge(node_name, statement_node_name);
+
+    std::string statement_node = node_names_.top();
+    graph_.addEdge(statement_node_name, statement_node);
+    node_names_.pop();
+
+    expr->getExpression()->accept(this);
+    std::string return_node_name = "Return" + std::to_string(reinterpret_cast<int64_t>(expr));
+    graph_.addNode(return_node_name, "Return:");
+    graph_.addEdge(node_name, return_node_name);
+
+    std::string expression_node = node_names_.top();
+    graph_.addEdge(return_node_name, expression_node);
+    node_names_.pop();
+
+    node_names_.push(node_name);
+
+    std::cerr << "End ExpressionSeq\n";
+};
 
 void VisitorIrtGraphviz::visit(const ExpressionArg* expr) {
     std::cerr << "Begin ExpressionArg\n";
