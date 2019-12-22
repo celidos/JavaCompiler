@@ -289,14 +289,20 @@ void VisitorIrtBuilder::visit(const StatementPrint *statement) {
 
 void VisitorIrtBuilder::visit(const StatementWhile *statement) {
     /*
-
-
-
-
-
-
+                                                  seq2
+                                                /     \
+                                              /     LABEL_FINAL
+                                          seq
+                                       /      \
+                                   seq _       jump LABEL_COND
+                      ___________/      \_
+                    /                      seq
+                seq                      /     \
+              /     \             LABEL_BODY   cycle
+     LABEL_COND      CJUMP                      body
+                 && 1; LABEL_BODY;           statement
+                    LABEL_FINAL
     */
-
 
     statement->getCond()->accept(this);
     irt::PISubtreeWrapper cond = tree_;
@@ -337,7 +343,7 @@ void VisitorIrtBuilder::visit(const StatementIf *statement) {
                   __/    \                                \
               __/          \                                \
             /                \                                \
-         cjump                 seq1                          seq2
+        CJUMP                 seq1                          seq2
     && 1; LABEL_IF;         _/      \                    _/       \
        LABEL_ELSE        _/        jump               _/         jump
                        /        LABEL_FINAL         /         LABEL_FINAL
