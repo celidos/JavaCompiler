@@ -124,7 +124,7 @@ void VisitorPrettyPrinter::visit(const StatementIf* statement) {
 
 void VisitorPrettyPrinter::visit(const Statements* statement) {
   std::cout << "{ ";
-  for (const auto& val: statement->getArgs()) {
+  for (const auto& val: statement->getStatements()) {
     std::cout << "(";
     val->accept(this);
     std::cout <<"); ";

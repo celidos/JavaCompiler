@@ -49,9 +49,9 @@ irt::PExpression VisitorIrtBuilder::getVariableScope(std::string var_name){
     auto var_address = current_method_table_->getAddress(var_name);
 
     if (current_method_table_->hasVar(var_name)) {
-        return std::make_shared<irt::ExpressionLocal>(var_address);
+        return std::make_shared<irt::ExpressionLocal>(var_address, var_name);
     } else {
-        return std::make_shared<irt::ExpressionArg>(var_address);
+        return std::make_shared<irt::ExpressionArg>(var_address, var_name);
     }
 }
 
@@ -470,6 +470,27 @@ void VisitorIrtBuilder::visit(const StatementIf *statement) {
     std::cerr << "End StatementIf\n";
 };
 
-void VisitorIrtBuilder::visit(const Statements *statement) {};
+void VisitorIrtBuilder::visit(const Statements *statements) {
+    std::cerr << "Begin Statements\n";
+
+    auto stats = statements->getStatements();
+    if (! stats.size()) {
+        tree_ = std::make_shared<irt::StatementWrapper>(std::make_shared<irt::StatementNan>());
+    } else {
+        stats[0]->accept(this);
+        auto seq = std::make_shared<irt::StatementSeq>(std::make_shared<irt::StatementNan>(),
+            tree_->toStatement());
+
+        for (int stat_it = 1; stat_it < static_cast<int>(stats.size()); ++stat_it) {
+
+            std::cerr << "classes\n";
+            stats[stat_it]->accept(this);
+            seq = std::make_shared<irt::StatementSeq>(seq, tree_->toStatement());
+        }
+
+        tree_ = std::make_shared<irt::StatementWrapper>(seq);
+        std::cerr << "End Statements\n";
+    }
+};
 
 } // namespace ast

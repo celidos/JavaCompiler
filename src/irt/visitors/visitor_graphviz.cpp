@@ -145,7 +145,7 @@ void VisitorIrtGraphviz::visit(const ExpressionArg* expr) {
 void VisitorIrtGraphviz::visit(const ExpressionLocal* expr) {
     std::cerr << "Begin ExpressionLocal\n";
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(expr));
-    std::string label = "LOCAL " + expr->getId();
+    std::string label = "LOCAL " + expr->getId() + "\n" + expr->getName();
     graph_.addNode(node_name, label);
     node_names_.push(node_name);
 
@@ -196,21 +196,13 @@ void VisitorIrtGraphviz::visit(const StatementCJump* statement) {
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement));
     graph_.addNode(node_name, "CJUMP");
 
-    std::cerr << "we are in cjump graphviz..." << std::endl;
-
     statement->getLeft()->accept(this);
-    std::cerr << "nice!!!!" << std::endl;
     graph_.addEdge(node_name, node_names_.top());
     node_names_.pop();
 
-    std::cerr << "nice!!!!" << std::endl;
     std::string op_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement)) + "op";
-    std::cerr << "nice!!!!" << std::endl;
     graph_.addNode(op_name, "OPERATION");
     graph_.addEdge(node_name, op_name);
-
-    std::cerr << "nice!!!!" << std::endl;
-
 
     statement->getRight()->accept(this);
     graph_.addEdge(node_name, node_names_.top());

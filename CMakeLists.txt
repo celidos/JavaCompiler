@@ -132,11 +132,6 @@ add_test(NAME test_my_test COMMAND "./../run_test.sh"
 
 # tests which cannot compile ----------------------------------------------------------------------
 
-add_test(NAME test_simple COMMAND "./../run_test.sh"
-                                       "./samples/good_samples/simple.java"
-                                       "./output/simple"
-                                       2)
-
 add_test(NAME test_lc_1 COMMAND "./../run_test.sh"
                                  "./samples/bad_samples/LC_1.java"
                                  "."

@@ -80,7 +80,11 @@ void MC::MC_Driver::pipeline(std::istream &input_stream,
     ast::VisitorIrtBuilder visit_build_irt(visit_build_symtable.getTable());
     root->accept(&visit_build_irt);
 
-    std::cerr << green_text_start << "Creating .dot files..." << green_text_end << std::endl;
+    std::cerr << green_text_start << "Creating .dot AST files..." << green_text_end << std::endl;
+    streamTree(output_folder + "/ast.dot",
+               visit_ast_graphviz.GetGraph());
+
+    std::cerr << green_text_start << "Creating .dot IRT files..." << green_text_end << std::endl;
     for (auto const& method : visit_build_irt.getIrtMethodTrees()) {
         std::cerr << green_text_start << "|   Serializing tree for " <<
              "'" << method.first << "'" << green_text_end << std::endl;
@@ -90,19 +94,6 @@ void MC::MC_Driver::pipeline(std::istream &input_stream,
         streamTree(output_folder + "/irt" + "_" + method.first + ".dot",
                    visit_irt_graphviz.GetGraph());
     }
-//    std::cerr << "Running IRT Graphviz..." << std::endl;
-//    irt::VisitorIrtGraphviz visit_irt_graphviz("irt_graph");
-//    visit_build_irt.retrieveIrt()->accept(&visit_irt_graphviz);
 
-//    // TODO сделать разные файлы для вывода, выводить в цикле
-//    auto irt_method_trees = visit_build_irt.getIrtMethodTrees();
-//    irt_method_trees["main"]->accept(&visit_irt_graphviz);
 
-//    std::cerr << "Serializing AST..." << std::endl;
-//    Graphs::UndirectedGraphSerializer::serialize(visit_ast_graphviz.GetGraph(),
-//                                                 ast_dot_output_stream);
-
-//    std::cerr << "Serializing IRT..." << std::endl;
-//    Graphs::UndirectedGraphSerializer::serialize(visit_irt_graphviz.GetGraph(),
-//                                                 irt_dot_output_stream);
 }

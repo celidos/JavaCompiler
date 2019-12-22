@@ -77,16 +77,24 @@ typedef std::shared_ptr<ExpressionBinaryOp> PExpressionBinaryOp;
 
 class ExpressionArg : public Expression {
 public:
-    ExpressionArg(const std::string &argument_address) : argument_address_(argument_address) {}
+    ExpressionArg(const std::string &argument_address,
+                  const std::string &name = "") :
+        argument_address_(argument_address), name_(name)
+    { }
 
     std::string getArgument() const {
         return argument_address_;
+    }
+
+    std::string getName() const {
+        return name_;
     }
 
     void accept(IVisitor *visitor) const { visitor->visit(this); }
 
 private:
     std::string argument_address_;
+    std::string name_;
 };
 
 typedef std::shared_ptr<ExpressionArg> PExpressionArg;
@@ -97,16 +105,25 @@ typedef std::shared_ptr<ExpressionArg> PExpressionArg;
 
 class ExpressionLocal : public Expression {
 public:
-    ExpressionLocal(const std::string &id) : id_(id) {}
+    ExpressionLocal(const std::string &id,
+                    const std::string &name = "") :
+        id_(id), name_(name)
+    { }
 
-    std::string getId() const {
+    const std::string& getId() const {
         return id_;
     }
+
+    const std::string& getName() const {
+        return name_;
+    }
+
 
     void accept(IVisitor *visitor) const { visitor->visit(this); }
 
 private:
     std::string id_;
+    std::string name_;
 };
 
 typedef std::shared_ptr<ExpressionLocal> PExpressionLocal;

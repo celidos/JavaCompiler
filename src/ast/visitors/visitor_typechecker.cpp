@@ -306,7 +306,7 @@ namespace ast {
     };
 
     void VisitorTypecheckerBuilder::visit(const Statements* statements) {
-        for (const auto& statement: statements->getArgs()) {
+        for (const auto& statement: statements->getStatements()) {
             statement->accept(this);
         }
     };

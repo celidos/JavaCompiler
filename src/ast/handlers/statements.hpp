@@ -49,13 +49,13 @@ typedef std::shared_ptr<StatementAssign> PStatementAssign;
 class Statements : public Statement {
 public:
     Statements(const std::vector<PStatement>& statements,
-                                    MC::YYLTYPE pos) : args_(statements) { setPos(pos); }
+                                    MC::YYLTYPE pos) : statements_(statements) { setPos(pos); }
 
-    const std::vector<PStatement>& getArgs() const { return args_; }
+    const std::vector<PStatement>& getStatements() const { return statements_; }
     void accept(IVisitor *visitor) const { visitor->visit(this); }
 
 private:
-    std::vector<PStatement> args_;
+    std::vector<PStatement> statements_;
 };
 
 typedef std::shared_ptr<Statements> PStatements;

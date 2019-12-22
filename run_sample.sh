@@ -1,7 +1,7 @@
 #!/bin/bash
 #!/usr/bin/env bash
 
-if ! [[ $# -eq 3 || $# -eq 4 ]]
+if ! [[ $# -eq 2 || $# -eq 3 ]]
   then
     echo "Usage: ./run_sample.sh [java code filename] [output folder] [[ no_mem_check | mem_check ]]";
     exit 0

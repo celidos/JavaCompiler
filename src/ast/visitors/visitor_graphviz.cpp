@@ -249,7 +249,7 @@ void VisitorGraphviz::visit(const StatementIf* statement) {
 void VisitorGraphviz::visit(const Statements* statement) {
     std::string node_name = "class" + std::to_string(reinterpret_cast<int64_t>(statement));
     graph.addNode(node_name, "Statements:");
-    for (const auto &param : statement->getArgs()) {
+    for (const auto &param : statement->getStatements()) {
         param->accept(this);
         std::string curr_child = node_names.top();
         graph.addEdge(node_name, curr_child);

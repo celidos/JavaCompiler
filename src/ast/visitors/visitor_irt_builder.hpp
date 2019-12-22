@@ -62,7 +62,7 @@ public:
     void visit(const StatementPrint* statement);
     void visit(const StatementWhile* statement);
     void visit(const StatementIf* statement);
-    void visit(const Statements* statement);
+    void visit(const Statements* statements);
 
     std::shared_ptr<irt::IVisitable> retrieveIrt() {
         return tree_->toStatement();
