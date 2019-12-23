@@ -335,10 +335,14 @@ void VisitorIrtBuilder::visit(const StatementArrayAssign *statement) {
     auto array_node = getVariableScope(statement->getIdentifier());
 
 
+    auto index_node = std::make_shared<irt::ExpressionBinaryOp>("*",
+                                                                std::make_shared<irt::ExpressionLoadConst>(4),
+                                                                std::make_shared<irt::ExpressionMem>(index->toExpression()));
+
     auto array_with_id_node =
         std::make_shared<irt::ExpressionBinaryOp>("+",
                                                   array_node,
-                                                  index->toExpression());
+                                                  index_node);
 
     auto move_node = std::make_shared<irt::StatementMove>(array_with_id_node, expression->toExpression());
     tree_ = std::make_shared<irt::StatementWrapper>(move_node);
